@@ -114,7 +114,10 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
   return (
     <main className={`detail-shell detail-${hero.role.toLowerCase()}`} style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
       <header className="detail-topbar">
-        <a href="/" className="detail-brand"><span>R</span><strong>RIVALS TEAM-UP META</strong></a>
+        <a className="brand" href="/" aria-label="Rivals Team-Up Meta home">
+          <span className="brand-mark">R</span>
+          <span><strong>RIVALS</strong><small>TEAM-UP META</small></span>
+        </a>
         <a href={`/#hero-${hero.id}`} className="detail-back">← BACK TO DIRECTORY</a>
       </header>
 
@@ -143,7 +146,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
       </section>
 
       <section className="detail-content">
-        <div className="detail-section-heading"><div><span>01</span><h2>Team-Up totals</h2></div><p>Showing {selectedRank === "All Ranks" ? "all ranks" : selectedRank}.</p></div>
+        <div className="detail-section-heading teamup-heading"><div><span>01</span><h2>Team-Up totals</h2></div><p>Showing {selectedRank === "All Ranks" ? "all ranks" : selectedRank}.</p></div>
         <div className="detail-teamups">
           {hero.teamUpAbilities.map((ability, index) => {
             const anchor = heroByName.get(ability.anchorPartner.toLowerCase());
