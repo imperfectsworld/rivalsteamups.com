@@ -45,6 +45,12 @@ const roleMeta: Record<HeroRole, { code: string; label: string; anchor: string }
 
 type PendingVote = { hero: Hero; ability: TeamUpAbility };
 const heroImage = (heroId: string) => `/heroes/${heroId}.webp`;
+const roleImage = (role: HeroRole) => `/roles/${role.toLowerCase()}.webp`;
+const heroByName = new Map(heroData.heroes.map((hero) => [hero.name.toLowerCase(), hero]));
+const anchorImage = (anchorPartner: string) => {
+  const anchor = heroByName.get(anchorPartner.toLowerCase());
+  return anchor ? heroImage(anchor.id) : "/heroes/hulk.webp";
+};
 
 export default function Home() {
   const [enhancedHeroes, setEnhancedHeroes] = useState<Record<string, boolean>>({});
@@ -199,7 +205,7 @@ export default function Home() {
               {suggestions.length ? suggestions.map((hero) => (
                 <button type="button" onMouseDown={() => chooseSuggestion(hero)} key={hero.id}>
                   <span className="suggestion-avatar"><img src={heroImage(hero.id)} alt="" /></span>
-                  <strong>{hero.name}</strong><small>{hero.role}</small>
+                  <strong>{hero.name}</strong><small><img src={roleImage(hero.role)} alt="" />{hero.role}</small>
                 </button>
               )) : <p>No heroes match “{query}”</p>}
             </div>
@@ -226,7 +232,7 @@ export default function Home() {
           return (
             <section className={`role-section role-${role.toLowerCase()}`} id={meta.anchor} key={role}>
               <div className="role-banner">
-                <span className="role-symbol">{meta.code}</span>
+                <span className="role-symbol"><img src={roleImage(role)} alt="" /></span>
                 <div><h2>{role} heroes</h2><p>{meta.label} · {heroes.length} operatives</p></div>
                 <span className="role-count">{selectedRank.toUpperCase()}</span>
               </div>
@@ -239,9 +245,9 @@ export default function Home() {
                     <article className={`hero-panel ${enhanced ? "hero-enhanced" : ""}`} id={`hero-${hero.id}`} key={hero.id}>
                       <div className="hero-panel-header">
                         <span className="hero-avatar" aria-hidden="true"><img src={heroImage(hero.id)} alt="" /></span>
-                        <span className="hero-identity"><strong>{hero.name}</strong><small>{heroTotal.toLocaleString()} {selectedRank.toUpperCase()} VOTES</small></span>
-                        <button className={`hero-toggle ${enhanced ? "is-on" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Anchor Partner Present for ${hero.name}`} onClick={() => setEnhancedHeroes((current) => ({ ...current, [hero.id]: !current[hero.id] }))}>
-                          <span className="hero-toggle-track"><span /></span><b>{enhanced ? "⚡ ENHANCED" : "ANCHOR OFF"}</b>
+                        <span className="hero-identity"><strong>{hero.name}</strong><small>{heroTotal.toLocaleString()} {selectedRank.toUpperCase()} VOTES</small><a className="hero-details-link" href={`/heroes/${hero.id}`}>VIEW DETAILS →</a></span>
+                        <button className={`hero-toggle ${enhanced ? "is-on" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Enhanced descriptions for ${hero.name}`} onClick={() => setEnhancedHeroes((current) => ({ ...current, [hero.id]: !current[hero.id] }))}>
+                          <span className="hero-toggle-track"><span /></span><b>{enhanced ? "⚡ ENHANCED ON" : "ENHANCED OFF"}</b>
                         </button>
                       </div>
                       <div className="ability-divider"><span>CHOOSE THE BETTER TEAM-UP</span></div>
@@ -251,12 +257,25 @@ export default function Home() {
                           const otherCount = counts[abilityIndex === 0 ? 1 : 0];
                           const percentage = heroTotal ? Math.round((count / heroTotal) * 100) : 50;
                           return (
-                            <article className={`compact-ability ${count > otherCount ? "is-community-choice" : ""} ${enhanced ? "is-enhanced" : ""}`} key={ability.id}>
+                            <article
+                              className={`compact-ability ${count > otherCount ? "is-community-choice" : ""} ${enhanced ? "is-enhanced" : ""}`}
+                              key={ability.id}
+                              role="button"
+                              tabIndex={0}
+                              aria-label={`Vote for ${ability.anchorPartner} Team-Up for ${hero.name}`}
+                              onClick={() => openVote(hero, ability)}
+                              onKeyDown={(event) => {
+                                if (event.key === "Enter" || event.key === " ") {
+                                  event.preventDefault();
+                                  openVote(hero, ability);
+                                }
+                              }}
+                            >
                               {count > otherCount && <span className="community-choice">◎ COMMUNITY CHOICE</span>}
-                              <div className="compact-topline"><span className="ability-glyph">{ability.slot}</span><span className="ability-name">{ability.name}</span><strong className="vote-percent">{percentage}%</strong></div>
+                              <div className="compact-topline"><span className="ability-glyph"><img src={anchorImage(ability.anchorPartner)} alt={`${ability.anchorPartner} portrait`} /></span><span className="ability-name">{ability.name}</span><strong className="vote-percent">{percentage}%</strong></div>
                               <span className="anchor-chip">ANCHOR · {ability.anchorPartner}</span>
                               <p className="compact-description">{enhanced ? ability.enhancedDescription : ability.baseDescription}</p>
-                              <button className="vote-button" type="button" onClick={() => openVote(hero, ability)}><span>VOTE FOR SLOT {ability.slot}</span><b>+</b></button>
+                              <span className="card-vote-label"><span>VOTE FOR {ability.anchorPartner.toUpperCase()} TEAM-UP</span><b>+</b></span>
                             </article>
                           );
                         })}
@@ -279,7 +298,7 @@ export default function Home() {
             <p className="eyebrow">ONE LAST STEP</p>
             <h2 id="vote-modal-title">What rank are you?</h2>
             <p>Your rank lets the community compare which Team-Ups different skill tiers prefer.</p>
-            <div className="vote-summary"><span>{pendingVote.hero.name}</span><strong>{pendingVote.ability.name}</strong><small>SLOT {pendingVote.ability.slot}</small></div>
+            <div className="vote-summary"><span>{pendingVote.hero.name}</span><strong>{pendingVote.ability.name}</strong><small>{pendingVote.ability.anchorPartner} TEAM-UP</small></div>
             <div className="modal-ranks">
               {RANKS.map((rank, index) => <button className={voteRank === rank ? "is-active" : ""} type="button" onClick={() => { setVoteRank(rank); setVoteStatus(""); }} key={rank}><img src={rankImages[rank]} alt="" /><i>{String(index + 1).padStart(2, "0")}</i><span>{rank}</span></button>)}
             </div>
