@@ -32,3 +32,34 @@ export const teamUpVoteActivity = sqliteTable(
     index("vote_activity_ip_time_idx").on(table.ipHash, table.createdAt),
   ],
 );
+
+export const heroInsights = sqliteTable(
+  "hero_insights",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    heroId: text("hero_id").notNull(),
+    voterId: text("voter_id").notNull(),
+    displayName: text("display_name").notNull().default("Anonymous"),
+    rank: text("rank"),
+    patch: text("patch").notNull().default("S9 Launch"),
+    body: text("body").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull().$defaultFn(() => new Date()),
+  },
+  (table) => [index("hero_insights_hero_time_idx").on(table.heroId, table.createdAt)],
+);
+
+export const insightReactions = sqliteTable(
+  "insight_reactions",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    insightId: integer("insight_id").notNull(),
+    voterId: text("voter_id").notNull(),
+    value: integer("value").notNull().default(0),
+    flagged: integer("flagged", { mode: "boolean" }).notNull().default(false),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull().$defaultFn(() => new Date()),
+  },
+  (table) => [
+    uniqueIndex("insight_reactions_insight_voter_unique").on(table.insightId, table.voterId),
+    index("insight_reactions_insight_idx").on(table.insightId),
+  ],
+);

@@ -53,6 +53,7 @@ type PendingVote = { hero: Hero; ability: TeamUpAbility };
 const heroImage = (heroId: string) => `/heroes/${heroId}.webp`;
 const roleImage = (role: HeroRole) => `/roles/${role.toLowerCase()}.webp`;
 const heroByName = new Map(heroData.heroes.map((hero) => [hero.name.toLowerCase(), hero]));
+heroByName.set("deadpool", heroData.heroes.find((hero) => hero.id === "deadpool-duelist")!);
 const anchorImage = (anchorPartner: string) => {
   const anchor = heroByName.get(anchorPartner.toLowerCase());
   return anchor ? heroImage(anchor.id) : "/heroes/hulk.webp";
@@ -70,6 +71,7 @@ export default function Home() {
   const [selectedEra, setSelectedEra] = useState<ResultEra>(resultEras[0]);
   const [resultWindow, setResultWindow] = useState<ResultWindow>("all");
   const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [collapsedRoles, setCollapsedRoles] = useState<Record<HeroRole, boolean>>({ Vanguard: false, Duelist: false, Strategist: false });
 
   const loadVotes = useCallback(async () => {
     try {
@@ -181,7 +183,7 @@ export default function Home() {
       <header className="topbar">
         <a className="brand" href="#top" aria-label="Rivals Team-Ups home">
           <span className="brand-mark">R</span>
-          <span><strong>RIVALS</strong><small>TEAM-UP MATRIX</small></span>
+          <span><strong>RIVALS</strong><small>TEAM-UP META</small></span>
         </a>
         <nav className="role-nav" aria-label="Hero roles">
           <a href="#vanguards">Vanguards</a><a href="#duelists">Duelists</a><a href="#strategists">Strategists</a>
@@ -192,23 +194,13 @@ export default function Home() {
         </div>
       </header>
 
-      <div className={`mobile-search-dock ${showMobileSearch ? "is-visible" : ""}`}>
-        <img src="/rivals-icon.ico" alt="" />
-        <input
-          type="search"
-          value={query}
-          placeholder="Search a hero…"
-          aria-label="Search for a hero"
-          onChange={(event) => setQuery(event.target.value)}
-          onKeyDown={(event) => { if (event.key === "Enter" && suggestions[0]) chooseSuggestion(suggestions[0]); }}
-        />
-      </div>
+      <a className={`mobile-top-arrow ${showMobileSearch ? "is-visible" : ""}`} href="#top" aria-label="Back to top">↑</a>
 
       <section className="hero-intro hero-intro-simple">
         <div>
-          <p className="eyebrow">SEASON 09 · RANKED COMMUNITY DATA</p>
+          <p className="eyebrow">VOTE FOR YOUR FAVORITE TEAM-UP.</p>
           <h1>Find the better<br /><span>Team-Up.</span></h1>
-          <p className="intro-copy">Search a hero, filter the community by competitive rank, and vote for the Team-Up you trust in your own matches.</p>
+          <p className="intro-copy">Search a hero, filter the community by competitive rank, and vote for the Team-Up you trust. Open any hero’s details page for ranked insights explaining why the community voted that way.</p>
         </div>
         <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
           <img className="rank-insight-icon" src={selectedRank === "All Ranks" ? "/rivals-icon.ico" : rankImages[selectedRank]} alt="" />
@@ -269,12 +261,12 @@ export default function Home() {
           const meta = roleMeta[role];
           return (
             <section className={`role-section role-${role.toLowerCase()}`} id={meta.anchor} key={role}>
-              <div className="role-banner">
+              <button className="role-banner role-collapse-button" type="button" aria-expanded={!collapsedRoles[role]} onClick={() => setCollapsedRoles((current) => ({ ...current, [role]: !current[role] }))}>
                 <span className="role-symbol"><img src={roleImage(role)} alt="" /></span>
                 <div><h2>{role} heroes</h2><p>{meta.label} · {heroes.length} operatives</p></div>
-                <span className="role-count">{selectedRank.toUpperCase()}</span>
-              </div>
-              <div className="hero-panels">
+                <span className="role-count">{collapsedRoles[role] ? "EXPAND +" : "COLLAPSE −"}</span>
+              </button>
+              {!collapsedRoles[role] && <div className="hero-panels">
                 {heroes.map((hero) => {
                   const enhanced = Boolean(enhancedHeroes[hero.id]);
                   const counts = hero.teamUpAbilities.map((ability) => abilityCount(hero, ability));
@@ -323,13 +315,13 @@ export default function Home() {
                     </article>
                   );
                 })}
-              </div>
+              </div>}
             </section>
           );
         })}
       </section>
 
-      <footer><span>RIVALS TEAM-UPS // RANKED COMMUNITY MATRIX</span><a href="#top">BACK TO TOP ↑</a></footer>
+      <footer><span>RIVALS TEAM-UPS // RANKED COMMUNITY META</span><a href="#top">BACK TO TOP ↑</a></footer>
 
       {pendingVote && (
         <div className="vote-modal-backdrop" role="presentation" onMouseDown={() => setPendingVote(null)}>

@@ -601,7 +601,7 @@
     {
       "id": "squirrel-girl",
       "name": "Squirrel Girl",
-      "role": "Strategist",
+      "role": "Duelist",
       "teamUpAbilities": [
         {
           "id": "squirrel-girl-tactical-link",
@@ -1036,12 +1036,12 @@
       ]
     },
     {
-      "id": "deadpool",
-      "name": "Deadpool",
-      "role": "Duelist",
+      "id": "deadpool-vanguard",
+      "name": "Deadpool (Vanguard)",
+      "role": "Vanguard",
       "teamUpAbilities": [
         {
-          "id": "deadpool-tactical-link",
+          "id": "deadpool-vanguard-tactical-link",
           "slot": "A",
           "name": "Deadpool Tactical Link",
           "anchorPartner": "Black Panther",
@@ -1049,7 +1049,53 @@
           "enhancedDescription": "Black Panther is present, amplifying the technique with a stronger effect and a longer tactical window."
         },
         {
-          "id": "deadpool-power-surge",
+          "id": "deadpool-vanguard-power-surge",
+          "slot": "B",
+          "name": "Deadpool Power Surge",
+          "anchorPartner": "Loki",
+          "baseDescription": "Deadpool channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Loki is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "deadpool-duelist",
+      "name": "Deadpool (Duelist)",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "deadpool-duelist-tactical-link",
+          "slot": "A",
+          "name": "Deadpool Tactical Link",
+          "anchorPartner": "Black Panther",
+          "baseDescription": "Deadpool activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Black Panther is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "deadpool-duelist-power-surge",
+          "slot": "B",
+          "name": "Deadpool Power Surge",
+          "anchorPartner": "Loki",
+          "baseDescription": "Deadpool channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Loki is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "deadpool-strategist",
+      "name": "Deadpool (Strategist)",
+      "role": "Strategist",
+      "teamUpAbilities": [
+        {
+          "id": "deadpool-strategist-tactical-link",
+          "slot": "A",
+          "name": "Deadpool Tactical Link",
+          "anchorPartner": "Black Panther",
+          "baseDescription": "Deadpool activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Black Panther is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "deadpool-strategist-power-surge",
           "slot": "B",
           "name": "Deadpool Power Surge",
           "anchorPartner": "Loki",

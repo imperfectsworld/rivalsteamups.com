@@ -6,9 +6,12 @@ import rankVotesJson from "@/src/data/rankVotes.json";
 import { RANKS, type Hero, type HeroesData, type PlayerRank, type TeamUpSlot } from "@/src/types";
 
 type LiveVotes = Record<string, Record<string, number>>;
+type DetailRank = "All Ranks" | PlayerRank;
+type Insight = { id: number; displayName: string; rank: string | null; patch: string; body: string; createdAt: string; score: number; flags: number };
 const heroData = heroesJson as HeroesData;
 const seededRankVotes = rankVotesJson as Record<string, Record<TeamUpSlot, number[]>>;
 const heroByName = new Map(heroData.heroes.map((hero) => [hero.name.toLowerCase(), hero]));
+heroByName.set("deadpool", heroData.heroes.find((candidate) => candidate.id === "deadpool-duelist")!);
 
 const rankImages: Record<PlayerRank, string> = {
   Bronze: "/ranks/bronze.webp",
@@ -33,6 +36,12 @@ function seededCount(heroId: string, slot: TeamUpSlot, rank: PlayerRank) {
 
 export default function HeroDetailClient({ hero }: { hero: Hero }) {
   const [liveVotes, setLiveVotes] = useState<LiveVotes>({});
+  const [selectedRank, setSelectedRank] = useState<DetailRank>("All Ranks");
+  const [insights, setInsights] = useState<Insight[]>([]);
+  const [insightName, setInsightName] = useState("");
+  const [insightRank, setInsightRank] = useState<PlayerRank | "">("");
+  const [insightBody, setInsightBody] = useState("");
+  const [insightStatus, setInsightStatus] = useState("");
 
   const loadVotes = useCallback(async () => {
     try {
@@ -52,6 +61,35 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
 
   useEffect(() => { void loadVotes(); }, [loadVotes]);
 
+  const loadInsights = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/insights?heroId=${encodeURIComponent(hero.id)}`, { cache: "no-store" });
+      const data = await response.json() as { insights?: Insight[] };
+      if (response.ok) setInsights(data.insights ?? []);
+    } catch { setInsights([]); }
+  }, [hero.id]);
+
+  useEffect(() => { void loadInsights(); }, [loadInsights]);
+
+  function voterId() {
+    let id = localStorage.getItem("rivals-voter-id");
+    if (!id) { id = crypto.randomUUID(); localStorage.setItem("rivals-voter-id", id); }
+    return id;
+  }
+
+  async function submitInsight() {
+    setInsightStatus("Posting…");
+    const response = await fetch("/api/insights", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "comment", heroId: hero.id, voterId: voterId(), displayName: insightName, rank: insightRank, body: insightBody }) });
+    const data = await response.json() as { error?: string };
+    if (!response.ok) { setInsightStatus(data.error || "Unable to post insight."); return; }
+    setInsightBody(""); setInsightStatus("Insight posted."); await loadInsights();
+  }
+
+  async function reactToInsight(insightId: number, action: "react" | "flag", value = 0) {
+    const response = await fetch("/api/insights", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action, insightId, value, voterId: voterId() }) });
+    if (response.ok) await loadInsights();
+  }
+
   const rows = useMemo(() => RANKS.map((rank) => {
     const counts = hero.teamUpAbilities.map((ability) =>
       seededCount(hero.id, ability.slot, rank) + (liveVotes[rank]?.[ability.id] ?? 0),
@@ -60,18 +98,20 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
     return { rank, counts, total, percentages: counts.map((count) => total ? Math.round((count / total) * 100) : 50) as [number, number] };
   }), [hero, liveVotes]);
 
-  const totals = hero.teamUpAbilities.map((_, index) => rows.reduce((sum, row) => sum + row.counts[index], 0)) as [number, number];
+  const selectedRow = selectedRank === "All Ranks" ? null : rows.find((row) => row.rank === selectedRank);
+  const totals = (selectedRow?.counts ?? hero.teamUpAbilities.map((_, index) => rows.reduce((sum, row) => sum + row.counts[index], 0))) as [number, number];
   const totalVotes = totals[0] + totals[1];
   const leaderIndex = totals[1] > totals[0] ? 1 : 0;
   const leader = hero.teamUpAbilities[leaderIndex];
   const leaderPercent = totalVotes ? Math.round((totals[leaderIndex] / totalVotes) * 100) : 50;
   const rolePeers = heroData.heroes.filter((candidate) => candidate.role === hero.role && candidate.id !== hero.id);
   const roleAnchor = `${hero.role.toLowerCase()}s`;
+  const featuredInsight = insights[0];
 
   return (
     <main className={`detail-shell detail-${hero.role.toLowerCase()}`}>
       <header className="detail-topbar">
-        <a href="/" className="detail-brand"><span>R</span><strong>RIVALS TEAM-UP MATRIX</strong></a>
+        <a href="/" className="detail-brand"><span>R</span><strong>RIVALS TEAM-UP META</strong></a>
         <a href={`/#hero-${hero.id}`} className="detail-back">← BACK TO DIRECTORY</a>
       </header>
 
@@ -86,12 +126,21 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
             <div><span>COMMUNITY LEADER</span><strong>{leader.name}</strong><small>{leaderPercent}% preference</small></div>
             <div><span>LEAD MARGIN</span><strong>{Math.abs(totals[0] - totals[1]).toLocaleString()}</strong><small>votes between options</small></div>
           </div>
+          <div className="detail-rank-selector" role="group" aria-label="Filter hero totals by rank">
+            <button className={selectedRank === "All Ranks" ? "is-active" : ""} type="button" onClick={() => setSelectedRank("All Ranks")}><img src="/rivals-icon.ico" alt="" /><span>All</span></button>
+            {RANKS.map((rank) => <button className={selectedRank === rank ? "is-active" : ""} type="button" onClick={() => setSelectedRank(rank)} key={rank}><img src={rankImages[rank]} alt="" /><span>{rank}</span></button>)}
+          </div>
+          {featuredInsight && <blockquote className="featured-insight">
+            <p>“{featuredInsight.body}”</p>
+            <footer>— {featuredInsight.displayName}, {featuredInsight.rank || "Unranked"} · {featuredInsight.patch}</footer>
+            <a href="#hero-insights">VIEW MORE INSIGHTS ↓</a>
+          </blockquote>}
         </div>
         <div className="detail-portrait"><img src={`/portraits/${hero.id}.webp`} alt={`${hero.name} full hero portrait`} /></div>
       </section>
 
       <section className="detail-content">
-        <div className="detail-section-heading"><div><span>01</span><h2>Team-Up totals</h2></div><p>All ranks combined, including live community votes.</p></div>
+        <div className="detail-section-heading"><div><span>01</span><h2>Team-Up totals</h2></div><p>Showing {selectedRank === "All Ranks" ? "all ranks" : selectedRank}.</p></div>
         <div className="detail-teamups">
           {hero.teamUpAbilities.map((ability, index) => {
             const anchor = heroByName.get(ability.anchorPartner.toLowerCase());
@@ -130,11 +179,22 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
           </article>)}
         </div>
 
-        <div className="detail-section-heading"><div><span>03</span><h2>Team-Up trend</h2></div><p>A quick view of which anchor gains ground at each rank.</p></div>
-        <div className="trend-grid">
-          {rows.map((row) => <div key={row.rank}><img src={rankImages[row.rank]} alt="" /><span className="trend-stack"><i style={{ height: `${row.percentages[0]}%` }} /><b style={{ height: `${row.percentages[1]}%` }} /></span><strong>{row.percentages[leaderIndex]}%</strong><small>{row.rank}</small></div>)}
-        </div>
-        <div className="trend-legend"><span><i />{hero.teamUpAbilities[0].anchorPartner}</span><span><i />{hero.teamUpAbilities[1].anchorPartner}</span></div>
+        <section className="insights-section" id="hero-insights">
+          <div className="detail-section-heading"><div><span>03</span><h2>Community insights</h2></div><p>Ranked context from players behind the votes.</p></div>
+          <div className="insight-composer">
+            <div><label>DISPLAY NAME <input value={insightName} maxLength={32} placeholder="Anonymous" onChange={(event) => setInsightName(event.target.value)} /></label><label>YOUR RANK <select value={insightRank} onChange={(event) => setInsightRank(event.target.value as PlayerRank | "")}><option value="">Not selected</option>{RANKS.map((rank) => <option value={rank} key={rank}>{rank}</option>)}</select></label></div>
+            <label>YOUR INSIGHT <textarea value={insightBody} maxLength={800} placeholder="Why do you prefer one Team-Up? Share useful matchup, composition, or rank-specific context…" onChange={(event) => setInsightBody(event.target.value)} /></label>
+            <button type="button" disabled={insightBody.trim().length < 8} onClick={() => void submitInsight()}>POST INSIGHT →</button>
+            {insightStatus && <p className="insight-status" aria-live="polite">{insightStatus}</p>}
+          </div>
+          <div className="insight-list">
+            {insights.length ? insights.map((insight) => <article key={insight.id}>
+              <header><strong>{insight.displayName}</strong><span>{insight.rank || "Unranked"} · {insight.patch}</span></header>
+              <p>{insight.body}</p>
+              <footer><button type="button" onClick={() => void reactToInsight(insight.id, "react", 1)}>▲ UPVOTE</button><b>{insight.score}</b><button type="button" onClick={() => void reactToInsight(insight.id, "react", -1)}>▼ DOWNVOTE</button><button className="flag-insight" type="button" onClick={() => void reactToInsight(insight.id, "flag")}>FLAG</button></footer>
+            </article>) : <p className="empty-insights">No insights yet. Be the first to explain your vote.</p>}
+          </div>
+        </section>
 
       </section>
     </main>
