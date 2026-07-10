@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import heroesJson from "@/src/data/heroes.json";
-import type { Hero, HeroRole, HeroesData, TeamUpAbility, TeamUpSlot } from "@/src/types";
+import votesJson from "@/src/data/votes.json";
+import type { HeroRole, HeroesData, TeamUpAbility, TeamUpSlot } from "@/src/types";
 
 const heroData = heroesJson as HeroesData;
+const initialVotes = votesJson as Record<string, number>;
 const roles: HeroRole[] = ["Vanguard", "Duelist", "Strategist"];
 
 const roleMeta: Record<HeroRole, { code: string; label: string; anchor: string }> = {
@@ -13,33 +15,30 @@ const roleMeta: Record<HeroRole, { code: string; label: string; anchor: string }
   Strategist: { code: "S", label: "Support", anchor: "strategists" },
 };
 
-type DraftSelection = {
-  heroId: Hero["id"];
-  heroName: Hero["name"];
-  ability: TeamUpAbility;
-};
-
-type DraftSlots = Record<TeamUpSlot, DraftSelection | null>;
-const emptyDraft: DraftSlots = { A: null, B: null };
-
 export default function Home() {
-  const [selectedHeroId, setSelectedHeroId] = useState(heroData.heroes[0].id);
-  const [anchorPresent, setAnchorPresent] = useState(false);
-  const [draftSlots, setDraftSlots] = useState<DraftSlots>(emptyDraft);
+  const [enhancedHeroes, setEnhancedHeroes] = useState<Record<string, boolean>>({});
+  const [votes, setVotes] = useState<Record<string, number>>(initialVotes);
+  const [heroVotes, setHeroVotes] = useState<Record<string, TeamUpSlot | undefined>>({});
 
-  const selectedCount = Number(Boolean(draftSlots.A)) + Number(Boolean(draftSlots.B));
+  const totalVotes = Object.values(votes).reduce((sum, count) => sum + count, 0);
 
-  function toggleDraft(hero: Hero, ability: TeamUpAbility) {
-    setSelectedHeroId(hero.id);
-    setDraftSlots((current) => {
-      const isAlreadySelected = current[ability.slot]?.ability.id === ability.id;
-      return {
-        ...current,
-        [ability.slot]: isAlreadySelected
-          ? null
-          : { heroId: hero.id, heroName: hero.name, ability },
-      };
+  function toggleEnhanced(heroId: string) {
+    setEnhancedHeroes((current) => ({ ...current, [heroId]: !current[heroId] }));
+  }
+
+  function voteFor(heroId: string, abilities: [TeamUpAbility, TeamUpAbility], ability: TeamUpAbility) {
+    const previousSlot = heroVotes[heroId];
+    if (previousSlot === ability.slot) return;
+
+    setVotes((current) => {
+      const next = { ...current, [ability.id]: (current[ability.id] ?? 0) + 1 };
+      if (previousSlot) {
+        const previousAbility = abilities.find((item) => item.slot === previousSlot);
+        if (previousAbility) next[previousAbility.id] = Math.max(0, (current[previousAbility.id] ?? 0) - 1);
+      }
+      return next;
     });
+    setHeroVotes((current) => ({ ...current, [heroId]: ability.slot }));
   }
 
   return (
@@ -54,76 +53,29 @@ export default function Home() {
           <a href="#duelists">Duelists</a>
           <a href="#strategists">Strategists</a>
         </nav>
-        <div className="header-stats" aria-label={`${selectedCount} of 2 draft slots filled`}>
-          <span>ACTIVE DRAFT</span>
-          <strong>{selectedCount}<i>/02</i></strong>
+        <div className="header-stats" aria-label={`${totalVotes} community votes`}>
+          <span>COMMUNITY VOTES</span>
+          <strong>{totalVotes.toLocaleString()}</strong>
         </div>
       </header>
 
-      <section className="hero-intro">
+      <section className="hero-intro hero-intro-simple">
         <div>
           <p className="eyebrow">SEASON 09 · COMMUNITY DIRECTORY</p>
-          <h1>Choose your<br /><span>Team-Up.</span></h1>
+          <h1>Choose the better<br /><span>Team-Up.</span></h1>
           <p className="intro-copy">
-            Compare every hero&apos;s two Team-Up options at a glance. Equip one
-            ability per slot, then preview the anchor-partner advantage.
+            Compare both options for every hero, preview the anchor-enhanced effect,
+            and vote for the Team-Up you would rather bring into the match.
           </p>
         </div>
-        <div className="context-control">
-          <div className="context-label">
-            <span>GLOBAL CONTEXT</span>
-            <strong>Anchor Partner Present on Team</strong>
-            <small>Switches every ability to its enhanced effect.</small>
-          </div>
-          <button
-            className={`toggle ${anchorPresent ? "is-on" : ""}`}
-            type="button"
-            role="switch"
-            aria-checked={anchorPresent}
-            aria-label="Anchor Partner Present on Team"
-            onClick={() => setAnchorPresent((value) => !value)}
-          >
-            <span className="toggle-track"><span className="toggle-knob" /></span>
-            <b>{anchorPresent ? "ONLINE" : "OFFLINE"}</b>
-          </button>
-        </div>
-      </section>
-
-      <section className="draft-section" aria-label="Active Team-Up draft">
-        <div className="draft-title">
-          <span>YOUR ACTIVE DRAFT</span>
-          <strong>Two slots. Any two heroes.</strong>
-        </div>
-        <div className="draft-slots">
-          {(["A", "B"] as TeamUpSlot[]).map((slot) => {
-            const selection = draftSlots[slot];
-            return (
-              <div className={`draft-slot ${selection ? "is-filled" : ""} ${anchorPresent && selection ? "is-enhanced" : ""}`} key={slot}>
-                <span className="slot-tag">SLOT {slot}</span>
-                {selection ? (
-                  <>
-                    <button
-                      className="clear-slot"
-                      type="button"
-                      onClick={() => setDraftSlots((current) => ({ ...current, [slot]: null }))}
-                      aria-label={`Clear slot ${slot}`}
-                    >×</button>
-                    <div className="draft-glyph">{selection.heroName.split(" ").map((part) => part[0]).join("")}</div>
-                    <div className="draft-copy">
-                      <strong>{selection.ability.name}</strong>
-                      <small>{selection.heroName} + {selection.ability.anchorPartner}</small>
-                    </div>
-                    {anchorPresent && <span className="mini-enhanced">⚡ ENHANCED</span>}
-                  </>
-                ) : (
-                  <>
-                    <div className="draft-glyph is-empty">+</div>
-                    <div className="draft-copy"><strong>UNASSIGNED</strong><small>Select a Team-Up below</small></div>
-                  </>
-                )}
-              </div>
-            );
-          })}
+        <div className="how-to-vote">
+          <span>HOW IT WORKS</span>
+          <ol>
+            <li><b>01</b> Find your hero</li>
+            <li><b>02</b> Toggle their anchor context</li>
+            <li><b>03</b> Vote for Slot A or Slot B</li>
+          </ol>
+          <small>One active vote per hero. You can change your choice.</small>
         </div>
       </section>
 
@@ -141,53 +93,64 @@ export default function Home() {
 
               <div className="hero-panels">
                 {heroes.map((hero) => {
-                  const isFocused = hero.id === selectedHeroId;
-                  const equippedCount = Object.values(draftSlots).filter((selection) => selection?.heroId === hero.id).length;
+                  const enhanced = Boolean(enhancedHeroes[hero.id]);
+                  const heroTotal = hero.teamUpAbilities.reduce((sum, ability) => sum + (votes[ability.id] ?? 0), 0);
                   return (
-                    <article className={`hero-panel ${isFocused ? "is-focused" : ""}`} key={hero.id}>
-                      <button
-                        className="hero-panel-header"
-                        type="button"
-                        onClick={() => setSelectedHeroId(hero.id)}
-                        aria-pressed={isFocused}
-                      >
+                    <article className={`hero-panel ${enhanced ? "hero-enhanced" : ""}`} key={hero.id}>
+                      <div className="hero-panel-header">
                         <span className="hero-avatar" aria-hidden="true">
                           {hero.name.split(" ").map((part) => part[0]).join("")}
                         </span>
                         <span className="hero-identity">
                           <strong>{hero.name}</strong>
-                          <small>{isFocused ? "SELECTOR ACTIVE" : "OPEN SELECTOR"} <b>→</b></small>
+                          <small>{heroTotal.toLocaleString()} TOTAL VOTES</small>
                         </span>
-                        {equippedCount > 0 && <span className="equipped-count">{equippedCount} EQUIPPED</span>}
-                      </button>
+                        <button
+                          className={`hero-toggle ${enhanced ? "is-on" : ""}`}
+                          type="button"
+                          role="switch"
+                          aria-checked={enhanced}
+                          aria-label={`Anchor Partner Present for ${hero.name}`}
+                          onClick={() => toggleEnhanced(hero.id)}
+                        >
+                          <span className="hero-toggle-track"><span /></span>
+                          <b>{enhanced ? "⚡ ENHANCED" : "ANCHOR OFF"}</b>
+                        </button>
+                      </div>
 
-                      <div className="ability-divider"><span>TEAM-UP ABILITIES</span></div>
+                      <div className="ability-divider"><span>CHOOSE THE BETTER TEAM-UP</span></div>
 
                       <div className="panel-abilities">
                         {hero.teamUpAbilities.map((ability) => {
-                          const isSelected = draftSlots[ability.slot]?.ability.id === ability.id;
+                          const count = votes[ability.id] ?? 0;
+                          const percentage = heroTotal ? Math.round((count / heroTotal) * 100) : 50;
+                          const isVoted = heroVotes[hero.id] === ability.slot;
+                          const isCommunityChoice = percentage >= 50;
                           return (
-                            <button
-                              className={`compact-ability ${isSelected ? "is-selected" : ""} ${anchorPresent && isSelected ? "is-enhanced" : ""}`}
-                              type="button"
-                              onClick={() => toggleDraft(hero, ability)}
-                              aria-pressed={isSelected}
+                            <article
+                              className={`compact-ability ${isVoted ? "is-voted" : ""} ${enhanced ? "is-enhanced" : ""}`}
                               key={ability.id}
                             >
-                              <span className="compact-topline">
+                              {isCommunityChoice && <span className="community-choice">◎ COMMUNITY CHOICE</span>}
+                              <div className="compact-topline">
                                 <span className="ability-glyph">{ability.slot}</span>
                                 <span className="ability-name">{ability.name}</span>
-                                <span className="slot-choice">SLOT {ability.slot}</span>
-                              </span>
+                                <strong className="vote-percent">{percentage}%</strong>
+                              </div>
                               <span className="anchor-chip">ANCHOR · {ability.anchorPartner}</span>
-                              <span className="compact-description">
-                                {anchorPresent ? ability.enhancedDescription : ability.baseDescription}
-                              </span>
-                              <span className="choice-footer">
-                                <span>{anchorPresent && isSelected ? "⚡ ENHANCED" : isSelected ? "ACTIVE CHOICE" : "SELECT TEAM-UP"}</span>
-                                <b>{isSelected ? "✓" : "+"}</b>
-                              </span>
-                            </button>
+                              <p className="compact-description">
+                                {enhanced ? ability.enhancedDescription : ability.baseDescription}
+                              </p>
+                              <button
+                                className="vote-button"
+                                type="button"
+                                onClick={() => voteFor(hero.id, hero.teamUpAbilities, ability)}
+                                aria-pressed={isVoted}
+                              >
+                                <span>{isVoted ? "YOUR VOTE" : `VOTE FOR SLOT ${ability.slot}`}</span>
+                                <b>{isVoted ? "✓" : "+"}</b>
+                              </button>
+                            </article>
                           );
                         })}
                       </div>
