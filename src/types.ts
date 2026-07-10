@@ -2,6 +2,20 @@ export type HeroRole = "Vanguard" | "Duelist" | "Strategist";
 
 export type TeamUpSlot = "A" | "B";
 
+export const RANKS = [
+  "Bronze",
+  "Silver",
+  "Gold",
+  "Platinum",
+  "Diamond",
+  "Grandmaster",
+  "Celestial",
+  "Eternity",
+  "One Above All",
+] as const;
+
+export type PlayerRank = (typeof RANKS)[number];
+
 export interface TeamUpAbility {
   id: string;
   slot: TeamUpSlot;

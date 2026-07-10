@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import heroesJson from "@/src/data/heroes.json";
-import votesJson from "@/src/data/votes.json";
-import type { HeroRole, HeroesData, TeamUpAbility, TeamUpSlot } from "@/src/types";
+import rankVotesJson from "@/src/data/rankVotes.json";
+import { RANKS, type Hero, type HeroRole, type HeroesData, type PlayerRank, type TeamUpAbility, type TeamUpSlot } from "@/src/types";
 
 const heroData = heroesJson as HeroesData;
-const initialVotes = votesJson as Record<string, number>;
+const seededRankVotes = rankVotesJson as Record<string, Record<TeamUpSlot, number[]>>;
 const roles: HeroRole[] = ["Vanguard", "Duelist", "Strategist"];
+const rankFilters = ["All Ranks", ...RANKS] as const;
+type RankFilter = (typeof rankFilters)[number];
+type LiveVotes = Record<string, Record<string, number>>;
 
 const roleMeta: Record<HeroRole, { code: string; label: string; anchor: string }> = {
   Vanguard: { code: "V", label: "Front line", anchor: "vanguards" },
@@ -15,31 +18,105 @@ const roleMeta: Record<HeroRole, { code: string; label: string; anchor: string }
   Strategist: { code: "S", label: "Support", anchor: "strategists" },
 };
 
+type PendingVote = { hero: Hero; ability: TeamUpAbility };
+
 export default function Home() {
   const [enhancedHeroes, setEnhancedHeroes] = useState<Record<string, boolean>>({});
-  const [votes, setVotes] = useState<Record<string, number>>(initialVotes);
-  const [heroVotes, setHeroVotes] = useState<Record<string, TeamUpSlot | undefined>>({});
+  const [liveVotes, setLiveVotes] = useState<LiveVotes>({});
+  const [selectedRank, setSelectedRank] = useState<RankFilter>("All Ranks");
+  const [query, setQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [pendingVote, setPendingVote] = useState<PendingVote | null>(null);
+  const [voteRank, setVoteRank] = useState<PlayerRank | "">("");
+  const [voteStatus, setVoteStatus] = useState("");
 
-  const totalVotes = Object.values(votes).reduce((sum, count) => sum + count, 0);
-
-  function toggleEnhanced(heroId: string) {
-    setEnhancedHeroes((current) => ({ ...current, [heroId]: !current[heroId] }));
-  }
-
-  function voteFor(heroId: string, abilities: [TeamUpAbility, TeamUpAbility], ability: TeamUpAbility) {
-    const previousSlot = heroVotes[heroId];
-    if (previousSlot === ability.slot) return;
-
-    setVotes((current) => {
-      const next = { ...current, [ability.id]: (current[ability.id] ?? 0) + 1 };
-      if (previousSlot) {
-        const previousAbility = abilities.find((item) => item.slot === previousSlot);
-        if (previousAbility) next[previousAbility.id] = Math.max(0, (current[previousAbility.id] ?? 0) - 1);
+  const loadVotes = useCallback(async () => {
+    try {
+      const response = await fetch("/api/votes", { cache: "no-store" });
+      if (!response.ok) return;
+      const data = (await response.json()) as { votes: Array<{ abilityId: string; rank: string; total: number }> };
+      const grouped: LiveVotes = {};
+      for (const vote of data.votes) {
+        grouped[vote.rank] ??= {};
+        grouped[vote.rank][vote.abilityId] = vote.total;
       }
-      return next;
-    });
-    setHeroVotes((current) => ({ ...current, [heroId]: ability.slot }));
+      setLiveVotes(grouped);
+    } catch {
+      // The seeded rank matrix remains available during local previews without D1.
+    }
+  }, []);
+
+  useEffect(() => { void loadVotes(); }, [loadVotes]);
+
+  const suggestions = useMemo(() => {
+    const normalized = query.trim().toLowerCase();
+    return heroData.heroes.filter((hero) => !normalized || hero.name.toLowerCase().includes(normalized));
+  }, [query]);
+
+  function seededCount(heroId: string, slot: TeamUpSlot, filter: RankFilter) {
+    const values = seededRankVotes[heroId]?.[slot] ?? [];
+    if (filter === "All Ranks") return values.reduce((sum, value) => sum + value, 0);
+    return values[RANKS.indexOf(filter)] ?? 0;
   }
+
+  function liveCount(abilityId: string, filter: RankFilter) {
+    if (filter !== "All Ranks") return liveVotes[filter]?.[abilityId] ?? 0;
+    return RANKS.reduce((sum, rank) => sum + (liveVotes[rank]?.[abilityId] ?? 0), 0);
+  }
+
+  function abilityCount(hero: Hero, ability: TeamUpAbility) {
+    return seededCount(hero.id, ability.slot, selectedRank) + liveCount(ability.id, selectedRank);
+  }
+
+  function chooseSuggestion(hero: Hero) {
+    setQuery(hero.name);
+    setSearchOpen(false);
+    document.getElementById(`hero-${hero.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function openVote(hero: Hero, ability: TeamUpAbility) {
+    setPendingVote({ hero, ability });
+    setVoteStatus("");
+    setVoteRank(selectedRank === "All Ranks" ? "" : selectedRank);
+  }
+
+  async function submitVote() {
+    if (!pendingVote || !voteRank) {
+      setVoteStatus("Choose your competitive rank to continue.");
+      return;
+    }
+
+    let voterId = localStorage.getItem("rivals-voter-id");
+    if (!voterId) {
+      voterId = crypto.randomUUID();
+      localStorage.setItem("rivals-voter-id", voterId);
+    }
+
+    setVoteStatus("Saving vote…");
+    try {
+      const response = await fetch("/api/votes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          voterId,
+          heroId: pendingVote.hero.id,
+          abilityId: pendingVote.ability.id,
+          rank: voteRank,
+        }),
+      });
+      if (!response.ok) throw new Error("Vote could not be saved");
+      await loadVotes();
+      setVoteStatus("Vote recorded. Thank you!");
+      setTimeout(() => setPendingVote(null), 650);
+    } catch {
+      setVoteStatus("Voting needs the hosted database. The local preview cannot save this vote.");
+    }
+  }
+
+  const visibleVoteTotal = heroData.heroes.reduce(
+    (sum, hero) => sum + hero.teamUpAbilities.reduce((heroSum, ability) => heroSum + abilityCount(hero, ability), 0),
+    0,
+  );
 
   return (
     <main className="app-shell" id="top">
@@ -49,33 +126,64 @@ export default function Home() {
           <span><strong>RIVALS</strong><small>TEAM-UP MATRIX</small></span>
         </a>
         <nav className="role-nav" aria-label="Hero roles">
-          <a href="#vanguards">Vanguards</a>
-          <a href="#duelists">Duelists</a>
-          <a href="#strategists">Strategists</a>
+          <a href="#vanguards">Vanguards</a><a href="#duelists">Duelists</a><a href="#strategists">Strategists</a>
         </nav>
-        <div className="header-stats" aria-label={`${totalVotes} community votes`}>
-          <span>COMMUNITY VOTES</span>
-          <strong>{totalVotes.toLocaleString()}</strong>
+        <div className="header-stats" aria-label={`${visibleVoteTotal} visible votes`}>
+          <span>{selectedRank.toUpperCase()}</span><strong>{visibleVoteTotal.toLocaleString()}</strong>
         </div>
       </header>
 
       <section className="hero-intro hero-intro-simple">
         <div>
-          <p className="eyebrow">SEASON 09 · COMMUNITY DIRECTORY</p>
-          <h1>Choose the better<br /><span>Team-Up.</span></h1>
-          <p className="intro-copy">
-            Compare both options for every hero, preview the anchor-enhanced effect,
-            and vote for the Team-Up you would rather bring into the match.
-          </p>
+          <p className="eyebrow">SEASON 09 · RANKED COMMUNITY DATA</p>
+          <h1>Find the better<br /><span>Team-Up.</span></h1>
+          <p className="intro-copy">Search a hero, filter the community by competitive rank, and vote for the Team-Up you trust in your own matches.</p>
         </div>
         <div className="how-to-vote">
-          <span>HOW IT WORKS</span>
-          <ol>
-            <li><b>01</b> Find your hero</li>
-            <li><b>02</b> Toggle their anchor context</li>
-            <li><b>03</b> Vote for Slot A or Slot B</li>
-          </ol>
-          <small>One active vote per hero. You can change your choice.</small>
+          <span>LIVE RANK INSIGHT</span>
+          <strong>{selectedRank}</strong>
+          <p>Every percentage below is currently calculated from {selectedRank === "All Ranks" ? "the full ranked community" : `${selectedRank} players`}.</p>
+        </div>
+      </section>
+
+      <section className="control-deck" aria-label="Directory controls">
+        <div className="hero-search">
+          <label htmlFor="hero-search">SEARCH HERO</label>
+          <div className="search-input-wrap">
+            <span aria-hidden="true">⌕</span>
+            <input
+              id="hero-search"
+              type="search"
+              value={query}
+              placeholder="Search for a hero…"
+              autoComplete="off"
+              onChange={(event) => { setQuery(event.target.value); setSearchOpen(true); }}
+              onFocus={() => setSearchOpen(true)}
+              onBlur={() => setTimeout(() => setSearchOpen(false), 150)}
+            />
+            {query && <button type="button" onClick={() => setQuery("")} aria-label="Clear hero search">×</button>}
+          </div>
+          {searchOpen && (
+            <div className="search-suggestions">
+              {suggestions.length ? suggestions.map((hero) => (
+                <button type="button" onMouseDown={() => chooseSuggestion(hero)} key={hero.id}>
+                  <span className="suggestion-avatar">{hero.name.split(" ").map((part) => part[0]).join("")}</span>
+                  <strong>{hero.name}</strong><small>{hero.role}</small>
+                </button>
+              )) : <p>No heroes match “{query}”</p>}
+            </div>
+          )}
+        </div>
+
+        <div className="rank-filter">
+          <div className="rank-filter-heading"><span>FILTER COMMUNITY BY RANK</span><strong>{selectedRank}</strong></div>
+          <div className="rank-scale" role="group" aria-label="Community rank filter">
+            {rankFilters.map((rank, index) => (
+              <button className={selectedRank === rank ? "is-active" : ""} type="button" onClick={() => setSelectedRank(rank)} key={rank}>
+                <i>{index === 0 ? "ALL" : String(index).padStart(2, "0")}</i><span>{rank}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -88,68 +196,35 @@ export default function Home() {
               <div className="role-banner">
                 <span className="role-symbol">{meta.code}</span>
                 <div><h2>{role} heroes</h2><p>{meta.label} · {heroes.length} operatives</p></div>
-                <span className="role-count">0{heroData.heroes.indexOf(heroes[0]) + 1}—0{heroData.heroes.indexOf(heroes.at(-1)!) + 1}</span>
+                <span className="role-count">{selectedRank.toUpperCase()}</span>
               </div>
-
               <div className="hero-panels">
                 {heroes.map((hero) => {
                   const enhanced = Boolean(enhancedHeroes[hero.id]);
-                  const heroTotal = hero.teamUpAbilities.reduce((sum, ability) => sum + (votes[ability.id] ?? 0), 0);
+                  const counts = hero.teamUpAbilities.map((ability) => abilityCount(hero, ability));
+                  const heroTotal = counts[0] + counts[1];
                   return (
-                    <article className={`hero-panel ${enhanced ? "hero-enhanced" : ""}`} key={hero.id}>
+                    <article className={`hero-panel ${enhanced ? "hero-enhanced" : ""}`} id={`hero-${hero.id}`} key={hero.id}>
                       <div className="hero-panel-header">
-                        <span className="hero-avatar" aria-hidden="true">
-                          {hero.name.split(" ").map((part) => part[0]).join("")}
-                        </span>
-                        <span className="hero-identity">
-                          <strong>{hero.name}</strong>
-                          <small>{heroTotal.toLocaleString()} TOTAL VOTES</small>
-                        </span>
-                        <button
-                          className={`hero-toggle ${enhanced ? "is-on" : ""}`}
-                          type="button"
-                          role="switch"
-                          aria-checked={enhanced}
-                          aria-label={`Anchor Partner Present for ${hero.name}`}
-                          onClick={() => toggleEnhanced(hero.id)}
-                        >
-                          <span className="hero-toggle-track"><span /></span>
-                          <b>{enhanced ? "⚡ ENHANCED" : "ANCHOR OFF"}</b>
+                        <span className="hero-avatar" aria-hidden="true">{hero.name.split(" ").map((part) => part[0]).join("")}</span>
+                        <span className="hero-identity"><strong>{hero.name}</strong><small>{heroTotal.toLocaleString()} {selectedRank.toUpperCase()} VOTES</small></span>
+                        <button className={`hero-toggle ${enhanced ? "is-on" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Anchor Partner Present for ${hero.name}`} onClick={() => setEnhancedHeroes((current) => ({ ...current, [hero.id]: !current[hero.id] }))}>
+                          <span className="hero-toggle-track"><span /></span><b>{enhanced ? "⚡ ENHANCED" : "ANCHOR OFF"}</b>
                         </button>
                       </div>
-
                       <div className="ability-divider"><span>CHOOSE THE BETTER TEAM-UP</span></div>
-
                       <div className="panel-abilities">
-                        {hero.teamUpAbilities.map((ability) => {
-                          const count = votes[ability.id] ?? 0;
+                        {hero.teamUpAbilities.map((ability, abilityIndex) => {
+                          const count = counts[abilityIndex];
+                          const otherCount = counts[abilityIndex === 0 ? 1 : 0];
                           const percentage = heroTotal ? Math.round((count / heroTotal) * 100) : 50;
-                          const isVoted = heroVotes[hero.id] === ability.slot;
-                          const isCommunityChoice = percentage >= 50;
                           return (
-                            <article
-                              className={`compact-ability ${isVoted ? "is-voted" : ""} ${enhanced ? "is-enhanced" : ""}`}
-                              key={ability.id}
-                            >
-                              {isCommunityChoice && <span className="community-choice">◎ COMMUNITY CHOICE</span>}
-                              <div className="compact-topline">
-                                <span className="ability-glyph">{ability.slot}</span>
-                                <span className="ability-name">{ability.name}</span>
-                                <strong className="vote-percent">{percentage}%</strong>
-                              </div>
+                            <article className={`compact-ability ${enhanced ? "is-enhanced" : ""}`} key={ability.id}>
+                              {count > otherCount && <span className="community-choice">◎ COMMUNITY CHOICE</span>}
+                              <div className="compact-topline"><span className="ability-glyph">{ability.slot}</span><span className="ability-name">{ability.name}</span><strong className="vote-percent">{percentage}%</strong></div>
                               <span className="anchor-chip">ANCHOR · {ability.anchorPartner}</span>
-                              <p className="compact-description">
-                                {enhanced ? ability.enhancedDescription : ability.baseDescription}
-                              </p>
-                              <button
-                                className="vote-button"
-                                type="button"
-                                onClick={() => voteFor(hero.id, hero.teamUpAbilities, ability)}
-                                aria-pressed={isVoted}
-                              >
-                                <span>{isVoted ? "YOUR VOTE" : `VOTE FOR SLOT ${ability.slot}`}</span>
-                                <b>{isVoted ? "✓" : "+"}</b>
-                              </button>
+                              <p className="compact-description">{enhanced ? ability.enhancedDescription : ability.baseDescription}</p>
+                              <button className="vote-button" type="button" onClick={() => openVote(hero, ability)}><span>VOTE FOR SLOT {ability.slot}</span><b>+</b></button>
                             </article>
                           );
                         })}
@@ -163,10 +238,25 @@ export default function Home() {
         })}
       </section>
 
-      <footer>
-        <span>RIVALS TEAM-UPS // COMMUNITY MATRIX</span>
-        <a href="#top">BACK TO TOP ↑</a>
-      </footer>
+      <footer><span>RIVALS TEAM-UPS // RANKED COMMUNITY MATRIX</span><a href="#top">BACK TO TOP ↑</a></footer>
+
+      {pendingVote && (
+        <div className="vote-modal-backdrop" role="presentation" onMouseDown={() => setPendingVote(null)}>
+          <section className="vote-modal" role="dialog" aria-modal="true" aria-labelledby="vote-modal-title" onMouseDown={(event) => event.stopPropagation()}>
+            <button className="modal-close" type="button" onClick={() => setPendingVote(null)} aria-label="Close vote dialog">×</button>
+            <p className="eyebrow">ONE LAST STEP</p>
+            <h2 id="vote-modal-title">What rank are you?</h2>
+            <p>Your rank lets the community compare which Team-Ups different skill tiers prefer.</p>
+            <div className="vote-summary"><span>{pendingVote.hero.name}</span><strong>{pendingVote.ability.name}</strong><small>SLOT {pendingVote.ability.slot}</small></div>
+            <div className="modal-ranks">
+              {RANKS.map((rank, index) => <button className={voteRank === rank ? "is-active" : ""} type="button" onClick={() => { setVoteRank(rank); setVoteStatus(""); }} key={rank}><i>{String(index + 1).padStart(2, "0")}</i><span>{rank}</span></button>)}
+            </div>
+            {voteStatus && <p className="vote-status" aria-live="polite">{voteStatus}</p>}
+            <button className="submit-vote" type="button" onClick={() => void submitVote()} disabled={!voteRank}>RECORD MY VOTE <b>→</b></button>
+            <small className="privacy-note">Your vote uses a random device ID. No name or account is collected.</small>
+          </section>
+        </div>
+      )}
     </main>
   );
 }
