@@ -1,0 +1,85 @@
+{
+  "heroes": [
+    {
+      "id": "hulk",
+      "name": "Hulk",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        { "id": "hulk-gamma-boost", "slot": "A", "name": "Gamma Boost", "anchorPartner": "Doctor Strange", "baseDescription": "Gain a brief defensive boost after using a gamma ability.", "enhancedDescription": "Doctor Strange channels the gamma surge, increasing the defensive boost and its duration." },
+        { "id": "hulk-radiation-slam", "slot": "B", "name": "Radiation Slam", "anchorPartner": "Iron Man", "baseDescription": "Empower Hulk's next leap impact with bonus gamma damage.", "enhancedDescription": "Iron Man overloads the impact zone, adding a larger gamma blast and bonus damage." }
+      ]
+    },
+    {
+      "id": "magneto",
+      "name": "Magneto",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        { "id": "magneto-metallic-fusion", "slot": "A", "name": "Metallic Fusion", "anchorPartner": "Scarlet Witch", "baseDescription": "Charge the greatsword for a focused magnetic strike.", "enhancedDescription": "Chaos energy widens the strike and leaves a volatile magnetic field behind." },
+        { "id": "magneto-polar-shield", "slot": "B", "name": "Polar Shield", "anchorPartner": "Luna Snow", "baseDescription": "Project a short-lived barrier toward the selected ally.", "enhancedDescription": "Luna stabilizes the barrier, increasing its strength and restoring health when it breaks." }
+      ]
+    },
+    {
+      "id": "doctor-strange",
+      "name": "Doctor Strange",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        { "id": "strange-mystic-maelstrom", "slot": "A", "name": "Mystic Maelstrom", "anchorPartner": "Magik", "baseDescription": "Release stored dark energy in a close-range mystic burst.", "enhancedDescription": "Magik opens a Limbo rift that extends the burst and slows enemies at its edge." },
+        { "id": "strange-gamma-gateway", "slot": "B", "name": "Gamma Gateway", "anchorPartner": "Hulk", "baseDescription": "Empower the next portal traversal with a brief movement bonus.", "enhancedDescription": "Hulk's gamma field fortifies allies passing through, granting temporary bonus health." }
+      ]
+    },
+    {
+      "id": "iron-man",
+      "name": "Iron Man",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        { "id": "iron-man-gamma-overdrive", "slot": "A", "name": "Gamma Overdrive", "anchorPartner": "Hulk", "baseDescription": "Temporarily increase repulsor damage after activating Armor Overdrive.", "enhancedDescription": "Hulk supplies gamma energy, further increasing repulsor damage and blast radius." },
+        { "id": "iron-man-arc-barrage", "slot": "B", "name": "Arc Barrage", "anchorPartner": "Rocket Raccoon", "baseDescription": "Launch a compact barrage of tracking micro-missiles.", "enhancedDescription": "Rocket Raccoon upgrades the payload, adding more missiles with improved tracking." }
+      ]
+    },
+    {
+      "id": "spider-man",
+      "name": "Spider-Man",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        { "id": "spider-man-web-conductor", "slot": "A", "name": "Web Conductor", "anchorPartner": "Peni Parker", "baseDescription": "Charge a web cluster that briefly binds the first target hit.", "enhancedDescription": "Peni electrifies the web cluster, chaining damage to a nearby enemy on impact." },
+        { "id": "spider-man-amazing-combo", "slot": "B", "name": "Amazing Combo", "anchorPartner": "Squirrel Girl", "baseDescription": "Launch an enemy upward with a close-range web uppercut.", "enhancedDescription": "Squirrel Girl joins the combo, adding a bouncing acorn burst at the target's landing point." }
+      ]
+    },
+    {
+      "id": "magik",
+      "name": "Magik",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        { "id": "magik-limbo-charge", "slot": "A", "name": "Limbo Charge", "anchorPartner": "Psylocke", "baseDescription": "Gain a brief speed increase after stepping through a Limbo portal.", "enhancedDescription": "Psylocke masks the exit, granting speed and a short window of concealment." },
+        { "id": "magik-soulsword-link", "slot": "B", "name": "Soulsword Link", "anchorPartner": "Doctor Strange", "baseDescription": "Empower the next Soulsword swing with additional reach.", "enhancedDescription": "Doctor Strange adds a mystic echo that repeats part of the swing's damage." }
+      ]
+    },
+    {
+      "id": "luna-snow",
+      "name": "Luna Snow",
+      "role": "Strategist",
+      "teamUpAbilities": [
+        { "id": "luna-frozen-harmony", "slot": "A", "name": "Frozen Harmony", "anchorPartner": "Namor", "baseDescription": "Send a piercing ice note that heals allies and damages enemies.", "enhancedDescription": "Namor's tide carries the note farther and creates a healing splash at maximum range." },
+        { "id": "luna-zero-beat", "slot": "B", "name": "Zero Beat", "anchorPartner": "Iron Fist", "baseDescription": "Release a rhythmic frost pulse that slows nearby threats.", "enhancedDescription": "Iron Fist focuses the pulse, adding a brief burst of movement speed for nearby allies." }
+      ]
+    },
+    {
+      "id": "mantis",
+      "name": "Mantis",
+      "role": "Strategist",
+      "teamUpAbilities": [
+        { "id": "mantis-guardian-spores", "slot": "A", "name": "Guardian Spores", "anchorPartner": "Groot", "baseDescription": "Place restorative spores on an ally for healing over time.", "enhancedDescription": "Groot nurtures the spores, increasing their duration and granting damage resistance." },
+        { "id": "mantis-celestial-focus", "slot": "B", "name": "Celestial Focus", "anchorPartner": "Star-Lord", "baseDescription": "Share a brief damage boost with the targeted ally.", "enhancedDescription": "Star-Lord synchronizes the link, improving the boost and refunding energy on eliminations." }
+      ]
+    },
+    {
+      "id": "rocket-raccoon",
+      "name": "Rocket Raccoon",
+      "role": "Strategist",
+      "teamUpAbilities": [
+        { "id": "rocket-ammo-overload", "slot": "A", "name": "Ammo Overload", "anchorPartner": "Punisher", "baseDescription": "Deploy an ammo device that improves reload speed for nearby allies.", "enhancedDescription": "Punisher calibrates the device, also increasing fire rate during its active window." },
+        { "id": "rocket-jetpack-tether", "slot": "B", "name": "Jetpack Tether", "anchorPartner": "Groot", "baseDescription": "Tether to a nearby ally and gain a short aerial boost.", "enhancedDescription": "Groot reinforces the tether, adding a protective shield while Rocket remains attached." }
+      ]
+    }
+  ]
+}
