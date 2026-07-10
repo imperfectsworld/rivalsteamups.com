@@ -180,7 +180,7 @@ export default function Home() {
     <main className="app-shell" id="top">
       <header className="topbar">
         <a className="brand" href="#top" aria-label="Rivals Team-Ups home">
-          <span className="brand-mark"><img src="/rivals-icon.ico" alt="" /></span>
+          <span className="brand-mark">R</span>
           <span><strong>RIVALS</strong><small>TEAM-UP MATRIX</small></span>
         </a>
         <nav className="role-nav" aria-label="Hero roles">
@@ -282,8 +282,10 @@ export default function Home() {
                   return (
                     <article className={`hero-panel ${enhanced ? "hero-enhanced" : ""}`} id={`hero-${hero.id}`} key={hero.id}>
                       <div className="hero-panel-header">
-                        <span className="hero-avatar" aria-hidden="true"><img src={heroImage(hero.id)} alt="" /></span>
-                        <span className="hero-identity"><strong>{hero.name}</strong><small>{heroTotal.toLocaleString()} {selectedRank.toUpperCase()} VOTES</small><a className="hero-details-link" href={`/heroes/${hero.id}`}>VIEW DETAILS →</a></span>
+                        <a className="hero-profile-link" href={`/heroes/${hero.id}`} aria-label={`View ${hero.name} details`}>
+                          <span className="hero-avatar" aria-hidden="true"><img src={heroImage(hero.id)} alt="" /></span>
+                          <span className="hero-identity"><strong>{hero.name}</strong><small>{heroTotal.toLocaleString()} {selectedRank.toUpperCase()} VOTES</small><span className="hero-details-link">VIEW DETAILS →</span></span>
+                        </a>
                         <button className={`hero-toggle ${enhanced ? "is-on" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Enhanced descriptions for ${hero.name}`} onClick={() => setEnhancedHeroes((current) => ({ ...current, [hero.id]: !current[hero.id] }))}>
                           <span className="hero-toggle-track"><span /></span><b>{enhanced ? "⚡ ENHANCED ON" : "ENHANCED OFF"}</b>
                         </button>

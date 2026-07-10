@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
+import { index, integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 export const teamUpVotes = sqliteTable(
   "team_up_votes",
@@ -15,5 +15,20 @@ export const teamUpVotes = sqliteTable(
   },
   (table) => [
     uniqueIndex("team_up_votes_voter_hero_rank_era_unique").on(table.voterId, table.heroId, table.rank, table.season, table.patch),
+  ],
+);
+
+export const teamUpVoteActivity = sqliteTable(
+  "team_up_vote_activity",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    voterId: text("voter_id").notNull(),
+    ipHash: text("ip_hash").notNull(),
+    heroId: text("hero_id").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull().$defaultFn(() => new Date()),
+  },
+  (table) => [
+    index("vote_activity_voter_time_idx").on(table.voterId, table.createdAt),
+    index("vote_activity_ip_time_idx").on(table.ipHash, table.createdAt),
   ],
 );

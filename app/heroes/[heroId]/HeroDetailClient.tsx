@@ -69,7 +69,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
   return (
     <main className={`detail-shell detail-${hero.role.toLowerCase()}`}>
       <header className="detail-topbar">
-        <a href="/" className="detail-brand"><span><img src="/rivals-icon.ico" alt="" /></span><strong>RIVALS TEAM-UP MATRIX</strong></a>
+        <a href="/" className="detail-brand"><span>R</span><strong>RIVALS TEAM-UP MATRIX</strong></a>
         <a href={`/#hero-${hero.id}`} className="detail-back">← BACK TO DIRECTORY</a>
       </header>
 
@@ -81,7 +81,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
           <p>Rank-by-rank community voting, total preference, and Team-Up momentum for {hero.name}.</p>
           <div className="detail-summary-grid">
             <div><span>TOTAL VOTES</span><strong>{totalVotes.toLocaleString()}</strong></div>
-            <div><span>COMMUNITY LEADER</span><strong>{leader.anchorPartner}</strong><small>{leaderPercent}% preference</small></div>
+            <div><span>COMMUNITY LEADER</span><strong>{leader.name}</strong><small>{leaderPercent}% preference</small></div>
             <div><span>LEAD MARGIN</span><strong>{Math.abs(totals[0] - totals[1]).toLocaleString()}</strong><small>votes between options</small></div>
           </div>
         </div>
@@ -108,7 +108,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
           {rows.map((row) => <article key={row.rank}>
             <div className="breakdown-rank"><img src={rankImages[row.rank]} alt="" /><span><strong>{row.rank}</strong><small>{row.total.toLocaleString()} votes</small></span></div>
             <div className="breakdown-bars">
-              {hero.teamUpAbilities.map((ability, index) => <div key={ability.id}><span><b>{ability.anchorPartner}</b><em>{row.counts[index]} · {row.percentages[index]}%</em></span><i><b style={{ width: `${row.percentages[index]}%` }} /></i></div>)}
+              {hero.teamUpAbilities.map((ability, index) => <div key={ability.id}><span><b>{ability.name} ({ability.anchorPartner})</b><em>{row.counts[index]} · {row.percentages[index]}%</em></span><i><b style={{ width: `${row.percentages[index]}%` }} /></i></div>)}
             </div>
           </article>)}
         </div>

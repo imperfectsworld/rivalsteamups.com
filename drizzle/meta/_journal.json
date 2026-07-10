@@ -15,6 +15,13 @@
       "when": 1783662750872,
       "tag": "0001_minor_albert_cleary",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1783663724925,
+      "tag": "0002_fluffy_sasquatch",
+      "breakpoints": true
     }
   ]
 }
