@@ -1,21 +1,141 @@
 {
   "heroes": [
     {
-      "id": "hulk",
-      "name": "Hulk",
-      "role": "Vanguard",
+      "id": "adam-warlock",
+      "name": "Adam Warlock",
+      "role": "Strategist",
       "teamUpAbilities": [
-        { "id": "hulk-gamma-boost", "slot": "A", "name": "Gamma Boost", "anchorPartner": "Doctor Strange", "baseDescription": "Gain a brief defensive boost after using a gamma ability.", "enhancedDescription": "Doctor Strange channels the gamma surge, increasing the defensive boost and its duration." },
-        { "id": "hulk-radiation-slam", "slot": "B", "name": "Radiation Slam", "anchorPartner": "Iron Man", "baseDescription": "Empower Hulk's next leap impact with bonus gamma damage.", "enhancedDescription": "Iron Man overloads the impact zone, adding a larger gamma blast and bonus damage." }
+        {
+          "id": "adam-warlock-tactical-link",
+          "slot": "A",
+          "name": "Adam Tactical Link",
+          "anchorPartner": "Groot",
+          "baseDescription": "Adam Warlock activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Groot is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "adam-warlock-power-surge",
+          "slot": "B",
+          "name": "Adam Power Surge",
+          "anchorPartner": "Namor",
+          "baseDescription": "Adam Warlock channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Namor is present, upgrading the surge with additional impact and improved team utility."
+        }
       ]
     },
     {
-      "id": "magneto",
-      "name": "Magneto",
+      "id": "black-panther",
+      "name": "Black Panther",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "black-panther-tactical-link",
+          "slot": "A",
+          "name": "Black Tactical Link",
+          "anchorPartner": "Hawkeye",
+          "baseDescription": "Black Panther activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Hawkeye is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "black-panther-power-surge",
+          "slot": "B",
+          "name": "Black Power Surge",
+          "anchorPartner": "Peni Parker",
+          "baseDescription": "Black Panther channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Peni Parker is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "black-widow",
+      "name": "Black Widow",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "black-widow-tactical-link",
+          "slot": "A",
+          "name": "Black Tactical Link",
+          "anchorPartner": "Hela",
+          "baseDescription": "Black Widow activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Hela is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "black-widow-power-surge",
+          "slot": "B",
+          "name": "Black Power Surge",
+          "anchorPartner": "Psylocke",
+          "baseDescription": "Black Widow channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Psylocke is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "hulk",
+      "name": "Bruce Banner / Hulk",
       "role": "Vanguard",
       "teamUpAbilities": [
-        { "id": "magneto-metallic-fusion", "slot": "A", "name": "Metallic Fusion", "anchorPartner": "Scarlet Witch", "baseDescription": "Charge the greatsword for a focused magnetic strike.", "enhancedDescription": "Chaos energy widens the strike and leaves a volatile magnetic field behind." },
-        { "id": "magneto-polar-shield", "slot": "B", "name": "Polar Shield", "anchorPartner": "Luna Snow", "baseDescription": "Project a short-lived barrier toward the selected ally.", "enhancedDescription": "Luna stabilizes the barrier, increasing its strength and restoring health when it breaks." }
+        {
+          "id": "hulk-gamma-boost",
+          "slot": "A",
+          "name": "Gamma Boost",
+          "anchorPartner": "Doctor Strange",
+          "baseDescription": "Gain a brief defensive boost after using a gamma ability.",
+          "enhancedDescription": "Doctor Strange channels the gamma surge, increasing the defensive boost and its duration."
+        },
+        {
+          "id": "hulk-radiation-slam",
+          "slot": "B",
+          "name": "Radiation Slam",
+          "anchorPartner": "Iron Man",
+          "baseDescription": "Empower Hulk's next leap impact with bonus gamma damage.",
+          "enhancedDescription": "Iron Man overloads the impact zone, adding a larger gamma blast and bonus damage."
+        }
+      ]
+    },
+    {
+      "id": "captain-america",
+      "name": "Captain America",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        {
+          "id": "captain-america-tactical-link",
+          "slot": "A",
+          "name": "Captain Tactical Link",
+          "anchorPartner": "Iron Man",
+          "baseDescription": "Captain America activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Iron Man is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "captain-america-power-surge",
+          "slot": "B",
+          "name": "Captain Power Surge",
+          "anchorPartner": "Rocket Raccoon",
+          "baseDescription": "Captain America channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Rocket Raccoon is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "cloak-and-dagger",
+      "name": "Cloak & Dagger",
+      "role": "Strategist",
+      "teamUpAbilities": [
+        {
+          "id": "cloak-and-dagger-tactical-link",
+          "slot": "A",
+          "name": "Cloak Tactical Link",
+          "anchorPartner": "Jeff the Land Shark",
+          "baseDescription": "Cloak & Dagger activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Jeff the Land Shark is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "cloak-and-dagger-power-surge",
+          "slot": "B",
+          "name": "Cloak Power Surge",
+          "anchorPartner": "Scarlet Witch",
+          "baseDescription": "Cloak & Dagger channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Scarlet Witch is present, upgrading the surge with additional impact and improved team utility."
+        }
       ]
     },
     {
@@ -23,8 +143,114 @@
       "name": "Doctor Strange",
       "role": "Vanguard",
       "teamUpAbilities": [
-        { "id": "strange-mystic-maelstrom", "slot": "A", "name": "Mystic Maelstrom", "anchorPartner": "Magik", "baseDescription": "Release stored dark energy in a close-range mystic burst.", "enhancedDescription": "Magik opens a Limbo rift that extends the burst and slows enemies at its edge." },
-        { "id": "strange-gamma-gateway", "slot": "B", "name": "Gamma Gateway", "anchorPartner": "Hulk", "baseDescription": "Empower the next portal traversal with a brief movement bonus.", "enhancedDescription": "Hulk's gamma field fortifies allies passing through, granting temporary bonus health." }
+        {
+          "id": "strange-mystic-maelstrom",
+          "slot": "A",
+          "name": "Mystic Maelstrom",
+          "anchorPartner": "Magik",
+          "baseDescription": "Release stored dark energy in a close-range mystic burst.",
+          "enhancedDescription": "Magik opens a Limbo rift that extends the burst and slows enemies at its edge."
+        },
+        {
+          "id": "strange-gamma-gateway",
+          "slot": "B",
+          "name": "Gamma Gateway",
+          "anchorPartner": "Hulk",
+          "baseDescription": "Empower the next portal traversal with a brief movement bonus.",
+          "enhancedDescription": "Hulk's gamma field fortifies allies passing through, granting temporary bonus health."
+        }
+      ]
+    },
+    {
+      "id": "groot",
+      "name": "Groot",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        {
+          "id": "groot-tactical-link",
+          "slot": "A",
+          "name": "Groot Tactical Link",
+          "anchorPartner": "Luna Snow",
+          "baseDescription": "Groot activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Luna Snow is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "groot-power-surge",
+          "slot": "B",
+          "name": "Groot Power Surge",
+          "anchorPartner": "Squirrel Girl",
+          "baseDescription": "Groot channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Squirrel Girl is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "hawkeye",
+      "name": "Hawkeye",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "hawkeye-tactical-link",
+          "slot": "A",
+          "name": "Hawkeye Tactical Link",
+          "anchorPartner": "Magik",
+          "baseDescription": "Hawkeye activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Magik is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "hawkeye-power-surge",
+          "slot": "B",
+          "name": "Hawkeye Power Surge",
+          "anchorPartner": "Star-Lord",
+          "baseDescription": "Hawkeye channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Star-Lord is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "hela",
+      "name": "Hela",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "hela-tactical-link",
+          "slot": "A",
+          "name": "Hela Tactical Link",
+          "anchorPartner": "Magneto",
+          "baseDescription": "Hela activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Magneto is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "hela-power-surge",
+          "slot": "B",
+          "name": "Hela Power Surge",
+          "anchorPartner": "Storm",
+          "baseDescription": "Hela channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Storm is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "iron-fist",
+      "name": "Iron Fist",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "iron-fist-tactical-link",
+          "slot": "A",
+          "name": "Iron Tactical Link",
+          "anchorPartner": "Mantis",
+          "baseDescription": "Iron Fist activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Mantis is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "iron-fist-power-surge",
+          "slot": "B",
+          "name": "Iron Power Surge",
+          "anchorPartner": "Thor",
+          "baseDescription": "Iron Fist channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Thor is present, upgrading the surge with additional impact and improved team utility."
+        }
       ]
     },
     {
@@ -32,26 +258,68 @@
       "name": "Iron Man",
       "role": "Duelist",
       "teamUpAbilities": [
-        { "id": "iron-man-gamma-overdrive", "slot": "A", "name": "Gamma Overdrive", "anchorPartner": "Hulk", "baseDescription": "Temporarily increase repulsor damage after activating Armor Overdrive.", "enhancedDescription": "Hulk supplies gamma energy, further increasing repulsor damage and blast radius." },
-        { "id": "iron-man-arc-barrage", "slot": "B", "name": "Arc Barrage", "anchorPartner": "Rocket Raccoon", "baseDescription": "Launch a compact barrage of tracking micro-missiles.", "enhancedDescription": "Rocket Raccoon upgrades the payload, adding more missiles with improved tracking." }
+        {
+          "id": "iron-man-gamma-overdrive",
+          "slot": "A",
+          "name": "Gamma Overdrive",
+          "anchorPartner": "Hulk",
+          "baseDescription": "Temporarily increase repulsor damage after activating Armor Overdrive.",
+          "enhancedDescription": "Hulk supplies gamma energy, further increasing repulsor damage and blast radius."
+        },
+        {
+          "id": "iron-man-arc-barrage",
+          "slot": "B",
+          "name": "Arc Barrage",
+          "anchorPartner": "Rocket Raccoon",
+          "baseDescription": "Launch a compact barrage of tracking micro-missiles.",
+          "enhancedDescription": "Rocket Raccoon upgrades the payload, adding more missiles with improved tracking."
+        }
       ]
     },
     {
-      "id": "spider-man",
-      "name": "Spider-Man",
-      "role": "Duelist",
+      "id": "jeff-the-land-shark",
+      "name": "Jeff the Land Shark",
+      "role": "Strategist",
       "teamUpAbilities": [
-        { "id": "spider-man-web-conductor", "slot": "A", "name": "Web Conductor", "anchorPartner": "Peni Parker", "baseDescription": "Charge a web cluster that briefly binds the first target hit.", "enhancedDescription": "Peni electrifies the web cluster, chaining damage to a nearby enemy on impact." },
-        { "id": "spider-man-amazing-combo", "slot": "B", "name": "Amazing Combo", "anchorPartner": "Squirrel Girl", "baseDescription": "Launch an enemy upward with a close-range web uppercut.", "enhancedDescription": "Squirrel Girl joins the combo, adding a bouncing acorn burst at the target's landing point." }
+        {
+          "id": "jeff-the-land-shark-tactical-link",
+          "slot": "A",
+          "name": "Jeff Tactical Link",
+          "anchorPartner": "Namor",
+          "baseDescription": "Jeff the Land Shark activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Namor is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "jeff-the-land-shark-power-surge",
+          "slot": "B",
+          "name": "Jeff Power Surge",
+          "anchorPartner": "Winter Soldier",
+          "baseDescription": "Jeff the Land Shark channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Winter Soldier is present, upgrading the surge with additional impact and improved team utility."
+        }
       ]
     },
     {
-      "id": "magik",
-      "name": "Magik",
-      "role": "Duelist",
+      "id": "loki",
+      "name": "Loki",
+      "role": "Strategist",
       "teamUpAbilities": [
-        { "id": "magik-limbo-charge", "slot": "A", "name": "Limbo Charge", "anchorPartner": "Psylocke", "baseDescription": "Gain a brief speed increase after stepping through a Limbo portal.", "enhancedDescription": "Psylocke masks the exit, granting speed and a short window of concealment." },
-        { "id": "magik-soulsword-link", "slot": "B", "name": "Soulsword Link", "anchorPartner": "Doctor Strange", "baseDescription": "Empower the next Soulsword swing with additional reach.", "enhancedDescription": "Doctor Strange adds a mystic echo that repeats part of the swing's damage." }
+        {
+          "id": "loki-tactical-link",
+          "slot": "A",
+          "name": "Loki Tactical Link",
+          "anchorPartner": "Peni Parker",
+          "baseDescription": "Loki activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Peni Parker is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "loki-power-surge",
+          "slot": "B",
+          "name": "Loki Power Surge",
+          "anchorPartner": "Wolverine",
+          "baseDescription": "Loki channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Wolverine is present, upgrading the surge with additional impact and improved team utility."
+        }
       ]
     },
     {
@@ -59,8 +327,68 @@
       "name": "Luna Snow",
       "role": "Strategist",
       "teamUpAbilities": [
-        { "id": "luna-frozen-harmony", "slot": "A", "name": "Frozen Harmony", "anchorPartner": "Namor", "baseDescription": "Send a piercing ice note that heals allies and damages enemies.", "enhancedDescription": "Namor's tide carries the note farther and creates a healing splash at maximum range." },
-        { "id": "luna-zero-beat", "slot": "B", "name": "Zero Beat", "anchorPartner": "Iron Fist", "baseDescription": "Release a rhythmic frost pulse that slows nearby threats.", "enhancedDescription": "Iron Fist focuses the pulse, adding a brief burst of movement speed for nearby allies." }
+        {
+          "id": "luna-frozen-harmony",
+          "slot": "A",
+          "name": "Frozen Harmony",
+          "anchorPartner": "Namor",
+          "baseDescription": "Send a piercing ice note that heals allies and damages enemies.",
+          "enhancedDescription": "Namor's tide carries the note farther and creates a healing splash at maximum range."
+        },
+        {
+          "id": "luna-zero-beat",
+          "slot": "B",
+          "name": "Zero Beat",
+          "anchorPartner": "Iron Fist",
+          "baseDescription": "Release a rhythmic frost pulse that slows nearby threats.",
+          "enhancedDescription": "Iron Fist focuses the pulse, adding a brief burst of movement speed for nearby allies."
+        }
+      ]
+    },
+    {
+      "id": "magik",
+      "name": "Magik",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "magik-limbo-charge",
+          "slot": "A",
+          "name": "Limbo Charge",
+          "anchorPartner": "Psylocke",
+          "baseDescription": "Gain a brief speed increase after stepping through a Limbo portal.",
+          "enhancedDescription": "Psylocke masks the exit, granting speed and a short window of concealment."
+        },
+        {
+          "id": "magik-soulsword-link",
+          "slot": "B",
+          "name": "Soulsword Link",
+          "anchorPartner": "Doctor Strange",
+          "baseDescription": "Empower the next Soulsword swing with additional reach.",
+          "enhancedDescription": "Doctor Strange adds a mystic echo that repeats part of the swing's damage."
+        }
+      ]
+    },
+    {
+      "id": "magneto",
+      "name": "Magneto",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        {
+          "id": "magneto-metallic-fusion",
+          "slot": "A",
+          "name": "Metallic Fusion",
+          "anchorPartner": "Scarlet Witch",
+          "baseDescription": "Charge the greatsword for a focused magnetic strike.",
+          "enhancedDescription": "Chaos energy widens the strike and leaves a volatile magnetic field behind."
+        },
+        {
+          "id": "magneto-polar-shield",
+          "slot": "B",
+          "name": "Polar Shield",
+          "anchorPartner": "Luna Snow",
+          "baseDescription": "Project a short-lived barrier toward the selected ally.",
+          "enhancedDescription": "Luna stabilizes the barrier, increasing its strength and restoring health when it breaks."
+        }
       ]
     },
     {
@@ -68,8 +396,137 @@
       "name": "Mantis",
       "role": "Strategist",
       "teamUpAbilities": [
-        { "id": "mantis-guardian-spores", "slot": "A", "name": "Guardian Spores", "anchorPartner": "Groot", "baseDescription": "Place restorative spores on an ally for healing over time.", "enhancedDescription": "Groot nurtures the spores, increasing their duration and granting damage resistance." },
-        { "id": "mantis-celestial-focus", "slot": "B", "name": "Celestial Focus", "anchorPartner": "Star-Lord", "baseDescription": "Share a brief damage boost with the targeted ally.", "enhancedDescription": "Star-Lord synchronizes the link, improving the boost and refunding energy on eliminations." }
+        {
+          "id": "mantis-guardian-spores",
+          "slot": "A",
+          "name": "Guardian Spores",
+          "anchorPartner": "Groot",
+          "baseDescription": "Place restorative spores on an ally for healing over time.",
+          "enhancedDescription": "Groot nurtures the spores, increasing their duration and granting damage resistance."
+        },
+        {
+          "id": "mantis-celestial-focus",
+          "slot": "B",
+          "name": "Celestial Focus",
+          "anchorPartner": "Star-Lord",
+          "baseDescription": "Share a brief damage boost with the targeted ally.",
+          "enhancedDescription": "Star-Lord synchronizes the link, improving the boost and refunding energy on eliminations."
+        }
+      ]
+    },
+    {
+      "id": "moon-knight",
+      "name": "Moon Knight",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "moon-knight-tactical-link",
+          "slot": "A",
+          "name": "Moon Tactical Link",
+          "anchorPartner": "Spider-Man",
+          "baseDescription": "Moon Knight activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Spider-Man is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "moon-knight-power-surge",
+          "slot": "B",
+          "name": "Moon Power Surge",
+          "anchorPartner": "Emma Frost",
+          "baseDescription": "Moon Knight channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Emma Frost is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "namor",
+      "name": "Namor",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "namor-tactical-link",
+          "slot": "A",
+          "name": "Namor Tactical Link",
+          "anchorPartner": "Squirrel Girl",
+          "baseDescription": "Namor activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Squirrel Girl is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "namor-power-surge",
+          "slot": "B",
+          "name": "Namor Power Surge",
+          "anchorPartner": "Ultron",
+          "baseDescription": "Namor channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Ultron is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "peni-parker",
+      "name": "Peni Parker",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        {
+          "id": "peni-parker-tactical-link",
+          "slot": "A",
+          "name": "Peni Tactical Link",
+          "anchorPartner": "Star-Lord",
+          "baseDescription": "Peni Parker activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Star-Lord is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "peni-parker-power-surge",
+          "slot": "B",
+          "name": "Peni Power Surge",
+          "anchorPartner": "Phoenix",
+          "baseDescription": "Peni Parker channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Phoenix is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "psylocke",
+      "name": "Psylocke",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "psylocke-tactical-link",
+          "slot": "A",
+          "name": "Psylocke Tactical Link",
+          "anchorPartner": "Storm",
+          "baseDescription": "Psylocke activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Storm is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "psylocke-power-surge",
+          "slot": "B",
+          "name": "Psylocke Power Surge",
+          "anchorPartner": "Blade",
+          "baseDescription": "Psylocke channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Blade is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "punisher",
+      "name": "Punisher",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "punisher-tactical-link",
+          "slot": "A",
+          "name": "Punisher Tactical Link",
+          "anchorPartner": "Thor",
+          "baseDescription": "Punisher activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Thor is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "punisher-power-surge",
+          "slot": "B",
+          "name": "Punisher Power Surge",
+          "anchorPartner": "Angela",
+          "baseDescription": "Punisher channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Angela is present, upgrading the surge with additional impact and improved team utility."
+        }
       ]
     },
     {
@@ -77,8 +534,643 @@
       "name": "Rocket Raccoon",
       "role": "Strategist",
       "teamUpAbilities": [
-        { "id": "rocket-ammo-overload", "slot": "A", "name": "Ammo Overload", "anchorPartner": "Punisher", "baseDescription": "Deploy an ammo device that improves reload speed for nearby allies.", "enhancedDescription": "Punisher calibrates the device, also increasing fire rate during its active window." },
-        { "id": "rocket-jetpack-tether", "slot": "B", "name": "Jetpack Tether", "anchorPartner": "Groot", "baseDescription": "Tether to a nearby ally and gain a short aerial boost.", "enhancedDescription": "Groot reinforces the tether, adding a protective shield while Rocket remains attached." }
+        {
+          "id": "rocket-ammo-overload",
+          "slot": "A",
+          "name": "Ammo Overload",
+          "anchorPartner": "Punisher",
+          "baseDescription": "Deploy an ammo device that improves reload speed for nearby allies.",
+          "enhancedDescription": "Punisher calibrates the device, also increasing fire rate during its active window."
+        },
+        {
+          "id": "rocket-jetpack-tether",
+          "slot": "B",
+          "name": "Jetpack Tether",
+          "anchorPartner": "Groot",
+          "baseDescription": "Tether to a nearby ally and gain a short aerial boost.",
+          "enhancedDescription": "Groot reinforces the tether, adding a protective shield while Rocket remains attached."
+        }
+      ]
+    },
+    {
+      "id": "scarlet-witch",
+      "name": "Scarlet Witch",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "scarlet-witch-tactical-link",
+          "slot": "A",
+          "name": "Scarlet Tactical Link",
+          "anchorPartner": "Winter Soldier",
+          "baseDescription": "Scarlet Witch activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Winter Soldier is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "scarlet-witch-power-surge",
+          "slot": "B",
+          "name": "Scarlet Power Surge",
+          "anchorPartner": "Gambit",
+          "baseDescription": "Scarlet Witch channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Gambit is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "spider-man",
+      "name": "Spider-Man",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "spider-man-web-conductor",
+          "slot": "A",
+          "name": "Web Conductor",
+          "anchorPartner": "Peni Parker",
+          "baseDescription": "Charge a web cluster that briefly binds the first target hit.",
+          "enhancedDescription": "Peni electrifies the web cluster, chaining damage to a nearby enemy on impact."
+        },
+        {
+          "id": "spider-man-amazing-combo",
+          "slot": "B",
+          "name": "Amazing Combo",
+          "anchorPartner": "Squirrel Girl",
+          "baseDescription": "Launch an enemy upward with a close-range web uppercut.",
+          "enhancedDescription": "Squirrel Girl joins the combo, adding a bouncing acorn burst at the target's landing point."
+        }
+      ]
+    },
+    {
+      "id": "squirrel-girl",
+      "name": "Squirrel Girl",
+      "role": "Strategist",
+      "teamUpAbilities": [
+        {
+          "id": "squirrel-girl-tactical-link",
+          "slot": "A",
+          "name": "Squirrel Tactical Link",
+          "anchorPartner": "Mister Fantastic",
+          "baseDescription": "Squirrel Girl activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Mister Fantastic is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "squirrel-girl-power-surge",
+          "slot": "B",
+          "name": "Squirrel Power Surge",
+          "anchorPartner": "Deadpool",
+          "baseDescription": "Squirrel Girl channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Deadpool is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "star-lord",
+      "name": "Star-Lord",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "star-lord-tactical-link",
+          "slot": "A",
+          "name": "Star-Lord Tactical Link",
+          "anchorPartner": "Invisible Woman",
+          "baseDescription": "Star-Lord activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Invisible Woman is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "star-lord-power-surge",
+          "slot": "B",
+          "name": "Star-Lord Power Surge",
+          "anchorPartner": "Elsa Bloodstone",
+          "baseDescription": "Star-Lord channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Elsa Bloodstone is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "storm",
+      "name": "Storm",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "storm-tactical-link",
+          "slot": "A",
+          "name": "Storm Tactical Link",
+          "anchorPartner": "Human Torch",
+          "baseDescription": "Storm activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Human Torch is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "storm-power-surge",
+          "slot": "B",
+          "name": "Storm Power Surge",
+          "anchorPartner": "Black Cat",
+          "baseDescription": "Storm channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Black Cat is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "thor",
+      "name": "Thor",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        {
+          "id": "thor-tactical-link",
+          "slot": "A",
+          "name": "Thor Tactical Link",
+          "anchorPartner": "The Thing",
+          "baseDescription": "Thor activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "The Thing is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "thor-power-surge",
+          "slot": "B",
+          "name": "Thor Power Surge",
+          "anchorPartner": "Devil Dinosaur",
+          "baseDescription": "Thor channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Devil Dinosaur is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "venom",
+      "name": "Venom",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        {
+          "id": "venom-tactical-link",
+          "slot": "A",
+          "name": "Venom Tactical Link",
+          "anchorPartner": "Emma Frost",
+          "baseDescription": "Venom activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Emma Frost is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "venom-power-surge",
+          "slot": "B",
+          "name": "Venom Power Surge",
+          "anchorPartner": "Cyclops",
+          "baseDescription": "Venom channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Cyclops is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "winter-soldier",
+      "name": "Winter Soldier",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "winter-soldier-tactical-link",
+          "slot": "A",
+          "name": "Winter Tactical Link",
+          "anchorPartner": "Ultron",
+          "baseDescription": "Winter Soldier activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Ultron is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "winter-soldier-power-surge",
+          "slot": "B",
+          "name": "Winter Power Surge",
+          "anchorPartner": "Jubilee",
+          "baseDescription": "Winter Soldier channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Jubilee is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "wolverine",
+      "name": "Wolverine",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "wolverine-tactical-link",
+          "slot": "A",
+          "name": "Wolverine Tactical Link",
+          "anchorPartner": "Phoenix",
+          "baseDescription": "Wolverine activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Phoenix is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "wolverine-power-surge",
+          "slot": "B",
+          "name": "Wolverine Power Surge",
+          "anchorPartner": "Adam Warlock",
+          "baseDescription": "Wolverine channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Adam Warlock is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "mister-fantastic",
+      "name": "Mister Fantastic",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "mister-fantastic-tactical-link",
+          "slot": "A",
+          "name": "Mister Tactical Link",
+          "anchorPartner": "Blade",
+          "baseDescription": "Mister Fantastic activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Blade is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "mister-fantastic-power-surge",
+          "slot": "B",
+          "name": "Mister Power Surge",
+          "anchorPartner": "Black Panther",
+          "baseDescription": "Mister Fantastic channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Black Panther is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "invisible-woman",
+      "name": "Invisible Woman",
+      "role": "Strategist",
+      "teamUpAbilities": [
+        {
+          "id": "invisible-woman-tactical-link",
+          "slot": "A",
+          "name": "Invisible Tactical Link",
+          "anchorPartner": "Angela",
+          "baseDescription": "Invisible Woman activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Angela is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "invisible-woman-power-surge",
+          "slot": "B",
+          "name": "Invisible Power Surge",
+          "anchorPartner": "Black Widow",
+          "baseDescription": "Invisible Woman channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Black Widow is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "human-torch",
+      "name": "Human Torch",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "human-torch-tactical-link",
+          "slot": "A",
+          "name": "Human Tactical Link",
+          "anchorPartner": "Daredevil",
+          "baseDescription": "Human Torch activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Daredevil is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "human-torch-power-surge",
+          "slot": "B",
+          "name": "Human Power Surge",
+          "anchorPartner": "Bruce Banner / Hulk",
+          "baseDescription": "Human Torch channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Bruce Banner / Hulk is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "the-thing",
+      "name": "The Thing",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        {
+          "id": "the-thing-tactical-link",
+          "slot": "A",
+          "name": "Thing Tactical Link",
+          "anchorPartner": "Gambit",
+          "baseDescription": "The Thing activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Gambit is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "the-thing-power-surge",
+          "slot": "B",
+          "name": "Thing Power Surge",
+          "anchorPartner": "Captain America",
+          "baseDescription": "The Thing channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Captain America is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "emma-frost",
+      "name": "Emma Frost",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        {
+          "id": "emma-frost-tactical-link",
+          "slot": "A",
+          "name": "Emma Tactical Link",
+          "anchorPartner": "Rogue",
+          "baseDescription": "Emma Frost activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Rogue is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "emma-frost-power-surge",
+          "slot": "B",
+          "name": "Emma Power Surge",
+          "anchorPartner": "Cloak & Dagger",
+          "baseDescription": "Emma Frost channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Cloak & Dagger is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "ultron",
+      "name": "Ultron",
+      "role": "Strategist",
+      "teamUpAbilities": [
+        {
+          "id": "ultron-tactical-link",
+          "slot": "A",
+          "name": "Ultron Tactical Link",
+          "anchorPartner": "Deadpool",
+          "baseDescription": "Ultron activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Deadpool is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "ultron-power-surge",
+          "slot": "B",
+          "name": "Ultron Power Surge",
+          "anchorPartner": "Doctor Strange",
+          "baseDescription": "Ultron channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Doctor Strange is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "phoenix",
+      "name": "Phoenix",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "phoenix-tactical-link",
+          "slot": "A",
+          "name": "Phoenix Tactical Link",
+          "anchorPartner": "Elsa Bloodstone",
+          "baseDescription": "Phoenix activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Elsa Bloodstone is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "phoenix-power-surge",
+          "slot": "B",
+          "name": "Phoenix Power Surge",
+          "anchorPartner": "Groot",
+          "baseDescription": "Phoenix channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Groot is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "blade",
+      "name": "Blade",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "blade-tactical-link",
+          "slot": "A",
+          "name": "Blade Tactical Link",
+          "anchorPartner": "Black Cat",
+          "baseDescription": "Blade activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Black Cat is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "blade-power-surge",
+          "slot": "B",
+          "name": "Blade Power Surge",
+          "anchorPartner": "Hawkeye",
+          "baseDescription": "Blade channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Hawkeye is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "angela",
+      "name": "Angela",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        {
+          "id": "angela-tactical-link",
+          "slot": "A",
+          "name": "Angela Tactical Link",
+          "anchorPartner": "Devil Dinosaur",
+          "baseDescription": "Angela activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Devil Dinosaur is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "angela-power-surge",
+          "slot": "B",
+          "name": "Angela Power Surge",
+          "anchorPartner": "Hela",
+          "baseDescription": "Angela channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Hela is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "daredevil",
+      "name": "Daredevil",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "daredevil-tactical-link",
+          "slot": "A",
+          "name": "Daredevil Tactical Link",
+          "anchorPartner": "Cyclops",
+          "baseDescription": "Daredevil activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Cyclops is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "daredevil-power-surge",
+          "slot": "B",
+          "name": "Daredevil Power Surge",
+          "anchorPartner": "Iron Fist",
+          "baseDescription": "Daredevil channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Iron Fist is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "gambit",
+      "name": "Gambit",
+      "role": "Strategist",
+      "teamUpAbilities": [
+        {
+          "id": "gambit-tactical-link",
+          "slot": "A",
+          "name": "Gambit Tactical Link",
+          "anchorPartner": "Jubilee",
+          "baseDescription": "Gambit activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Jubilee is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "gambit-power-surge",
+          "slot": "B",
+          "name": "Gambit Power Surge",
+          "anchorPartner": "Iron Man",
+          "baseDescription": "Gambit channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Iron Man is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "rogue",
+      "name": "Rogue",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        {
+          "id": "rogue-tactical-link",
+          "slot": "A",
+          "name": "Rogue Tactical Link",
+          "anchorPartner": "Adam Warlock",
+          "baseDescription": "Rogue activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Adam Warlock is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "rogue-power-surge",
+          "slot": "B",
+          "name": "Rogue Power Surge",
+          "anchorPartner": "Jeff the Land Shark",
+          "baseDescription": "Rogue channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Jeff the Land Shark is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "deadpool",
+      "name": "Deadpool",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "deadpool-tactical-link",
+          "slot": "A",
+          "name": "Deadpool Tactical Link",
+          "anchorPartner": "Black Panther",
+          "baseDescription": "Deadpool activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Black Panther is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "deadpool-power-surge",
+          "slot": "B",
+          "name": "Deadpool Power Surge",
+          "anchorPartner": "Loki",
+          "baseDescription": "Deadpool channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Loki is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "elsa-bloodstone",
+      "name": "Elsa Bloodstone",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "elsa-bloodstone-tactical-link",
+          "slot": "A",
+          "name": "Elsa Tactical Link",
+          "anchorPartner": "Black Widow",
+          "baseDescription": "Elsa Bloodstone activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Black Widow is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "elsa-bloodstone-power-surge",
+          "slot": "B",
+          "name": "Elsa Power Surge",
+          "anchorPartner": "Luna Snow",
+          "baseDescription": "Elsa Bloodstone channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Luna Snow is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "black-cat",
+      "name": "Black Cat",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "black-cat-tactical-link",
+          "slot": "A",
+          "name": "Black Tactical Link",
+          "anchorPartner": "Bruce Banner / Hulk",
+          "baseDescription": "Black Cat activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Bruce Banner / Hulk is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "black-cat-power-surge",
+          "slot": "B",
+          "name": "Black Power Surge",
+          "anchorPartner": "Magik",
+          "baseDescription": "Black Cat channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Magik is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "devil-dinosaur",
+      "name": "Devil Dinosaur",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        {
+          "id": "devil-dinosaur-tactical-link",
+          "slot": "A",
+          "name": "Devil Tactical Link",
+          "anchorPartner": "Captain America",
+          "baseDescription": "Devil Dinosaur activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Captain America is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "devil-dinosaur-power-surge",
+          "slot": "B",
+          "name": "Devil Power Surge",
+          "anchorPartner": "Magneto",
+          "baseDescription": "Devil Dinosaur channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Magneto is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "cyclops",
+      "name": "Cyclops",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "cyclops-tactical-link",
+          "slot": "A",
+          "name": "Cyclops Tactical Link",
+          "anchorPartner": "Cloak & Dagger",
+          "baseDescription": "Cyclops activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Cloak & Dagger is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "cyclops-power-surge",
+          "slot": "B",
+          "name": "Cyclops Power Surge",
+          "anchorPartner": "Mantis",
+          "baseDescription": "Cyclops channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Mantis is present, upgrading the surge with additional impact and improved team utility."
+        }
+      ]
+    },
+    {
+      "id": "jubilee",
+      "name": "Jubilee",
+      "role": "Strategist",
+      "teamUpAbilities": [
+        {
+          "id": "jubilee-tactical-link",
+          "slot": "A",
+          "name": "Jubilee Tactical Link",
+          "anchorPartner": "Doctor Strange",
+          "baseDescription": "Jubilee activates a coordinated Team-Up technique that improves pressure and positioning.",
+          "enhancedDescription": "Doctor Strange is present, amplifying the technique with a stronger effect and a longer tactical window."
+        },
+        {
+          "id": "jubilee-power-surge",
+          "slot": "B",
+          "name": "Jubilee Power Surge",
+          "anchorPartner": "Moon Knight",
+          "baseDescription": "Jubilee channels a second Team-Up option focused on control, recovery, or burst impact.",
+          "enhancedDescription": "Moon Knight is present, upgrading the surge with additional impact and improved team utility."
+        }
       ]
     }
   ]

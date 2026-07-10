@@ -54,7 +54,11 @@ export default function Home() {
   }, [query]);
 
   function seededCount(heroId: string, slot: TeamUpSlot, filter: RankFilter) {
-    const values = seededRankVotes[heroId]?.[slot] ?? [];
+    const configuredValues = seededRankVotes[heroId]?.[slot];
+    const heroSeed = [...heroId].reduce((sum, character) => sum + character.charCodeAt(0), 0);
+    const values = configuredValues ?? RANKS.map((_, rankIndex) =>
+      8 + ((heroSeed + rankIndex * 7 + (slot === "A" ? 11 : 23)) % 24),
+    );
     if (filter === "All Ranks") return values.reduce((sum, value) => sum + value, 0);
     return values[RANKS.indexOf(filter)] ?? 0;
   }
@@ -219,7 +223,7 @@ export default function Home() {
                           const otherCount = counts[abilityIndex === 0 ? 1 : 0];
                           const percentage = heroTotal ? Math.round((count / heroTotal) * 100) : 50;
                           return (
-                            <article className={`compact-ability ${enhanced ? "is-enhanced" : ""}`} key={ability.id}>
+                            <article className={`compact-ability ${count > otherCount ? "is-community-choice" : ""} ${enhanced ? "is-enhanced" : ""}`} key={ability.id}>
                               {count > otherCount && <span className="community-choice">◎ COMMUNITY CHOICE</span>}
                               <div className="compact-topline"><span className="ability-glyph">{ability.slot}</span><span className="ability-name">{ability.name}</span><strong className="vote-percent">{percentage}%</strong></div>
                               <span className="anchor-chip">ANCHOR · {ability.anchorPartner}</span>

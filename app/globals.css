@@ -172,7 +172,13 @@ button { border-radius: 0; }
 .compact-ability:hover { border-color: var(--role); background: #1b2738; transform: translateY(-1px); }
 .compact-ability.is-voted { border-color: var(--role); box-shadow: 0 0 0 1px rgba(var(--role-rgb),.22), 0 0 18px rgba(var(--role-rgb),.14); }
 .compact-ability.is-enhanced { border-color: var(--lime); box-shadow: 0 0 0 1px rgba(184,243,74,.2), 0 0 20px rgba(184,243,74,.18), inset 0 0 28px rgba(154,117,255,.08); }
-.community-choice { align-self: center; margin: -4px 0 12px; padding: 4px 9px; border: 1px solid var(--role); border-radius: 20px; color: var(--role); background: rgba(var(--role-rgb),.08); font: 700 7px var(--font-geist-mono); letter-spacing: .06em; }
+.compact-ability.is-community-choice { border-width: 2px; border-color: var(--role); background: linear-gradient(135deg, rgba(var(--role-rgb),.17), transparent 46%), #1a2535; box-shadow: 0 0 0 1px rgba(var(--role-rgb),.24), 0 0 24px rgba(var(--role-rgb),.22), inset 0 0 34px rgba(var(--role-rgb),.07); }
+.compact-ability.is-community-choice::before { content: "WINNING PICK"; position: absolute; top: 0; right: 0; padding: 5px 8px; color: #071018; background: var(--role); font: 850 6px var(--font-geist-mono); letter-spacing: .13em; }
+.community-choice { align-self: center; margin: -5px 0 14px; padding: 7px 14px; border: 1px solid var(--role); border-radius: 20px; color: #071018; background: var(--role); box-shadow: 0 0 16px rgba(var(--role-rgb),.34); font: 850 8px var(--font-geist-mono); letter-spacing: .09em; }
+.is-community-choice .vote-percent { font-size: 22px; text-shadow: 0 0 12px rgba(var(--role-rgb),.6); }
+.is-community-choice .vote-button { border-color: var(--role); color: var(--role); background: rgba(var(--role-rgb),.1); }
+.is-community-choice.is-enhanced { border-color: var(--lime); box-shadow: 0 0 0 1px rgba(184,243,74,.25), 0 0 28px rgba(184,243,74,.24), inset 0 0 34px rgba(154,117,255,.1); }
+.is-community-choice.is-enhanced::before, .is-community-choice.is-enhanced .community-choice { color: #0b1207; background: var(--lime); border-color: var(--lime); }
 .compact-topline { display: grid; grid-template-columns: 32px 1fr auto; align-items: center; gap: 10px; }
 .ability-glyph { width: 32px; height: 32px; display: grid; place-items: center; border: 1px solid rgba(var(--role-rgb),.5); color: var(--role); background: #0d131d; font: 800 11px var(--font-geist-mono); }
 .ability-name { overflow: hidden; color: #d7deea; font-size: 12px; font-weight: 750; text-overflow: ellipsis; white-space: nowrap; }
