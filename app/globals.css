@@ -304,6 +304,21 @@ footer { max-width: 1280px; margin: 0 auto; padding: 27px 24px 42px; display: fl
 .trend-legend span { display: flex; align-items: center; gap: 6px; }
 .trend-legend i { width: 10px; height: 10px; background: var(--detail-role); }
 .trend-legend span:nth-child(2) i { background: #9a75ff; }
+.role-discovery { margin-top: 76px; padding: 25px; border: 1px solid var(--detail-role); background: linear-gradient(110deg, rgba(var(--detail-role-rgb),.08), transparent 42%), #101824; }
+.role-discovery-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.role-discovery-heading span { color: var(--detail-role); font: 700 7px var(--font-geist-mono); letter-spacing: .14em; }
+.role-discovery-heading h2 { margin: 6px 0 0; color: var(--detail-role); font-size: 24px; }
+.role-discovery-heading > img { width: 38px; height: 38px; object-fit: contain; }
+.role-discovery > p { margin: 9px 0 20px; color: #909caf; font-size: 12px; }
+.role-peer-list { padding-bottom: 18px; display: flex; gap: 13px; overflow-x: auto; scrollbar-color: var(--detail-role) #202b3c; }
+.role-peer-list a { width: 78px; flex: 0 0 78px; color: #aab5c4; text-decoration: none; text-align: center; }
+.role-peer-list a:hover, .role-peer-list a:focus-visible { color: var(--detail-role); }
+.role-peer-list a:focus-visible { outline: 2px solid var(--detail-role); outline-offset: 3px; }
+.role-peer-list img { width: 62px; height: 62px; border: 2px solid #53627a; border-radius: 50%; object-fit: cover; background: #192435; transition: border-color .16s ease, transform .16s ease; }
+.role-peer-list a:hover img { border-color: var(--detail-role); transform: translateY(-2px); }
+.role-peer-list span { margin-top: 7px; display: block; overflow: hidden; font-size: 8px; font-weight: 700; line-height: 1.2; text-overflow: ellipsis; }
+.role-discovery-all { padding-top: 18px; display: flex; align-items: center; gap: 8px; border-top: 1px solid #354258; color: var(--detail-role); text-decoration: none; font: 750 9px var(--font-geist-mono); letter-spacing: .08em; }
+.role-discovery-all b { font-size: 19px; line-height: 1; }
 
 @media (max-width: 800px) {
   .detail-hero { min-height: auto; grid-template-columns: 1fr; }
@@ -314,6 +329,8 @@ footer { max-width: 1280px; margin: 0 auto; padding: 27px 24px 42px; display: fl
   .detail-teamups { grid-template-columns: 1fr; }
   .rank-breakdown > article { grid-template-columns: 1fr; gap: 12px; }
   .trend-grid { overflow-x: auto; grid-template-columns: repeat(9, 82px); }
+  .role-discovery { margin-top: 48px; padding: 18px; }
+  .role-discovery-heading h2 { font-size: 19px; }
   .detail-section-heading { align-items: start; flex-direction: column; }
   .detail-section-heading p { margin-top: -10px; }
 }

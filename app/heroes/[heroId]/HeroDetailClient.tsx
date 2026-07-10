@@ -65,6 +65,8 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
   const leaderIndex = totals[1] > totals[0] ? 1 : 0;
   const leader = hero.teamUpAbilities[leaderIndex];
   const leaderPercent = totalVotes ? Math.round((totals[leaderIndex] / totalVotes) * 100) : 50;
+  const rolePeers = heroData.heroes.filter((candidate) => candidate.role === hero.role && candidate.id !== hero.id);
+  const roleAnchor = `${hero.role.toLowerCase()}s`;
 
   return (
     <main className={`detail-shell detail-${hero.role.toLowerCase()}`}>
@@ -118,6 +120,21 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
           {rows.map((row) => <div key={row.rank}><img src={rankImages[row.rank]} alt="" /><span className="trend-stack"><i style={{ height: `${row.percentages[0]}%` }} /><b style={{ height: `${row.percentages[1]}%` }} /></span><strong>{row.percentages[leaderIndex]}%</strong><small>{row.rank}</small></div>)}
         </div>
         <div className="trend-legend"><span><i />{hero.teamUpAbilities[0].anchorPartner}</span><span><i />{hero.teamUpAbilities[1].anchorPartner}</span></div>
+
+        <aside className="role-discovery" aria-labelledby="role-discovery-title">
+          <div className="role-discovery-heading">
+            <div><span>EXPLORE THE ROSTER</span><h2 id="role-discovery-title">Discover other {hero.role} heroes</h2></div>
+            <img src={`/roles/${hero.role.toLowerCase()}.webp`} alt="" />
+          </div>
+          <p>Compare Team-Up preferences and ranked community trends for other heroes in the {hero.role} role.</p>
+          <div className="role-peer-list">
+            {rolePeers.map((peer) => <a href={`/heroes/${peer.id}`} key={peer.id} aria-label={`View ${peer.name} details`}>
+              <img src={`/heroes/${peer.id}.webp`} alt="" />
+              <span>{peer.name}</span>
+            </a>)}
+          </div>
+          <a className="role-discovery-all" href={`/#${roleAnchor}`}>VIEW ALL {hero.role.toUpperCase()} HEROES <b>›</b></a>
+        </aside>
       </section>
     </main>
   );
