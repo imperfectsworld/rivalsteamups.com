@@ -71,7 +71,7 @@
     },
     {
       "id": "hulk",
-      "name": "Bruce Banner / Hulk",
+      "name": "Hulk",
       "role": "Vanguard",
       "teamUpAbilities": [
         {
@@ -822,9 +822,9 @@
           "id": "human-torch-power-surge",
           "slot": "B",
           "name": "Human Power Surge",
-          "anchorPartner": "Bruce Banner / Hulk",
+          "anchorPartner": "Hulk",
           "baseDescription": "Human Torch channels a second Team-Up option focused on control, recovery, or burst impact.",
-          "enhancedDescription": "Bruce Banner / Hulk is present, upgrading the surge with additional impact and improved team utility."
+          "enhancedDescription": "Hulk is present, upgrading the surge with additional impact and improved team utility."
         }
       ]
     },
@@ -1090,9 +1090,9 @@
           "id": "black-cat-tactical-link",
           "slot": "A",
           "name": "Black Tactical Link",
-          "anchorPartner": "Bruce Banner / Hulk",
+          "anchorPartner": "Hulk",
           "baseDescription": "Black Cat activates a coordinated Team-Up technique that improves pressure and positioning.",
-          "enhancedDescription": "Bruce Banner / Hulk is present, amplifying the technique with a stronger effect and a longer tactical window."
+          "enhancedDescription": "Hulk is present, amplifying the technique with a stronger effect and a longer tactical window."
         },
         {
           "id": "black-cat-power-surge",

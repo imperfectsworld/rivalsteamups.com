@@ -112,10 +112,14 @@ button { border-radius: 0; }
 .rank-filter-heading { display: flex; justify-content: space-between; align-items: end; }
 .rank-filter-heading strong { color: var(--lime); font: 700 10px var(--font-geist-mono); letter-spacing: .12em; text-transform: uppercase; }
 .rank-scale { display: grid; grid-template-columns: repeat(10, minmax(80px, 1fr)); overflow-x: auto; border: 1px solid #354258; background: #0d131d; }
-.rank-scale button { min-height: 68px; padding: 9px 7px; display: flex; flex-direction: column; justify-content: center; gap: 7px; border: 0; border-right: 1px solid #354258; color: #7f8b9e; background: transparent; cursor: pointer; }
+.rank-scale button { min-height: 108px; padding: 8px 7px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; border: 0; border-right: 1px solid #354258; color: #7f8b9e; background: transparent; cursor: pointer; }
 .rank-scale button:last-child { border-right: 0; }
 .rank-scale button:hover { color: #c6ceda; background: #172130; }
 .rank-scale button.is-active { color: #09110a; background: var(--lime); box-shadow: 0 0 20px rgba(184,243,74,.2); }
+.rank-scale img { width: 52px; height: 52px; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,.35)); }
+.rank-scale button.is-active img { transform: scale(1.08); filter: drop-shadow(0 5px 10px rgba(0,0,0,.32)); }
+.all-ranks-mark { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid #506078; color: #aeb9c9; background: #172130; font: 850 9px var(--font-geist-mono); }
+.rank-scale button.is-active .all-ranks-mark { border-color: #111a0b; color: #0b1207; background: rgba(255,255,255,.2); }
 .rank-scale i { font: 650 7px var(--font-geist-mono); font-style: normal; opacity: .7; }
 .rank-scale span { font-size: 8px; font-weight: 750; text-transform: uppercase; white-space: nowrap; }
 
@@ -173,12 +177,11 @@ button { border-radius: 0; }
 .compact-ability.is-voted { border-color: var(--role); box-shadow: 0 0 0 1px rgba(var(--role-rgb),.22), 0 0 18px rgba(var(--role-rgb),.14); }
 .compact-ability.is-enhanced { border-color: var(--lime); box-shadow: 0 0 0 1px rgba(184,243,74,.2), 0 0 20px rgba(184,243,74,.18), inset 0 0 28px rgba(154,117,255,.08); }
 .compact-ability.is-community-choice { border-width: 2px; border-color: var(--role); background: linear-gradient(135deg, rgba(var(--role-rgb),.17), transparent 46%), #1a2535; box-shadow: 0 0 0 1px rgba(var(--role-rgb),.24), 0 0 24px rgba(var(--role-rgb),.22), inset 0 0 34px rgba(var(--role-rgb),.07); }
-.compact-ability.is-community-choice::before { content: "WINNING PICK"; position: absolute; top: 0; right: 0; padding: 5px 8px; color: #071018; background: var(--role); font: 850 6px var(--font-geist-mono); letter-spacing: .13em; }
 .community-choice { align-self: center; margin: -5px 0 14px; padding: 7px 14px; border: 1px solid var(--role); border-radius: 20px; color: #071018; background: var(--role); box-shadow: 0 0 16px rgba(var(--role-rgb),.34); font: 850 8px var(--font-geist-mono); letter-spacing: .09em; }
 .is-community-choice .vote-percent { font-size: 22px; text-shadow: 0 0 12px rgba(var(--role-rgb),.6); }
 .is-community-choice .vote-button { border-color: var(--role); color: var(--role); background: rgba(var(--role-rgb),.1); }
 .is-community-choice.is-enhanced { border-color: var(--lime); box-shadow: 0 0 0 1px rgba(184,243,74,.25), 0 0 28px rgba(184,243,74,.24), inset 0 0 34px rgba(154,117,255,.1); }
-.is-community-choice.is-enhanced::before, .is-community-choice.is-enhanced .community-choice { color: #0b1207; background: var(--lime); border-color: var(--lime); }
+.is-community-choice.is-enhanced .community-choice { color: #0b1207; background: var(--lime); border-color: var(--lime); }
 .compact-topline { display: grid; grid-template-columns: 32px 1fr auto; align-items: center; gap: 10px; }
 .ability-glyph { width: 32px; height: 32px; display: grid; place-items: center; border: 1px solid rgba(var(--role-rgb),.5); color: var(--role); background: #0d131d; font: 800 11px var(--font-geist-mono); }
 .ability-name { overflow: hidden; color: #d7deea; font-size: 12px; font-weight: 750; text-overflow: ellipsis; white-space: nowrap; }
@@ -210,9 +213,10 @@ footer a:hover { color: var(--cyan); }
 .vote-summary strong { font-size: 13px; text-transform: uppercase; }
 .vote-summary small { color: var(--cyan); font: 700 8px var(--font-geist-mono); }
 .modal-ranks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
-.modal-ranks button { min-height: 54px; padding: 9px; display: flex; align-items: center; gap: 9px; border: 1px solid #36445a; color: #8d9bad; background: #121b28; cursor: pointer; text-align: left; }
+.modal-ranks button { min-height: 76px; padding: 8px; display: grid; grid-template-columns: 46px 18px 1fr; align-items: center; gap: 7px; border: 1px solid #36445a; color: #8d9bad; background: #121b28; cursor: pointer; text-align: left; }
 .modal-ranks button:hover { border-color: var(--cyan); color: #d1d9e4; }
 .modal-ranks button.is-active { border-color: var(--lime); color: var(--lime); background: rgba(184,243,74,.07); box-shadow: inset 0 0 18px rgba(184,243,74,.05); }
+.modal-ranks img { width: 46px; height: 46px; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,.4)); }
 .modal-ranks i { color: #5e6b7e; font: 650 7px var(--font-geist-mono); font-style: normal; }
 .modal-ranks span { font-size: 9px; font-weight: 700; text-transform: uppercase; }
 .vote-status { margin: 13px 0 0; color: var(--lime); font-size: 10px; }

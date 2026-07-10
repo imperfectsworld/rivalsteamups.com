@@ -12,6 +12,18 @@ const rankFilters = ["All Ranks", ...RANKS] as const;
 type RankFilter = (typeof rankFilters)[number];
 type LiveVotes = Record<string, Record<string, number>>;
 
+const rankImages: Record<PlayerRank, string> = {
+  Bronze: "/ranks/bronze.webp",
+  Silver: "/ranks/silver.webp",
+  Gold: "/ranks/gold.webp",
+  Platinum: "/ranks/platinum.webp",
+  Diamond: "/ranks/diamond.webp",
+  Grandmaster: "/ranks/grandmaster.webp",
+  Celestial: "/ranks/celestial.webp",
+  Eternity: "/ranks/eternity.webp",
+  "One Above All": "/ranks/one-above-all.webp",
+};
+
 const roleMeta: Record<HeroRole, { code: string; label: string; anchor: string }> = {
   Vanguard: { code: "V", label: "Front line", anchor: "vanguards" },
   Duelist: { code: "D", label: "Damage", anchor: "duelists" },
@@ -184,7 +196,8 @@ export default function Home() {
           <div className="rank-scale" role="group" aria-label="Community rank filter">
             {rankFilters.map((rank, index) => (
               <button className={selectedRank === rank ? "is-active" : ""} type="button" onClick={() => setSelectedRank(rank)} key={rank}>
-                <i>{index === 0 ? "ALL" : String(index).padStart(2, "0")}</i><span>{rank}</span>
+                {rank === "All Ranks" ? <b className="all-ranks-mark">ALL</b> : <img src={rankImages[rank]} alt="" />}
+                <i>{index === 0 ? "00" : String(index).padStart(2, "0")}</i><span>{rank}</span>
               </button>
             ))}
           </div>
@@ -253,7 +266,7 @@ export default function Home() {
             <p>Your rank lets the community compare which Team-Ups different skill tiers prefer.</p>
             <div className="vote-summary"><span>{pendingVote.hero.name}</span><strong>{pendingVote.ability.name}</strong><small>SLOT {pendingVote.ability.slot}</small></div>
             <div className="modal-ranks">
-              {RANKS.map((rank, index) => <button className={voteRank === rank ? "is-active" : ""} type="button" onClick={() => { setVoteRank(rank); setVoteStatus(""); }} key={rank}><i>{String(index + 1).padStart(2, "0")}</i><span>{rank}</span></button>)}
+              {RANKS.map((rank, index) => <button className={voteRank === rank ? "is-active" : ""} type="button" onClick={() => { setVoteRank(rank); setVoteStatus(""); }} key={rank}><img src={rankImages[rank]} alt="" /><i>{String(index + 1).padStart(2, "0")}</i><span>{rank}</span></button>)}
             </div>
             {voteStatus && <p className="vote-status" aria-live="polite">{voteStatus}</p>}
             <button className="submit-vote" type="button" onClick={() => void submitVote()} disabled={!voteRank}>RECORD MY VOTE <b>→</b></button>
