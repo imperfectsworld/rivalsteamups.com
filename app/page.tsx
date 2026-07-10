@@ -11,6 +11,12 @@ const roles: HeroRole[] = ["Vanguard", "Duelist", "Strategist"];
 const rankFilters = ["All Ranks", ...RANKS] as const;
 type RankFilter = (typeof rankFilters)[number];
 type LiveVotes = Record<string, Record<string, number>>;
+const resultEras = [
+  { id: "s9-launch", season: "Season 09", patch: "S9 Launch", label: "S9 · Launch" },
+  { id: "s8-final", season: "Season 08", patch: "Final Balance", label: "S8 · Final" },
+] as const;
+type ResultEra = (typeof resultEras)[number];
+type ResultWindow = "all" | "recent";
 
 const rankImages: Record<PlayerRank, string> = {
   Bronze: "/ranks/bronze.webp",
@@ -61,10 +67,14 @@ export default function Home() {
   const [pendingVote, setPendingVote] = useState<PendingVote | null>(null);
   const [voteRank, setVoteRank] = useState<PlayerRank | "">("");
   const [voteStatus, setVoteStatus] = useState("");
+  const [selectedEra, setSelectedEra] = useState<ResultEra>(resultEras[0]);
+  const [resultWindow, setResultWindow] = useState<ResultWindow>("all");
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   const loadVotes = useCallback(async () => {
     try {
-      const response = await fetch("/api/votes", { cache: "no-store" });
+      const params = new URLSearchParams({ season: selectedEra.season, patch: selectedEra.patch, window: resultWindow });
+      const response = await fetch(`/api/votes?${params}`, { cache: "no-store" });
       if (!response.ok) return;
       const data = (await response.json()) as { votes: Array<{ abilityId: string; rank: string; total: number }> };
       const grouped: LiveVotes = {};
@@ -76,9 +86,20 @@ export default function Home() {
     } catch {
       // The seeded rank matrix remains available during local previews without D1.
     }
-  }, []);
+  }, [selectedEra, resultWindow]);
 
   useEffect(() => { void loadVotes(); }, [loadVotes]);
+
+  useEffect(() => {
+    let previousY = window.scrollY;
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      setShowMobileSearch(currentY > 320 && currentY < previousY - 2);
+      previousY = currentY;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const suggestions = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -101,7 +122,8 @@ export default function Home() {
   }
 
   function abilityCount(hero: Hero, ability: TeamUpAbility) {
-    return seededCount(hero.id, ability.slot, selectedRank) + liveCount(ability.id, selectedRank);
+    const seed = selectedEra.id === "s9-launch" && resultWindow === "all" ? seededCount(hero.id, ability.slot, selectedRank) : 0;
+    return seed + liveCount(ability.id, selectedRank);
   }
 
   function chooseSuggestion(hero: Hero) {
@@ -158,17 +180,29 @@ export default function Home() {
     <main className="app-shell" id="top">
       <header className="topbar">
         <a className="brand" href="#top" aria-label="Rivals Team-Ups home">
-          <span className="brand-mark">R</span>
+          <span className="brand-mark"><img src="/rivals-icon.ico" alt="" /></span>
           <span><strong>RIVALS</strong><small>TEAM-UP MATRIX</small></span>
         </a>
         <nav className="role-nav" aria-label="Hero roles">
           <a href="#vanguards">Vanguards</a><a href="#duelists">Duelists</a><a href="#strategists">Strategists</a>
         </nav>
         <div className="header-stats" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label={`${selectedRank}, ${visibleVoteTotal} visible votes`}>
-          {selectedRank === "All Ranks" ? <b className="header-all-ranks">ALL</b> : <img src={rankImages[selectedRank]} alt="" />}
+          <img src={selectedRank === "All Ranks" ? "/rivals-icon.ico" : rankImages[selectedRank]} alt="" />
           <div><span>{selectedRank.toUpperCase()}</span><strong>{visibleVoteTotal.toLocaleString()}</strong></div>
         </div>
       </header>
+
+      <div className={`mobile-search-dock ${showMobileSearch ? "is-visible" : ""}`}>
+        <img src="/rivals-icon.ico" alt="" />
+        <input
+          type="search"
+          value={query}
+          placeholder="Search a hero…"
+          aria-label="Search for a hero"
+          onChange={(event) => setQuery(event.target.value)}
+          onKeyDown={(event) => { if (event.key === "Enter" && suggestions[0]) chooseSuggestion(suggestions[0]); }}
+        />
+      </div>
 
       <section className="hero-intro hero-intro-simple">
         <div>
@@ -177,13 +211,17 @@ export default function Home() {
           <p className="intro-copy">Search a hero, filter the community by competitive rank, and vote for the Team-Up you trust in your own matches.</p>
         </div>
         <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
-          <span>LIVE RANK INSIGHT</span>
-          <strong>{selectedRank}</strong>
-          <p>Every percentage below is currently calculated from {selectedRank === "All Ranks" ? "the full ranked community" : `${selectedRank} players`}.</p>
+          <img className="rank-insight-icon" src={selectedRank === "All Ranks" ? "/rivals-icon.ico" : rankImages[selectedRank]} alt="" />
+          <div><span>LIVE RANK INSIGHT</span><strong>{selectedRank}</strong></div>
+          <p>Showing {resultWindow === "recent" ? "the last 30 days" : "all-time results"} for {selectedEra.label}, from {selectedRank === "All Ranks" ? "the full ranked community" : `${selectedRank} players`}.</p>
         </div>
       </section>
 
       <section className="control-deck" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label="Directory controls">
+        <div className="history-controls">
+          <div><span>PATCH &amp; SEASON HISTORY</span>{resultEras.map((era) => <button className={selectedEra.id === era.id ? "is-active" : ""} type="button" onClick={() => setSelectedEra(era)} key={era.id}>{era.label}</button>)}</div>
+          <div><span>RESULT WINDOW</span><button className={resultWindow === "all" ? "is-active" : ""} type="button" onClick={() => setResultWindow("all")}>ALL-TIME</button><button className={resultWindow === "recent" ? "is-active" : ""} type="button" onClick={() => setResultWindow("recent")}>LAST 30 DAYS</button></div>
+        </div>
         <div className="hero-search">
           <label htmlFor="hero-search">SEARCH HERO</label>
           <div className="search-input-wrap">
@@ -217,7 +255,7 @@ export default function Home() {
           <div className="rank-scale" role="group" aria-label="Community rank filter">
             {rankFilters.map((rank, index) => (
               <button className={selectedRank === rank ? "is-active" : ""} type="button" onClick={() => setSelectedRank(rank)} key={rank}>
-                {rank === "All Ranks" ? <b className="all-ranks-mark">ALL</b> : <img src={rankImages[rank]} alt="" />}
+                {rank === "All Ranks" ? <img className="all-ranks-icon" src="/rivals-icon.ico" alt="Marvel Rivals" /> : <img src={rankImages[rank]} alt="" />}
                 <i>{index === 0 ? "00" : String(index).padStart(2, "0")}</i><span>{rank}</span>
               </button>
             ))}

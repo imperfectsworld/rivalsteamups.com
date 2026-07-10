@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://rivalsteamups.com"),
   title: "Rivals Team-Ups | Season 9 Ability Matrix",
   description: "Build and compare Marvel Rivals Team-Up ability drafts by hero, role, and anchor partner context.",
-  icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
+  icons: { icon: "/rivals-icon.ico", shortcut: "/rivals-icon.ico", apple: "/rivals-icon.ico" },
   openGraph: {
     title: "Rivals Team-Ups | Season 9 Ability Matrix",
     description: "Scout the roster, lock two abilities, and preview enhanced anchor-partner effects.",

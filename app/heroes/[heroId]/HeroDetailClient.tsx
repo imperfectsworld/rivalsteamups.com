@@ -69,7 +69,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
   return (
     <main className={`detail-shell detail-${hero.role.toLowerCase()}`}>
       <header className="detail-topbar">
-        <a href="/" className="detail-brand"><span>R</span><strong>RIVALS TEAM-UP MATRIX</strong></a>
+        <a href="/" className="detail-brand"><span><img src="/rivals-icon.ico" alt="" /></span><strong>RIVALS TEAM-UP MATRIX</strong></a>
         <a href={`/#hero-${hero.id}`} className="detail-back">← BACK TO DIRECTORY</a>
       </header>
 

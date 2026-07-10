@@ -1,4 +1,4 @@
-import { count, eq } from "drizzle-orm";
+import { and, count, eq, gte } from "drizzle-orm";
 import { getDb } from "@/db";
 import { teamUpVotes } from "@/db/schema";
 import { RANKS, type PlayerRank } from "@/src/types";
@@ -10,14 +10,25 @@ type VotePayload = {
   rank?: PlayerRank;
 };
 
-export async function GET() {
+const CURRENT_SEASON = "Season 09";
+const CURRENT_PATCH = "S9 Launch";
+
+export async function GET(request: Request) {
   try {
+    const url = new URL(request.url);
+    const season = url.searchParams.get("season") || CURRENT_SEASON;
+    const patch = url.searchParams.get("patch") || CURRENT_PATCH;
+    const window = url.searchParams.get("window") || "all";
+    const filters = [eq(teamUpVotes.season, season), eq(teamUpVotes.patch, patch)];
+    if (window === "recent") filters.push(gte(teamUpVotes.updatedAt, new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)));
+
     const rows = await getDb()
       .select({ abilityId: teamUpVotes.abilityId, rank: teamUpVotes.rank, total: count() })
       .from(teamUpVotes)
+      .where(and(...filters))
       .groupBy(teamUpVotes.abilityId, teamUpVotes.rank);
 
-    return Response.json({ votes: rows });
+    return Response.json({ votes: rows, season, patch, window });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to load votes";
     return Response.json({ error: message, votes: [] }, { status: 500 });
@@ -38,16 +49,16 @@ export async function POST(request: Request) {
 
     await getDb()
       .insert(teamUpVotes)
-      .values({ voterId, heroId, abilityId, rank })
+      .values({ voterId, heroId, abilityId, rank, season: CURRENT_SEASON, patch: CURRENT_PATCH })
       .onConflictDoUpdate({
-        target: [teamUpVotes.voterId, teamUpVotes.heroId, teamUpVotes.rank],
+        target: [teamUpVotes.voterId, teamUpVotes.heroId, teamUpVotes.rank, teamUpVotes.season, teamUpVotes.patch],
         set: { abilityId, updatedAt: new Date() },
       });
 
     const [{ total }] = await getDb()
       .select({ total: count() })
       .from(teamUpVotes)
-      .where(eq(teamUpVotes.abilityId, abilityId));
+      .where(and(eq(teamUpVotes.abilityId, abilityId), eq(teamUpVotes.season, CURRENT_SEASON), eq(teamUpVotes.patch, CURRENT_PATCH)));
 
     return Response.json({ ok: true, total });
   } catch (error) {
