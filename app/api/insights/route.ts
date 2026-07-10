@@ -1,4 +1,5 @@
 import { and, desc, eq, gte, inArray } from "drizzle-orm";
+import { env } from "cloudflare:workers";
 import { getDb } from "@/db";
 import { heroInsights, insightReactions } from "@/db/schema";
 import heroesJson from "@/src/data/heroes.json";
@@ -7,6 +8,20 @@ import { RANKS, type HeroesData, type PlayerRank } from "@/src/types";
 const heroData = heroesJson as HeroesData;
 const CURRENT_PATCH = "S9 Launch";
 const blockedTerms = ["fuck", "shit", "bitch", "cunt", "nigger", "faggot", "retard", "kys"];
+let schemaReady: Promise<unknown> | null = null;
+
+function ensureInsightSchema() {
+  if (!schemaReady) {
+    schemaReady = env.DB.batch([
+      env.DB.prepare("CREATE TABLE IF NOT EXISTS hero_insights (id integer PRIMARY KEY AUTOINCREMENT NOT NULL, hero_id text NOT NULL, voter_id text NOT NULL, display_name text DEFAULT 'Anonymous' NOT NULL, rank text, patch text DEFAULT 'S9 Launch' NOT NULL, body text NOT NULL, created_at integer NOT NULL)"),
+      env.DB.prepare("CREATE INDEX IF NOT EXISTS hero_insights_hero_time_idx ON hero_insights (hero_id, created_at)"),
+      env.DB.prepare("CREATE TABLE IF NOT EXISTS insight_reactions (id integer PRIMARY KEY AUTOINCREMENT NOT NULL, insight_id integer NOT NULL, voter_id text NOT NULL, value integer DEFAULT 0 NOT NULL, flagged integer DEFAULT 0 NOT NULL, created_at integer NOT NULL)"),
+      env.DB.prepare("CREATE UNIQUE INDEX IF NOT EXISTS insight_reactions_insight_voter_unique ON insight_reactions (insight_id, voter_id)"),
+      env.DB.prepare("CREATE INDEX IF NOT EXISTS insight_reactions_insight_idx ON insight_reactions (insight_id)"),
+    ]).catch((error) => { schemaReady = null; throw error; });
+  }
+  return schemaReady;
+}
 
 function hasBlockedLanguage(value: string) {
   const normalized = value.toLowerCase().replace(/[^a-z0-9]+/g, " ");
@@ -19,6 +34,7 @@ function validHero(heroId: string) {
 
 export async function GET(request: Request) {
   try {
+    await ensureInsightSchema();
     const heroId = new URL(request.url).searchParams.get("heroId")?.trim();
     if (!heroId || !validHero(heroId)) return Response.json({ error: "Valid hero required", insights: [] }, { status: 400 });
     const db = getDb();
@@ -39,6 +55,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    await ensureInsightSchema();
     const payload = await request.json() as { action?: string; heroId?: string; voterId?: string; displayName?: string; rank?: PlayerRank | ""; body?: string; insightId?: number; value?: number };
     const voterId = payload.voterId?.trim();
     if (!voterId) return Response.json({ error: "Device identity required" }, { status: 400 });
