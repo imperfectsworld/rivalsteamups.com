@@ -235,7 +235,7 @@ footer { max-width: 1280px; margin: 0 auto; padding: 27px 24px 42px; display: fl
 .detail-shell { min-height: 100vh; --detail-role: var(--cyan); --detail-role-rgb: 67,221,255; background: radial-gradient(circle at 80% 8%, color-mix(in srgb, var(--rank-accent) 17%, transparent), transparent 31%), #090e16; transition: background .22s ease; }
 .detail-shell.detail-duelist { --detail-role: var(--orange); --detail-role-rgb: 255,130,78; }
 .detail-shell.detail-strategist { --detail-role: var(--purple); --detail-role-rgb: 154,117,255; }
-.detail-topbar { min-height: 70px; padding: 0 max(24px, calc((100vw - 1280px) / 2)); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #263246; background: rgba(7,11,18,.9); }
+.detail-topbar .detail-back { margin-left: auto; }
 .detail-brand { display: flex; align-items: center; gap: 10px; color: #eaf0f8; text-decoration: none; font: 800 10px var(--font-geist-mono); letter-spacing: .1em; }
 .detail-brand > span { width: 32px; height: 32px; display: grid; place-items: center; color: #071018; background: var(--detail-role); font-size: 17px; }
 .detail-brand > span img { width: 100%; height: 100%; object-fit: cover; }

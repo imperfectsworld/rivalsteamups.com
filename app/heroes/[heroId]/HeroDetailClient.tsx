@@ -113,7 +113,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
 
   return (
     <main className={`detail-shell detail-${hero.role.toLowerCase()}`} style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
-      <header className="detail-topbar">
+      <header className="topbar detail-topbar">
         <a className="brand" href="/" aria-label="Rivals Team-Up Meta home">
           <span className="brand-mark">R</span>
           <span><strong>RIVALS</strong><small>TEAM-UP META</small></span>
