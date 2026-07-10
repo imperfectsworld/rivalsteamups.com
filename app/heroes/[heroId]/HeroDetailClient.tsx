@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import heroesJson from "@/src/data/heroes.json";
 import rankVotesJson from "@/src/data/rankVotes.json";
 import { RANKS, type Hero, type HeroesData, type PlayerRank, type TeamUpSlot } from "@/src/types";
@@ -23,6 +23,9 @@ const rankImages: Record<PlayerRank, string> = {
   Celestial: "/ranks/celestial.webp",
   Eternity: "/ranks/eternity.webp",
   "One Above All": "/ranks/one-above-all.webp",
+};
+const rankColors: Record<DetailRank, string> = {
+  "All Ranks": "#b8f34a", Bronze: "#c98b61", Silver: "#b8d5df", Gold: "#f2b431", Platinum: "#43e7df", Diamond: "#77adf3", Grandmaster: "#7b42ff", Celestial: "#ff7a1f", Eternity: "#f022ff", "One Above All": "#ff3023",
 };
 
 function seededCount(heroId: string, slot: TeamUpSlot, rank: PlayerRank) {
@@ -109,7 +112,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
   const featuredInsight = insights[0];
 
   return (
-    <main className={`detail-shell detail-${hero.role.toLowerCase()}`}>
+    <main className={`detail-shell detail-${hero.role.toLowerCase()}`} style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
       <header className="detail-topbar">
         <a href="/" className="detail-brand"><span>R</span><strong>RIVALS TEAM-UP META</strong></a>
         <a href={`/#hero-${hero.id}`} className="detail-back">← BACK TO DIRECTORY</a>

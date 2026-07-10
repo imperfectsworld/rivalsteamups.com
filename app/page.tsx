@@ -167,7 +167,6 @@ export default function Home() {
       if (!response.ok) throw new Error("Vote could not be saved");
       await loadVotes();
       setVoteStatus("Vote recorded. Thank you!");
-      setTimeout(() => setPendingVote(null), 650);
     } catch {
       setVoteStatus("Voting needs the hosted database. The local preview cannot save this vote.");
     }
@@ -198,8 +197,8 @@ export default function Home() {
 
       <section className="hero-intro hero-intro-simple">
         <div>
-          <p className="eyebrow">VOTE FOR YOUR FAVORITE TEAM-UP.</p>
-          <h1>Find the better<br /><span>Team-Up.</span></h1>
+          <p className="eyebrow">A MARVEL RIVALS COMMUNITY TOOL</p>
+          <h1>Vote for your<br /><span>Favorite Team-Up.</span></h1>
           <p className="intro-copy">Search a hero, filter the community by competitive rank, and vote for the Team-Up you trust. Open any hero’s details page for ranked insights explaining why the community voted that way.</p>
         </div>
         <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
@@ -335,7 +334,8 @@ export default function Home() {
               {RANKS.map((rank, index) => <button className={voteRank === rank ? "is-active" : ""} type="button" onClick={() => { setVoteRank(rank); setVoteStatus(""); }} key={rank}><img src={rankImages[rank]} alt="" /><i>{String(index + 1).padStart(2, "0")}</i><span>{rank}</span></button>)}
             </div>
             {voteStatus && <p className="vote-status" aria-live="polite">{voteStatus}</p>}
-            <button className="submit-vote" type="button" onClick={() => void submitVote()} disabled={!voteRank}>RECORD MY VOTE <b>→</b></button>
+            {voteStatus === "Vote recorded. Thank you!" && <a className="post-vote-insight" href={`/heroes/${pendingVote.hero.id}#hero-insights`}><strong>ADD CONTEXT TO YOUR VOTE</strong><span>Visit {pendingVote.hero.name}’s details page and share an Insight by clicking the hero icon or this message.</span><b>→</b></a>}
+            {voteStatus !== "Vote recorded. Thank you!" && <button className="submit-vote" type="button" onClick={() => void submitVote()} disabled={!voteRank}>RECORD MY VOTE <b>→</b></button>}
             <small className="privacy-note">Your vote uses a random device ID. No name or account is collected.</small>
           </section>
         </div>

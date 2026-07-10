@@ -232,7 +232,7 @@ button { border-radius: 0; }
 footer { max-width: 1280px; margin: 0 auto; padding: 27px 24px 42px; display: flex; justify-content: space-between; border-top: 1px solid var(--line); color: #637086; font: 600 8px var(--font-geist-mono); letter-spacing: .13em; }
 
 /* Individual hero intelligence pages */
-.detail-shell { min-height: 100vh; --detail-role: var(--cyan); --detail-role-rgb: 67,221,255; background: radial-gradient(circle at 80% 8%, rgba(var(--detail-role-rgb),.13), transparent 29%), #090e16; }
+.detail-shell { min-height: 100vh; --detail-role: var(--cyan); --detail-role-rgb: 67,221,255; background: radial-gradient(circle at 80% 8%, color-mix(in srgb, var(--rank-accent) 17%, transparent), transparent 31%), #090e16; transition: background .22s ease; }
 .detail-shell.detail-duelist { --detail-role: var(--orange); --detail-role-rgb: 255,130,78; }
 .detail-shell.detail-strategist { --detail-role: var(--purple); --detail-role-rgb: 154,117,255; }
 .detail-topbar { min-height: 70px; padding: 0 max(24px, calc((100vw - 1280px) / 2)); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #263246; background: rgba(7,11,18,.9); }
@@ -241,23 +241,23 @@ footer { max-width: 1280px; margin: 0 auto; padding: 27px 24px 42px; display: fl
 .detail-brand > span img { width: 100%; height: 100%; object-fit: cover; }
 .detail-back { color: #8e9bae; text-decoration: none; font: 700 8px var(--font-geist-mono); letter-spacing: .1em; }
 .detail-back:hover { color: var(--detail-role); }
-.detail-hero { max-width: 1280px; min-height: 540px; margin: 0 auto; padding: 54px 24px 0; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(340px, .85fr); position: relative; overflow: hidden; border-bottom: 1px solid #2b3749; }
+.detail-hero { max-width: 1280px; min-height: 540px; margin: 0 auto; padding: 54px 24px 0; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(340px, .85fr); position: relative; overflow: hidden; border-bottom: 1px solid color-mix(in srgb, var(--rank-accent) 50%, #2b3749); transition: border-color .22s ease; }
 .detail-copy { padding: 48px 0 70px; position: relative; z-index: 2; }
 .detail-role { display: inline-flex; align-items: center; gap: 8px; margin-top: 25px; padding: 7px 11px; border: 1px solid rgba(var(--detail-role-rgb),.55); color: var(--detail-role); font: 750 9px var(--font-geist-mono); letter-spacing: .12em; text-transform: uppercase; }
 .detail-role img { width: 21px; height: 21px; object-fit: contain; }
 .detail-copy h1 { max-width: 720px; margin: 16px 0 12px; color: #eef3f9; font-size: clamp(54px, 7vw, 102px); line-height: .88; letter-spacing: -.07em; text-transform: uppercase; }
 .detail-copy > p:not(.eyebrow) { max-width: 610px; color: #a6b0bf; font-size: 15px; line-height: 1.7; }
-.detail-summary-grid { max-width: 710px; margin-top: 38px; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #334157; background: rgba(13,20,30,.82); }
+.detail-summary-grid { max-width: 710px; margin-top: 38px; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid color-mix(in srgb, var(--rank-accent) 42%, #334157); background: linear-gradient(120deg, color-mix(in srgb, var(--rank-accent) 8%, transparent), transparent 55%), rgba(13,20,30,.82); transition: border-color .22s ease, background .22s ease; }
 .detail-summary-grid > div { min-height: 102px; padding: 18px; border-right: 1px solid #334157; }
 .detail-summary-grid > div:last-child { border-right: 0; }
 .detail-summary-grid span, .detail-summary-grid strong, .detail-summary-grid small { display: block; }
 .detail-summary-grid span { color: #728096; font: 700 7px var(--font-geist-mono); letter-spacing: .12em; }
-.detail-summary-grid strong { margin-top: 8px; color: var(--detail-role); font-size: 23px; }
+.detail-summary-grid strong { margin-top: 8px; color: var(--rank-accent); font-size: 23px; transition: color .22s ease; }
 .detail-summary-grid small { margin-top: 5px; color: #9ba7b8; font-size: 8px; }
 .detail-rank-selector { max-width: 710px; margin-top: 12px; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); border: 1px solid #334157; background: #0d141e; }
 .detail-rank-selector button { min-width: 0; min-height: 64px; padding: 5px 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border: 0; border-right: 1px solid #334157; color: #7f8c9f; background: transparent; cursor: pointer; }
 .detail-rank-selector button:last-child { border-right: 0; }
-.detail-rank-selector button.is-active { color: #071018; background: var(--detail-role); }
+.detail-rank-selector button.is-active { color: #071018; background: var(--rank-accent); box-shadow: 0 0 18px color-mix(in srgb, var(--rank-accent) 30%, transparent); }
 .detail-rank-selector img { width: 31px; height: 31px; object-fit: contain; }
 .detail-rank-selector span { max-width: 58px; overflow: hidden; font: 650 6px var(--font-geist-mono); text-overflow: ellipsis; white-space: nowrap; }
 .featured-insight { max-width: 710px; margin: 14px 0 0; padding: 19px 20px; border-left: 3px solid var(--detail-role); background: rgba(var(--detail-role-rgb),.08); }
@@ -392,6 +392,10 @@ footer a:hover { color: var(--cyan); }
 .vote-status { margin: 13px 0 0; color: var(--lime); font-size: 10px; }
 .submit-vote { width: 100%; min-height: 50px; margin-top: 18px; padding: 0 16px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--lime); color: #0a1107; background: var(--lime); font: 800 9px var(--font-geist-mono); letter-spacing: .12em; cursor: pointer; }
 .submit-vote:disabled { border-color: #39465a; color: #6e7b8e; background: #18212e; cursor: not-allowed; }
+.post-vote-insight { margin-top: 16px; padding: 15px; display: grid; grid-template-columns: 1fr auto; gap: 5px 12px; border: 1px solid var(--cyan); color: #b7c3d2; background: rgba(67,221,255,.07); text-decoration: none; }
+.post-vote-insight strong { color: var(--cyan); font: 800 9px var(--font-geist-mono); letter-spacing: .1em; }
+.post-vote-insight span { font-size: 10px; line-height: 1.45; }
+.post-vote-insight b { grid-column: 2; grid-row: 1 / span 2; align-self: center; color: var(--cyan); font-size: 20px; }
 .privacy-note { display: block; margin-top: 10px; color: #687589; font-size: 8px; text-align: center; }
 
 @media (max-width: 980px) {
