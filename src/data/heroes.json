@@ -1172,6 +1172,29 @@
           "enhancedDescription": "Moon Knight is present, upgrading the surge with additional impact and improved team utility."
         }
       ]
+    },
+    {
+      "id": "white-fox",
+      "name": "White Fox",
+      "role": "Strategist",
+      "teamUpAbilities": [
+        {
+          "id": "white-fox-blessing-of-the-kumiho",
+          "slot": "A",
+          "name": "Blessing of the Kumiho",
+          "anchorPartner": "Luna Snow",
+          "baseDescription": "White Fox channels Kumiho power into a precise support link that strengthens coordinated engagements.",
+          "enhancedDescription": "Luna Snow is present, unlocking Spirit Fox Accord and amplifying the team's healing rhythm."
+        },
+        {
+          "id": "white-fox-lucky-loan",
+          "slot": "B",
+          "name": "Lucky Loan",
+          "anchorPartner": "Black Cat",
+          "baseDescription": "White Fox shares a tactical charm that improves team mobility and recovery during a push.",
+          "enhancedDescription": "Black Cat is present, upgrading the charm with stronger utility and a longer activation window."
+        }
+      ]
     }
   ]
 }

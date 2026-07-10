@@ -44,6 +44,7 @@ const roleMeta: Record<HeroRole, { code: string; label: string; anchor: string }
 };
 
 type PendingVote = { hero: Hero; ability: TeamUpAbility };
+const heroImage = (heroId: string) => `/heroes/${heroId}.webp`;
 
 export default function Home() {
   const [enhancedHeroes, setEnhancedHeroes] = useState<Record<string, boolean>>({});
@@ -197,7 +198,7 @@ export default function Home() {
             <div className="search-suggestions">
               {suggestions.length ? suggestions.map((hero) => (
                 <button type="button" onMouseDown={() => chooseSuggestion(hero)} key={hero.id}>
-                  <span className="suggestion-avatar">{hero.name.split(" ").map((part) => part[0]).join("")}</span>
+                  <span className="suggestion-avatar"><img src={heroImage(hero.id)} alt="" /></span>
                   <strong>{hero.name}</strong><small>{hero.role}</small>
                 </button>
               )) : <p>No heroes match “{query}”</p>}
@@ -237,7 +238,7 @@ export default function Home() {
                   return (
                     <article className={`hero-panel ${enhanced ? "hero-enhanced" : ""}`} id={`hero-${hero.id}`} key={hero.id}>
                       <div className="hero-panel-header">
-                        <span className="hero-avatar" aria-hidden="true">{hero.name.split(" ").map((part) => part[0]).join("")}</span>
+                        <span className="hero-avatar" aria-hidden="true"><img src={heroImage(hero.id)} alt="" /></span>
                         <span className="hero-identity"><strong>{hero.name}</strong><small>{heroTotal.toLocaleString()} {selectedRank.toUpperCase()} VOTES</small></span>
                         <button className={`hero-toggle ${enhanced ? "is-on" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Anchor Partner Present for ${hero.name}`} onClick={() => setEnhancedHeroes((current) => ({ ...current, [hero.id]: !current[hero.id] }))}>
                           <span className="hero-toggle-track"><span /></span><b>{enhanced ? "⚡ ENHANCED" : "ANCHOR OFF"}</b>

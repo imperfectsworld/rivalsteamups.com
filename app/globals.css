@@ -110,6 +110,7 @@ button { border-radius: 0; }
 .search-suggestions button { width: 100%; min-height: 58px; padding: 8px 17px; display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 12px; border: 0; border-bottom: 1px solid #202c3d; background: transparent; text-align: left; cursor: pointer; }
 .search-suggestions button:hover { background: #19263a; }
 .suggestion-avatar { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid #52647d; border-radius: 50%; color: #c0cada; background: #202c3d; font-size: 10px; font-weight: 850; }
+.suggestion-avatar img { width: 100%; height: 100%; border-radius: inherit; object-fit: cover; transform: scale(1.06); }
 .search-suggestions strong { font-size: 12px; }
 .search-suggestions small { padding: 5px 8px; border: 1px solid #3e83e4; border-radius: 12px; color: #5da2ff; font: 650 7px var(--font-geist-mono); text-transform: uppercase; }
 .search-suggestions p { margin: 0; padding: 22px; color: #8895a8; font-size: 12px; }
@@ -162,6 +163,8 @@ button { border-radius: 0; }
 .hero-panel.hero-enhanced { border-color: var(--lime); box-shadow: 0 0 23px rgba(184,243,74,.1); }
 .hero-panel-header { width: 100%; min-height: 70px; padding: 0; display: flex; align-items: center; gap: 13px; border: 0; background: transparent; text-align: left; }
 .hero-avatar { flex: 0 0 52px; height: 52px; display: grid; place-items: center; border: 1px solid rgba(var(--role-rgb),.72); border-radius: 50%; color: #b9c4d4; background: radial-gradient(circle at 35% 30%, #344259, #111722 67%); font-size: 15px; font-weight: 900; letter-spacing: -.06em; }
+.hero-avatar img { width: 100%; height: 100%; border-radius: inherit; object-fit: cover; transform: scale(1.08); filter: saturate(1.08) contrast(1.04); }
+.hero-panel:hover .hero-avatar img { transform: scale(1.14); }
 .hero-identity strong, .hero-identity small { display: block; }
 .hero-identity strong { color: var(--role); font-size: 17px; letter-spacing: -.025em; }
 .hero-identity small { margin-top: 6px; color: #8290a3; font: 550 8px var(--font-geist-mono); letter-spacing: .09em; }
