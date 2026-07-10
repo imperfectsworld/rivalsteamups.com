@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import heroesJson from "@/src/data/heroes.json";
 import rankVotesJson from "@/src/data/rankVotes.json";
 import { RANKS, type Hero, type HeroRole, type HeroesData, type PlayerRank, type TeamUpAbility, type TeamUpSlot } from "@/src/types";
@@ -22,6 +22,19 @@ const rankImages: Record<PlayerRank, string> = {
   Celestial: "/ranks/celestial.webp",
   Eternity: "/ranks/eternity.webp",
   "One Above All": "/ranks/one-above-all.webp",
+};
+
+const rankColors: Record<RankFilter, string> = {
+  "All Ranks": "#b8f34a",
+  Bronze: "#c98b61",
+  Silver: "#b8d5df",
+  Gold: "#f2b431",
+  Platinum: "#43e7df",
+  Diamond: "#77adf3",
+  Grandmaster: "#7b42ff",
+  Celestial: "#ff7a1f",
+  Eternity: "#f022ff",
+  "One Above All": "#ff3023",
 };
 
 const roleMeta: Record<HeroRole, { code: string; label: string; anchor: string }> = {
@@ -144,8 +157,9 @@ export default function Home() {
         <nav className="role-nav" aria-label="Hero roles">
           <a href="#vanguards">Vanguards</a><a href="#duelists">Duelists</a><a href="#strategists">Strategists</a>
         </nav>
-        <div className="header-stats" aria-label={`${visibleVoteTotal} visible votes`}>
-          <span>{selectedRank.toUpperCase()}</span><strong>{visibleVoteTotal.toLocaleString()}</strong>
+        <div className="header-stats" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label={`${selectedRank}, ${visibleVoteTotal} visible votes`}>
+          {selectedRank === "All Ranks" ? <b className="header-all-ranks">ALL</b> : <img src={rankImages[selectedRank]} alt="" />}
+          <div><span>{selectedRank.toUpperCase()}</span><strong>{visibleVoteTotal.toLocaleString()}</strong></div>
         </div>
       </header>
 
@@ -155,14 +169,14 @@ export default function Home() {
           <h1>Find the better<br /><span>Team-Up.</span></h1>
           <p className="intro-copy">Search a hero, filter the community by competitive rank, and vote for the Team-Up you trust in your own matches.</p>
         </div>
-        <div className="how-to-vote">
+        <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
           <span>LIVE RANK INSIGHT</span>
           <strong>{selectedRank}</strong>
           <p>Every percentage below is currently calculated from {selectedRank === "All Ranks" ? "the full ranked community" : `${selectedRank} players`}.</p>
         </div>
       </section>
 
-      <section className="control-deck" aria-label="Directory controls">
+      <section className="control-deck" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label="Directory controls">
         <div className="hero-search">
           <label htmlFor="hero-search">SEARCH HERO</label>
           <div className="search-input-wrap">
