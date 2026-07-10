@@ -105,6 +105,21 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
           })}
         </div>
 
+        <aside className="role-discovery" aria-labelledby="role-discovery-title">
+          <div className="role-discovery-heading">
+            <div><span>EXPLORE THE ROSTER</span><h2 id="role-discovery-title">Discover other {hero.role} heroes</h2></div>
+            <img src={`/roles/${hero.role.toLowerCase()}.webp`} alt="" />
+          </div>
+          <p>Compare Team-Up preferences and ranked community trends for other heroes in the {hero.role} role.</p>
+          <div className="role-peer-list">
+            {rolePeers.map((peer) => <a href={`/heroes/${peer.id}`} key={peer.id} aria-label={`View ${peer.name} details`}>
+              <img src={`/heroes/${peer.id}.webp`} alt="" />
+              <span>{peer.name}</span>
+            </a>)}
+          </div>
+          <a className="role-discovery-all" href={`/#${roleAnchor}`}>VIEW ALL {hero.role.toUpperCase()} HEROES <b>›</b></a>
+        </aside>
+
         <div className="detail-section-heading"><div><span>02</span><h2>Detailed rank breakdown</h2></div><p>See how preference changes as the competitive tier rises.</p></div>
         <div className="rank-breakdown">
           {rows.map((row) => <article key={row.rank}>
@@ -121,20 +136,6 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
         </div>
         <div className="trend-legend"><span><i />{hero.teamUpAbilities[0].anchorPartner}</span><span><i />{hero.teamUpAbilities[1].anchorPartner}</span></div>
 
-        <aside className="role-discovery" aria-labelledby="role-discovery-title">
-          <div className="role-discovery-heading">
-            <div><span>EXPLORE THE ROSTER</span><h2 id="role-discovery-title">Discover other {hero.role} heroes</h2></div>
-            <img src={`/roles/${hero.role.toLowerCase()}.webp`} alt="" />
-          </div>
-          <p>Compare Team-Up preferences and ranked community trends for other heroes in the {hero.role} role.</p>
-          <div className="role-peer-list">
-            {rolePeers.map((peer) => <a href={`/heroes/${peer.id}`} key={peer.id} aria-label={`View ${peer.name} details`}>
-              <img src={`/heroes/${peer.id}.webp`} alt="" />
-              <span>{peer.name}</span>
-            </a>)}
-          </div>
-          <a className="role-discovery-all" href={`/#${roleAnchor}`}>VIEW ALL {hero.role.toUpperCase()} HEROES <b>›</b></a>
-        </aside>
       </section>
     </main>
   );
