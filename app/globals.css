@@ -374,16 +374,18 @@ footer { max-width: 1280px; margin: 0 auto; padding: 27px 24px 42px; display: fl
 .empty-insights { padding: 25px; border: 1px dashed #3b485c; color: #7f8b9d; text-align: center; }
 
 @media (max-width: 800px) {
-  .detail-hero { min-height: auto; grid-template-columns: 1fr; }
-  .detail-copy { padding-bottom: 15px; }
+  .detail-hero { min-height: auto; grid-template-columns: minmax(0, 1fr); overflow: hidden; }
+  .detail-copy { min-width: 0; padding: 28px 0 15px; }
+  .detail-copy > p:not(.eyebrow) { max-width: 100%; overflow-wrap: anywhere; }
   .detail-portrait { display: none; }
   .detail-copy h1 { display: flex; align-items: center; gap: 13px; }
   .mobile-detail-hero-icon { width: 58px; height: 58px; flex: 0 0 58px; display: block; border: 2px solid var(--rank-accent); border-radius: 50%; object-fit: cover; }
-  .detail-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .detail-summary-grid > div { min-height: 82px; padding: 14px; border-bottom: 0; }
+  .detail-summary-grid { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: hidden; }
+  .detail-summary-grid > div { min-width: 0; min-height: 82px; padding: 14px; overflow: hidden; border-bottom: 0; }
   .detail-summary-grid > div:first-child { grid-column: 1 / -1; border-right: 0; border-bottom: 1px solid #334157; }
   .detail-summary-grid > div:nth-child(2) { border-right: 1px solid #334157; }
-  .detail-summary-grid strong { overflow-wrap: anywhere; font-size: 19px; }
+  .detail-summary-grid strong { max-width: 100%; overflow-wrap: anywhere; font-size: 17px; line-height: 1.15; }
+  .detail-summary-grid small { line-height: 1.35; }
   .detail-teamups { grid-template-columns: 1fr; }
   .rank-breakdown > article { grid-template-columns: 1fr; gap: 12px; }
   .trend-grid { overflow-x: auto; grid-template-columns: repeat(9, 82px); }
@@ -395,6 +397,7 @@ footer { max-width: 1280px; margin: 0 auto; padding: 27px 24px 42px; display: fl
   .detail-section-heading { align-items: start; flex-direction: column; }
   .detail-section-heading p { margin-top: -10px; }
   .teamup-heading { align-items: center; flex-direction: row; }
+  .detail-platform-toggle + .teamup-heading { margin-top: 34px; }
   .teamup-heading > div:first-child { min-width: 0; }
   .teamup-heading h2 { font-size: 22px; white-space: nowrap; }
   .teamup-heading .detail-teamup-tools { width: auto; margin-left: auto; align-items: flex-end; }
