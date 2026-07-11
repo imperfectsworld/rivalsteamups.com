@@ -67,6 +67,7 @@ export default function Home() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [pendingVote, setPendingVote] = useState<PendingVote | null>(null);
   const [voteRank, setVoteRank] = useState<PlayerRank | "">("");
+  const [votePlatform, setVotePlatform] = useState<Platform | "">("");
   const [voteStatus, setVoteStatus] = useState("");
   const [selectedEra, setSelectedEra] = useState<ResultEra>(resultEras[0]);
   const [resultWindow, setResultWindow] = useState<ResultWindow>("all");
@@ -134,11 +135,12 @@ export default function Home() {
     setPendingVote({ hero, ability });
     setVoteStatus("");
     setVoteRank(selectedRank === "All Ranks" ? "" : selectedRank);
+    setVotePlatform("");
   }
 
   async function submitVote() {
-    if (!pendingVote || !voteRank) {
-      setVoteStatus("Choose your competitive rank to continue.");
+    if (!pendingVote || !voteRank || !votePlatform) {
+      setVoteStatus("Choose your competitive rank and platform to continue.");
       return;
     }
 
@@ -158,11 +160,11 @@ export default function Home() {
           heroId: pendingVote.hero.id,
           abilityId: pendingVote.ability.id,
           rank: voteRank,
-          platform,
+          platform: votePlatform,
         }),
       });
       if (!response.ok) throw new Error("Vote could not be saved");
-      await loadVotes();
+      choosePlatform(votePlatform);
       setVoteStatus("Vote recorded. Thank you!");
     } catch {
       setVoteStatus("Voting needs the hosted database. The local preview cannot save this vote.");
@@ -331,7 +333,7 @@ export default function Home() {
               <p>Would you like to explain why you chose {pendingVote.ability.name}? Your Insight helps other players understand the community vote.</p>
               <div className="vote-summary"><span>{pendingVote.hero.name}</span><strong>{pendingVote.ability.name}</strong><small>{pendingVote.ability.anchorPartner} TEAM-UP</small></div>
               <div className="post-vote-actions">
-                <a className="post-vote-insight" href={`/heroes/${pendingVote.hero.id}#hero-insights`}><strong>GIVE CONTEXT TO MY VOTE</strong><span>Open {pendingVote.hero.name}’s Insights section.</span><b>→</b></a>
+                <a className="post-vote-insight" href={`/heroes/${pendingVote.hero.id}?rank=${encodeURIComponent(voteRank)}&platform=${encodeURIComponent(votePlatform)}#hero-insights`}><strong>GIVE CONTEXT TO MY VOTE</strong><span>Open {pendingVote.hero.name}’s Insights section.</span><b>→</b></a>
                 <button className="vote-more-button" type="button" onClick={() => setPendingVote(null)}>VOTE MORE</button>
               </div>
             </> : <>
@@ -342,8 +344,9 @@ export default function Home() {
               <div className="modal-ranks">
                 {RANKS.map((rank, index) => <button className={voteRank === rank ? "is-active" : ""} type="button" onClick={() => { setVoteRank(rank); setVoteStatus(""); }} key={rank}><img src={rankImages[rank]} alt="" /><i>{String(index + 1).padStart(2, "0")}</i><span>{rank}</span></button>)}
               </div>
+              <div className="modal-platforms" role="group" aria-label="Select voting platform"><span>YOUR PLATFORM</span><button className={votePlatform === "PC" ? "is-active" : ""} type="button" onClick={() => { setVotePlatform("PC"); setVoteStatus(""); }}>PC</button><button className={votePlatform === "Console" ? "is-active" : ""} type="button" onClick={() => { setVotePlatform("Console"); setVoteStatus(""); }}>CONSOLE</button></div>
               {voteStatus && <p className="vote-status" aria-live="polite">{voteStatus}</p>}
-              <button className="submit-vote" type="button" onClick={() => void submitVote()} disabled={!voteRank}>RECORD MY VOTE <b>→</b></button>
+              <button className="submit-vote" type="button" onClick={() => void submitVote()} disabled={!voteRank || !votePlatform}>RECORD MY VOTE <b>→</b></button>
             </>}
             <small className="privacy-note">Your vote uses a random device ID. No name or account is collected.</small>
           </section>

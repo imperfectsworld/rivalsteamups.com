@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Rivals Team-Up Meta | Season 9 Community Voting",
     description: "Scout the roster, lock two abilities, and preview enhanced anchor-partner effects.",
     type: "website",
-    images: [{ url: "/og.png", width: 1536, height: 1024, alt: "Rivals Team-Ups Season 09 Ability Matrix" }],
+    images: [{ url: "/og.png", width: 1672, height: 943, alt: "Rivals Team-Up community meta" }],
   },
   twitter: {
     card: "summary_large_image",

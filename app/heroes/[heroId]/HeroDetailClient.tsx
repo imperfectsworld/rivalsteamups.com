@@ -55,7 +55,14 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
   }, [platform]);
 
   useEffect(() => { void loadVotes(); }, [loadVotes]);
-  useEffect(() => { const saved = localStorage.getItem("rivals-platform"); if (saved === "Console") setPlatform("Console"); }, []);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const linkedPlatform = params.get("platform");
+    const linkedRank = params.get("rank");
+    if (linkedPlatform === "PC" || linkedPlatform === "Console") setPlatform(linkedPlatform);
+    else if (localStorage.getItem("rivals-platform") === "Console") setPlatform("Console");
+    if (RANKS.includes(linkedRank as PlayerRank)) setInsightRank(linkedRank as PlayerRank);
+  }, []);
 
   function choosePlatform(next: Platform) {
     setPlatform(next);
@@ -123,7 +130,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
         <div className="detail-copy">
           <p className="eyebrow">SEASON 09 · HERO INTELLIGENCE</p>
           <div className="detail-role"><img src={`/roles/${hero.role.toLowerCase()}.webp`} alt="" />{hero.role}</div>
-          <h1>{hero.name}</h1>
+          <h1><img className="mobile-detail-hero-icon" src={`/heroes/${hero.id}.webp`} alt="" />{hero.name}</h1>
           <p>Rank-by-rank community voting, total preference, and Team-Up momentum for {hero.name}.</p>
           <div className="detail-summary-grid">
             <div><span>TOTAL VOTES</span><strong>{totalVotes.toLocaleString()}</strong></div>
