@@ -1285,7 +1285,7 @@ button {
 
 .anchor-chip {
   align-self: flex-start;
-  margin: 12px 0 10px 53px;
+  margin: -6px 0 10px 53px;
   padding: 4px 8px;
   border: 1px solid rgba(var(--role-rgb), .48);
   border-radius: 20px;
