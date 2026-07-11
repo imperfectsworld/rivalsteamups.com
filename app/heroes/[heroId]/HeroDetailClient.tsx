@@ -2,15 +2,13 @@
 
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import heroesJson from "@/src/data/heroes.json";
-import rankVotesJson from "@/src/data/rankVotes.json";
-import { RANKS, type Hero, type HeroesData, type PlayerRank, type TeamUpSlot } from "@/src/types";
+import { RANKS, type Hero, type HeroesData, type PlayerRank } from "@/src/types";
 
 type LiveVotes = Record<string, Record<string, number>>;
 type DetailRank = "All Ranks" | PlayerRank;
 type Platform = "PC" | "Console";
 type Insight = { id: number; displayName: string; rank: string | null; patch: string; platform: Platform; body: string; createdAt: string; score: number; flags: number };
 const heroData = heroesJson as HeroesData;
-const seededRankVotes = rankVotesJson as Record<string, Record<TeamUpSlot, number[]>>;
 const heroByName = new Map(heroData.heroes.map((hero) => [hero.name.toLowerCase(), hero]));
 heroByName.set("deadpool", heroData.heroes.find((candidate) => candidate.id === "deadpool-duelist")!);
 
@@ -28,15 +26,6 @@ const rankImages: Record<PlayerRank, string> = {
 const rankColors: Record<DetailRank, string> = {
   "All Ranks": "#43ddff", Bronze: "#c98b61", Silver: "#b8d5df", Gold: "#f2b431", Platinum: "#43e7df", Diamond: "#77adf3", Grandmaster: "#7b42ff", Celestial: "#ff7a1f", Eternity: "#f022ff", "One Above All": "#ff3023",
 };
-
-function seededCount(heroId: string, slot: TeamUpSlot, rank: PlayerRank) {
-  const configuredValues = seededRankVotes[heroId]?.[slot];
-  const heroSeed = [...heroId].reduce((sum, character) => sum + character.charCodeAt(0), 0);
-  const values = configuredValues ?? RANKS.map((_, rankIndex) =>
-    8 + ((heroSeed + rankIndex * 7 + (slot === "A" ? 11 : 23)) % 24),
-  );
-  return values[RANKS.indexOf(rank)] ?? 0;
-}
 
 export default function HeroDetailClient({ hero }: { hero: Hero }) {
   const [liveVotes, setLiveVotes] = useState<LiveVotes>({});
@@ -104,7 +93,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
 
   const rows = useMemo(() => RANKS.map((rank) => {
     const counts = hero.teamUpAbilities.map((ability) =>
-      Math.max(1, Math.round(seededCount(hero.id, ability.slot, rank) * (platform === "PC" ? 1 : 0.8))) + (liveVotes[rank]?.[ability.id] ?? 0),
+      liveVotes[rank]?.[ability.id] ?? 0,
     ) as [number, number];
     const total = counts[0] + counts[1];
     return { rank, counts, total, percentages: counts.map((count) => total ? Math.round((count / total) * 100) : 50) as [number, number] };

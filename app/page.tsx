@@ -2,11 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import heroesJson from "@/src/data/heroes.json";
-import rankVotesJson from "@/src/data/rankVotes.json";
-import { RANKS, type Hero, type HeroRole, type HeroesData, type PlayerRank, type TeamUpAbility, type TeamUpSlot } from "@/src/types";
+import { RANKS, type Hero, type HeroRole, type HeroesData, type PlayerRank, type TeamUpAbility } from "@/src/types";
 
 const heroData = heroesJson as HeroesData;
-const seededRankVotes = rankVotesJson as Record<string, Record<TeamUpSlot, number[]>>;
 const roles: HeroRole[] = ["Vanguard", "Duelist", "Strategist"];
 const rankFilters = ["All Ranks", ...RANKS] as const;
 type RankFilter = (typeof rankFilters)[number];
@@ -117,25 +115,13 @@ export default function Home() {
     return heroData.heroes.filter((hero) => !normalized || hero.name.toLowerCase().includes(normalized));
   }, [query]);
 
-  function seededCount(heroId: string, slot: TeamUpSlot, filter: RankFilter) {
-    const configuredValues = seededRankVotes[heroId]?.[slot];
-    const heroSeed = [...heroId].reduce((sum, character) => sum + character.charCodeAt(0), 0);
-    const values = configuredValues ?? RANKS.map((_, rankIndex) =>
-      8 + ((heroSeed + rankIndex * 7 + (slot === "A" ? 11 : 23)) % 24),
-    );
-    const platformValues = platform === "PC" ? values : values.map((value, index) => Math.max(1, Math.round(value * (0.72 + ((heroSeed + index) % 5) * 0.04))));
-    if (filter === "All Ranks") return platformValues.reduce((sum, value) => sum + value, 0);
-    return platformValues[RANKS.indexOf(filter)] ?? 0;
-  }
-
   function liveCount(abilityId: string, filter: RankFilter) {
     if (filter !== "All Ranks") return liveVotes[filter]?.[abilityId] ?? 0;
     return RANKS.reduce((sum, rank) => sum + (liveVotes[rank]?.[abilityId] ?? 0), 0);
   }
 
   function abilityCount(hero: Hero, ability: TeamUpAbility) {
-    const seed = selectedEra.id === "s9-launch" && resultWindow === "all" ? seededCount(hero.id, ability.slot, selectedRank) : 0;
-    return seed + liveCount(ability.id, selectedRank);
+    return liveCount(ability.id, selectedRank);
   }
 
   function chooseSuggestion(hero: Hero) {
