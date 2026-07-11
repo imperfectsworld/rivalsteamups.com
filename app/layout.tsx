@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://rivalsteamups.com"),
   title: "Rivals Team-Up Meta | Season 9 Community Voting",
   description: "Build and compare Marvel Rivals Team-Up ability drafts by hero, role, and anchor partner context.",
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true },
   icons: { icon: "/rivals-icon.ico", shortcut: "/rivals-icon.ico", apple: "/rivals-icon.ico" },
   openGraph: {
     title: "Rivals Team-Up Meta | Season 9 Community Voting",
@@ -25,9 +27,17 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const websiteData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Rivals Team-Up Meta",
+    alternateName: "RivalsTeamups.com",
+    url: "https://rivalsteamups.com",
+    description: "Marvel Rivals Team-Up community voting, rank breakdowns, platform comparisons, and player insights.",
+  };
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }} />{children}</body>
     </html>
   );
 }

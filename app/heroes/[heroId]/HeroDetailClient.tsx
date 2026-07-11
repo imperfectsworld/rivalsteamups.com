@@ -131,7 +131,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
           <p className="eyebrow">SEASON 09 · HERO INTELLIGENCE</p>
           <div className="detail-role"><img src={`/roles/${hero.role.toLowerCase()}.webp`} alt="" />{hero.role}</div>
           <h1><img className="mobile-detail-hero-icon" src={`/heroes/${hero.id}.webp`} alt="" />{hero.name}</h1>
-          <p>Rank-by-rank community voting, total preference, and Team-Up momentum for {hero.name}.</p>
+          <p>Compare {hero.name}&apos;s {hero.teamUpAbilities[0].name} Team-Up with {hero.teamUpAbilities[1].name}. Explore community preference by competitive rank and platform, review both anchor partners, and preview every Enhanced effect for Season 9.</p>
           <div className="detail-summary-grid">
             <div><span>TOTAL VOTES</span><strong>{totalVotes.toLocaleString()}</strong></div>
             <div><span>COMMUNITY LEADER</span><strong>{leader.name}</strong><small>{leaderPercent}% preference</small></div>

@@ -321,7 +321,7 @@ export default function Home() {
         })}
       </section>
 
-      <footer><span>RIVALS TEAM-UPS // {platform.toUpperCase()} COMMUNITY META</span><nav className="legal-links"><a href="/legal-notice">LEGAL NOTICE</a><a href="/privacy-policy">PRIVACY</a><a href="/terms-of-use">TERMS</a><a href="/cookie-policy">COOKIES</a></nav><a href="#top">BACK TO TOP ↑</a></footer>
+      <footer><span>RIVALS TEAM-UPS // {platform.toUpperCase()} COMMUNITY META</span><nav className="legal-links"><a href="/roles/vanguards">VANGUARDS</a><a href="/roles/duelists">DUELISTS</a><a href="/roles/strategists">STRATEGISTS</a><a href="/patches">PATCHES</a><a href="/legal-notice">LEGAL</a><a href="/privacy-policy">PRIVACY</a><a href="/terms-of-use">TERMS</a><a href="/cookie-policy">COOKIES</a></nav><a href="#top">BACK TO TOP ↑</a></footer>
 
       {pendingVote && (
         <div className="vote-modal-backdrop" role="presentation" onMouseDown={() => setPendingVote(null)}>
