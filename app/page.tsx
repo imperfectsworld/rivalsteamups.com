@@ -182,12 +182,12 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
   return (
     <main className="app-shell" id="top">
       <header className="topbar">
-        <a className="brand" href="#top" aria-label="Rivals Team-Ups home">
+        <a className="brand" href={roleFilter ? "/" : "#top"} aria-label="Rivals Team-Ups home">
           <span className="brand-mark">R</span>
           <span><strong>RIVALS</strong><small>TEAM-UP META</small></span>
         </a>
         <nav className="role-nav" aria-label="Hero roles">
-          <a href="#vanguards">Vanguards</a><a href="#duelists">Duelists</a><a href="#strategists">Strategists</a>
+          <a href={roleFilter ? "/roles/vanguards" : "#vanguards"}>Vanguards</a><a href={roleFilter ? "/roles/duelists" : "#duelists"}>Duelists</a><a href={roleFilter ? "/roles/strategists" : "#strategists"}>Strategists</a>
         </nav>
         <div className="header-stats" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label={`${selectedRank}, ${visibleVoteTotal} visible votes`}>
           <img src={selectedRank === "All Ranks" ? "/rivals-icon.ico" : rankImages[selectedRank]} alt="" />
