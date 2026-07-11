@@ -404,9 +404,7 @@ footer { max-width: 1280px; margin: 0 auto; padding: 27px 24px 42px; display: fl
   .teamup-heading h2 { font-size: 22px; white-space: nowrap; }
   .teamup-heading .detail-teamup-tools { width: auto; margin-left: auto; align-items: flex-end; }
   .teamup-heading .detail-teamup-tools > p { display: none; }
-  .teamup-heading .hero-toggle { flex-basis: 92px; padding: 7px 8px; border: 1px solid rgba(184,243,74,.55); background: rgba(184,243,74,.08); box-shadow: 0 0 14px rgba(184,243,74,.12); }
-  .teamup-heading .hero-toggle-track { margin-inline: auto; }
-  .teamup-heading .hero-toggle b { font-size: 7px; color: #a9bf7c; }
+  .teamup-heading .hero-toggle b { font-size: 6px; }
 }
 footer a { text-decoration: none; }
 footer a:hover { color: var(--cyan); }
