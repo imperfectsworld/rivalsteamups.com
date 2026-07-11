@@ -10,11 +10,12 @@ export const teamUpVotes = sqliteTable(
     rank: text("rank").notNull(),
     season: text("season").notNull().default("Season 09"),
     patch: text("patch").notNull().default("S9 Launch"),
+    platform: text("platform").notNull().default("PC"),
     createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull().$defaultFn(() => new Date()),
     updatedAt: integer("updated_at", { mode: "timestamp_ms" }).notNull().$defaultFn(() => new Date()),
   },
   (table) => [
-    uniqueIndex("team_up_votes_voter_hero_rank_era_unique").on(table.voterId, table.heroId, table.rank, table.season, table.patch),
+    uniqueIndex("team_up_votes_voter_hero_rank_era_platform_unique").on(table.voterId, table.heroId, table.rank, table.season, table.patch, table.platform),
   ],
 );
 
@@ -42,6 +43,7 @@ export const heroInsights = sqliteTable(
     displayName: text("display_name").notNull().default("Anonymous"),
     rank: text("rank"),
     patch: text("patch").notNull().default("S9 Launch"),
+    platform: text("platform").notNull().default("PC"),
     body: text("body").notNull(),
     createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull().$defaultFn(() => new Date()),
   },
@@ -62,4 +64,27 @@ export const insightReactions = sqliteTable(
     uniqueIndex("insight_reactions_insight_voter_unique").on(table.insightId, table.voterId),
     index("insight_reactions_insight_idx").on(table.insightId),
   ],
+);
+
+export const blockedDevices = sqliteTable(
+  "blocked_devices",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    voterId: text("voter_id").notNull(),
+    reason: text("reason").notNull().default("Blocked by moderator"),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull().$defaultFn(() => new Date()),
+  },
+  (table) => [uniqueIndex("blocked_devices_voter_unique").on(table.voterId)],
+);
+
+export const metaEras = sqliteTable(
+  "meta_eras",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    season: text("season").notNull(),
+    patch: text("patch").notNull(),
+    status: text("status").notNull().default("archived"),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull().$defaultFn(() => new Date()),
+  },
+  (table) => [uniqueIndex("meta_eras_season_patch_unique").on(table.season, table.patch)],
 );

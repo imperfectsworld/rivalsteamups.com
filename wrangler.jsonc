@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rivals-teamups",
+  "account_id": "710b8bff9c4dbc70e280353704854bb1",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-07-10",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "dist/client"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "rivals-teamups-prod",
+      "database_id": "eab69bb4-4dbc-4e40-80ef-86be6ae9fad4",
+      "migrations_dir": "drizzle"
+    }
+  ],
+  "routes": [
+    { "pattern": "rivalsteamups.com", "custom_domain": true },
+    { "pattern": "www.rivalsteamups.com", "custom_domain": true }
+  ]
+}

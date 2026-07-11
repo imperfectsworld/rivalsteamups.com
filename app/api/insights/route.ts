@@ -4,6 +4,7 @@ import { getDb } from "@/db";
 import { heroInsights, insightReactions } from "@/db/schema";
 import heroesJson from "@/src/data/heroes.json";
 import { RANKS, type HeroesData, type PlayerRank } from "@/src/types";
+import { getActiveEra, isDeviceBlocked } from "@/db/community-admin";
 
 const heroData = heroesJson as HeroesData;
 const CURRENT_PATCH = "S9 Launch";
@@ -35,7 +36,8 @@ function validHero(heroId: string) {
 export async function GET(request: Request) {
   try {
     await ensureInsightSchema();
-    const heroId = new URL(request.url).searchParams.get("heroId")?.trim();
+    const url = new URL(request.url);
+    const heroId = url.searchParams.get("heroId")?.trim();
     if (!heroId || !validHero(heroId)) return Response.json({ error: "Valid hero required", insights: [] }, { status: 400 });
     const db = getDb();
     const comments = await db.select().from(heroInsights).where(eq(heroInsights.heroId, heroId)).orderBy(desc(heroInsights.createdAt)).limit(100);
@@ -45,7 +47,7 @@ export async function GET(request: Request) {
       const commentReactions = reactions.filter((reaction) => reaction.insightId === comment.id);
       const score = commentReactions.reduce((sum, reaction) => sum + reaction.value, 0);
       const flags = commentReactions.filter((reaction) => reaction.flagged).length;
-      return { id: comment.id, displayName: comment.displayName, rank: comment.rank, patch: comment.patch, body: comment.body, createdAt: comment.createdAt, score, flags };
+      return { id: comment.id, displayName: comment.displayName, rank: comment.rank, patch: comment.patch, platform: comment.platform, body: comment.body, createdAt: comment.createdAt, score, flags };
     }).filter((comment) => comment.flags < 3).sort((a, b) => b.score - a.score || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     return Response.json({ insights });
   } catch (error) {
@@ -56,10 +58,11 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     await ensureInsightSchema();
-    const payload = await request.json() as { action?: string; heroId?: string; voterId?: string; displayName?: string; rank?: PlayerRank | ""; body?: string; insightId?: number; value?: number };
+    const payload = await request.json() as { action?: string; heroId?: string; voterId?: string; displayName?: string; rank?: PlayerRank | ""; platform?: "PC" | "Console"; body?: string; insightId?: number; value?: number };
     const voterId = payload.voterId?.trim();
     if (!voterId) return Response.json({ error: "Device identity required" }, { status: 400 });
     const db = getDb();
+    if (await isDeviceBlocked(voterId)) return Response.json({ error: "This device is not permitted to post or react." }, { status: 403 });
 
     if (payload.action === "comment") {
       const heroId = payload.heroId?.trim() || "";
@@ -70,7 +73,8 @@ export async function POST(request: Request) {
       if (payload.rank && !RANKS.includes(payload.rank)) return Response.json({ error: "Invalid rank" }, { status: 400 });
       const [recent] = await db.select().from(heroInsights).where(and(eq(heroInsights.voterId, voterId), gte(heroInsights.createdAt, new Date(Date.now() - 60_000)))).limit(1);
       if (recent) return Response.json({ error: "Please wait one minute before posting another insight." }, { status: 429, headers: { "Retry-After": "60" } });
-      await db.insert(heroInsights).values({ heroId, voterId, displayName, rank: payload.rank || null, patch: CURRENT_PATCH, body });
+      const activeEra = await getActiveEra();
+      await db.insert(heroInsights).values({ heroId, voterId, displayName, rank: payload.rank || null, patch: activeEra.patch, platform: payload.platform === "Console" ? "Console" : "PC", body });
       return Response.json({ ok: true });
     }
 

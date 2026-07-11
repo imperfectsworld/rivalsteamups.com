@@ -17,6 +17,7 @@ const resultEras = [
 ] as const;
 type ResultEra = (typeof resultEras)[number];
 type ResultWindow = "all" | "recent";
+type Platform = "PC" | "Console";
 
 const rankImages: Record<PlayerRank, string> = {
   Bronze: "/ranks/bronze.webp",
@@ -31,7 +32,7 @@ const rankImages: Record<PlayerRank, string> = {
 };
 
 const rankColors: Record<RankFilter, string> = {
-  "All Ranks": "#b8f34a",
+  "All Ranks": "#43ddff",
   Bronze: "#c98b61",
   Silver: "#b8d5df",
   Gold: "#f2b431",
@@ -51,12 +52,13 @@ const roleMeta: Record<HeroRole, { code: string; label: string; anchor: string }
 
 type PendingVote = { hero: Hero; ability: TeamUpAbility };
 const heroImage = (heroId: string) => `/heroes/${heroId}.webp`;
+const lordImage = (heroId: string) => `/lord-icons/${heroId}.webp`;
 const roleImage = (role: HeroRole) => `/roles/${role.toLowerCase()}.webp`;
 const heroByName = new Map(heroData.heroes.map((hero) => [hero.name.toLowerCase(), hero]));
 heroByName.set("deadpool", heroData.heroes.find((hero) => hero.id === "deadpool-duelist")!);
-const anchorImage = (anchorPartner: string) => {
+const anchorImage = (anchorPartner: string, enhanced = false) => {
   const anchor = heroByName.get(anchorPartner.toLowerCase());
-  return anchor ? heroImage(anchor.id) : "/heroes/hulk.webp";
+  return anchor ? (enhanced ? lordImage(anchor.id) : heroImage(anchor.id)) : "/heroes/hulk.webp";
 };
 
 export default function Home() {
@@ -72,10 +74,11 @@ export default function Home() {
   const [resultWindow, setResultWindow] = useState<ResultWindow>("all");
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [collapsedRoles, setCollapsedRoles] = useState<Record<HeroRole, boolean>>({ Vanguard: false, Duelist: false, Strategist: false });
+  const [platform, setPlatform] = useState<Platform>("PC");
 
   const loadVotes = useCallback(async () => {
     try {
-      const params = new URLSearchParams({ season: selectedEra.season, patch: selectedEra.patch, window: resultWindow });
+      const params = new URLSearchParams({ season: selectedEra.season, patch: selectedEra.patch, window: resultWindow, platform });
       const response = await fetch(`/api/votes?${params}`, { cache: "no-store" });
       if (!response.ok) return;
       const data = (await response.json()) as { votes: Array<{ abilityId: string; rank: string; total: number }> };
@@ -88,9 +91,15 @@ export default function Home() {
     } catch {
       // The seeded rank matrix remains available during local previews without D1.
     }
-  }, [selectedEra, resultWindow]);
+  }, [selectedEra, resultWindow, platform]);
 
   useEffect(() => { void loadVotes(); }, [loadVotes]);
+  useEffect(() => { const saved = localStorage.getItem("rivals-platform"); if (saved === "Console") setPlatform("Console"); }, []);
+
+  function choosePlatform(next: Platform) {
+    setPlatform(next);
+    localStorage.setItem("rivals-platform", next);
+  }
 
   useEffect(() => {
     let previousY = window.scrollY;
@@ -114,8 +123,9 @@ export default function Home() {
     const values = configuredValues ?? RANKS.map((_, rankIndex) =>
       8 + ((heroSeed + rankIndex * 7 + (slot === "A" ? 11 : 23)) % 24),
     );
-    if (filter === "All Ranks") return values.reduce((sum, value) => sum + value, 0);
-    return values[RANKS.indexOf(filter)] ?? 0;
+    const platformValues = platform === "PC" ? values : values.map((value, index) => Math.max(1, Math.round(value * (0.72 + ((heroSeed + index) % 5) * 0.04))));
+    if (filter === "All Ranks") return platformValues.reduce((sum, value) => sum + value, 0);
+    return platformValues[RANKS.indexOf(filter)] ?? 0;
   }
 
   function liveCount(abilityId: string, filter: RankFilter) {
@@ -162,6 +172,7 @@ export default function Home() {
           heroId: pendingVote.hero.id,
           abilityId: pendingVote.ability.id,
           rank: voteRank,
+          platform,
         }),
       });
       if (!response.ok) throw new Error("Vote could not be saved");
@@ -198,7 +209,7 @@ export default function Home() {
       <section className="hero-intro hero-intro-simple">
         <div>
           <p className="eyebrow">A MARVEL RIVALS COMMUNITY TOOL</p>
-          <h1>Vote for your<br /><span>Favorite Team-Up.</span></h1>
+          <h1>CREATE THE<br /><span>META</span></h1>
           <p className="intro-copy">Search a hero, filter the community by competitive rank, and vote for the Team-Up you trust. Open any hero’s details page for ranked insights explaining why the community voted that way.</p>
         </div>
         <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
@@ -209,6 +220,7 @@ export default function Home() {
       </section>
 
       <section className="control-deck" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label="Directory controls">
+        <div className="platform-toggle" role="group" aria-label="Gaming platform"><span>PLATFORM DATA</span><button className={platform === "PC" ? "is-active" : ""} type="button" onClick={() => choosePlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} type="button" onClick={() => choosePlatform("Console")}>CONSOLE</button></div>
         <div className="history-controls">
           <div><span>PATCH &amp; SEASON HISTORY</span>{resultEras.map((era) => <button className={selectedEra.id === era.id ? "is-active" : ""} type="button" onClick={() => setSelectedEra(era)} key={era.id}>{era.label}</button>)}</div>
           <div><span>RESULT WINDOW</span><button className={resultWindow === "all" ? "is-active" : ""} type="button" onClick={() => setResultWindow("all")}>ALL-TIME</button><button className={resultWindow === "recent" ? "is-active" : ""} type="button" onClick={() => setResultWindow("recent")}>LAST 30 DAYS</button></div>
@@ -274,7 +286,7 @@ export default function Home() {
                     <article className={`hero-panel ${enhanced ? "hero-enhanced" : ""}`} id={`hero-${hero.id}`} key={hero.id}>
                       <div className="hero-panel-header">
                         <a className="hero-profile-link" href={`/heroes/${hero.id}`} aria-label={`View ${hero.name} details`}>
-                          <span className="hero-avatar" aria-hidden="true"><img src={heroImage(hero.id)} alt="" /></span>
+                          <span className={`hero-avatar ${enhanced ? "is-lord" : ""}`} aria-hidden="true"><img src={enhanced ? lordImage(hero.id) : heroImage(hero.id)} alt="" /></span>
                           <span className="hero-identity"><strong>{hero.name}</strong><small>{heroTotal.toLocaleString()} {selectedRank.toUpperCase()} VOTES</small><span className="hero-details-link">VIEW DETAILS →</span></span>
                         </a>
                         <button className={`hero-toggle ${enhanced ? "is-on" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Enhanced descriptions for ${hero.name}`} onClick={() => setEnhancedHeroes((current) => ({ ...current, [hero.id]: !current[hero.id] }))}>
@@ -303,9 +315,10 @@ export default function Home() {
                               }}
                             >
                               {count > otherCount && <span className="community-choice">◎ COMMUNITY CHOICE</span>}
-                              <div className="compact-topline"><span className="ability-glyph"><img src={anchorImage(ability.anchorPartner)} alt={`${ability.anchorPartner} portrait`} /></span><span className="ability-name">{ability.name}</span><strong className="vote-percent">{percentage}%</strong></div>
+                              <div className="compact-topline"><span className={`ability-glyph ${enhanced ? "is-lord" : ""}`}><img src={anchorImage(ability.anchorPartner, enhanced)} alt={`${ability.anchorPartner} portrait`} /></span><span className="ability-name">{ability.name}</span><strong className="vote-percent">{percentage}%</strong></div>
                               <span className="anchor-chip">ANCHOR · {ability.anchorPartner}</span>
-                              <p className="compact-description">{enhanced ? ability.enhancedDescription : ability.baseDescription}</p>
+                              <p className="compact-description">{ability.baseDescription}</p>
+                              {enhanced && <p className="enhanced-addon"><strong>⚡ ENHANCED:</strong> {ability.enhancedDescription}</p>}
                               <span className="card-vote-label"><span>VOTE FOR {ability.anchorPartner.toUpperCase()} TEAM-UP</span><b>+</b></span>
                             </article>
                           );
@@ -320,22 +333,32 @@ export default function Home() {
         })}
       </section>
 
-      <footer><span>RIVALS TEAM-UPS // RANKED COMMUNITY META</span><a href="#top">BACK TO TOP ↑</a></footer>
+      <footer><span>RIVALS TEAM-UPS // {platform.toUpperCase()} COMMUNITY META</span><nav className="legal-links"><a href="/legal-notice">LEGAL NOTICE</a><a href="/privacy-policy">PRIVACY</a><a href="/terms-of-use">TERMS</a><a href="/cookie-policy">COOKIES</a></nav><a href="#top">BACK TO TOP ↑</a></footer>
 
       {pendingVote && (
         <div className="vote-modal-backdrop" role="presentation" onMouseDown={() => setPendingVote(null)}>
           <section className="vote-modal" role="dialog" aria-modal="true" aria-labelledby="vote-modal-title" onMouseDown={(event) => event.stopPropagation()}>
             <button className="modal-close" type="button" onClick={() => setPendingVote(null)} aria-label="Close vote dialog">×</button>
-            <p className="eyebrow">ONE LAST STEP</p>
-            <h2 id="vote-modal-title">What rank are you?</h2>
-            <p>Your rank lets the community compare which Team-Ups different skill tiers prefer.</p>
-            <div className="vote-summary"><span>{pendingVote.hero.name}</span><strong>{pendingVote.ability.name}</strong><small>{pendingVote.ability.anchorPartner} TEAM-UP</small></div>
-            <div className="modal-ranks">
-              {RANKS.map((rank, index) => <button className={voteRank === rank ? "is-active" : ""} type="button" onClick={() => { setVoteRank(rank); setVoteStatus(""); }} key={rank}><img src={rankImages[rank]} alt="" /><i>{String(index + 1).padStart(2, "0")}</i><span>{rank}</span></button>)}
-            </div>
-            {voteStatus && <p className="vote-status" aria-live="polite">{voteStatus}</p>}
-            {voteStatus === "Vote recorded. Thank you!" && <a className="post-vote-insight" href={`/heroes/${pendingVote.hero.id}#hero-insights`}><strong>ADD CONTEXT TO YOUR VOTE</strong><span>Visit {pendingVote.hero.name}’s details page and share an Insight by clicking the hero icon or this message.</span><b>→</b></a>}
-            {voteStatus !== "Vote recorded. Thank you!" && <button className="submit-vote" type="button" onClick={() => void submitVote()} disabled={!voteRank}>RECORD MY VOTE <b>→</b></button>}
+            {voteStatus === "Vote recorded. Thank you!" ? <>
+              <p className="eyebrow">VOTE RECORDED</p>
+              <h2 id="vote-modal-title">Give more context?</h2>
+              <p>Would you like to explain why you chose {pendingVote.ability.name}? Your Insight helps other players understand the community vote.</p>
+              <div className="vote-summary"><span>{pendingVote.hero.name}</span><strong>{pendingVote.ability.name}</strong><small>{pendingVote.ability.anchorPartner} TEAM-UP</small></div>
+              <div className="post-vote-actions">
+                <a className="post-vote-insight" href={`/heroes/${pendingVote.hero.id}#hero-insights`}><strong>GIVE CONTEXT TO MY VOTE</strong><span>Open {pendingVote.hero.name}’s Insights section.</span><b>→</b></a>
+                <button className="vote-more-button" type="button" onClick={() => setPendingVote(null)}>VOTE MORE</button>
+              </div>
+            </> : <>
+              <p className="eyebrow">ONE LAST STEP</p>
+              <h2 id="vote-modal-title">What rank are you?</h2>
+              <p>Your rank lets the community compare which Team-Ups different skill tiers prefer.</p>
+              <div className="vote-summary"><span>{pendingVote.hero.name}</span><strong>{pendingVote.ability.name}</strong><small>{pendingVote.ability.anchorPartner} TEAM-UP</small></div>
+              <div className="modal-ranks">
+                {RANKS.map((rank, index) => <button className={voteRank === rank ? "is-active" : ""} type="button" onClick={() => { setVoteRank(rank); setVoteStatus(""); }} key={rank}><img src={rankImages[rank]} alt="" /><i>{String(index + 1).padStart(2, "0")}</i><span>{rank}</span></button>)}
+              </div>
+              {voteStatus && <p className="vote-status" aria-live="polite">{voteStatus}</p>}
+              <button className="submit-vote" type="button" onClick={() => void submitVote()} disabled={!voteRank}>RECORD MY VOTE <b>→</b></button>
+            </>}
             <small className="privacy-note">Your vote uses a random device ID. No name or account is collected.</small>
           </section>
         </div>

@@ -7,7 +7,8 @@ import { RANKS, type Hero, type HeroesData, type PlayerRank, type TeamUpSlot } f
 
 type LiveVotes = Record<string, Record<string, number>>;
 type DetailRank = "All Ranks" | PlayerRank;
-type Insight = { id: number; displayName: string; rank: string | null; patch: string; body: string; createdAt: string; score: number; flags: number };
+type Platform = "PC" | "Console";
+type Insight = { id: number; displayName: string; rank: string | null; patch: string; platform: Platform; body: string; createdAt: string; score: number; flags: number };
 const heroData = heroesJson as HeroesData;
 const seededRankVotes = rankVotesJson as Record<string, Record<TeamUpSlot, number[]>>;
 const heroByName = new Map(heroData.heroes.map((hero) => [hero.name.toLowerCase(), hero]));
@@ -25,7 +26,7 @@ const rankImages: Record<PlayerRank, string> = {
   "One Above All": "/ranks/one-above-all.webp",
 };
 const rankColors: Record<DetailRank, string> = {
-  "All Ranks": "#b8f34a", Bronze: "#c98b61", Silver: "#b8d5df", Gold: "#f2b431", Platinum: "#43e7df", Diamond: "#77adf3", Grandmaster: "#7b42ff", Celestial: "#ff7a1f", Eternity: "#f022ff", "One Above All": "#ff3023",
+  "All Ranks": "#43ddff", Bronze: "#c98b61", Silver: "#b8d5df", Gold: "#f2b431", Platinum: "#43e7df", Diamond: "#77adf3", Grandmaster: "#7b42ff", Celestial: "#ff7a1f", Eternity: "#f022ff", "One Above All": "#ff3023",
 };
 
 function seededCount(heroId: string, slot: TeamUpSlot, rank: PlayerRank) {
@@ -45,10 +46,12 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
   const [insightRank, setInsightRank] = useState<PlayerRank | "">("");
   const [insightBody, setInsightBody] = useState("");
   const [insightStatus, setInsightStatus] = useState("");
+  const [enhanced, setEnhanced] = useState(false);
+  const [platform, setPlatform] = useState<Platform>("PC");
 
   const loadVotes = useCallback(async () => {
     try {
-      const response = await fetch("/api/votes", { cache: "no-store" });
+      const response = await fetch(`/api/votes?platform=${platform}`, { cache: "no-store" });
       if (!response.ok) return;
       const data = (await response.json()) as { votes: Array<{ abilityId: string; rank: string; total: number }> };
       const grouped: LiveVotes = {};
@@ -60,17 +63,23 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
     } catch {
       // Seeded data keeps the detail page useful in local previews.
     }
-  }, []);
+  }, [platform]);
 
   useEffect(() => { void loadVotes(); }, [loadVotes]);
+  useEffect(() => { const saved = localStorage.getItem("rivals-platform"); if (saved === "Console") setPlatform("Console"); }, []);
+
+  function choosePlatform(next: Platform) {
+    setPlatform(next);
+    localStorage.setItem("rivals-platform", next);
+  }
 
   const loadInsights = useCallback(async () => {
     try {
-      const response = await fetch(`/api/insights?heroId=${encodeURIComponent(hero.id)}`, { cache: "no-store" });
+      const response = await fetch(`/api/insights?heroId=${encodeURIComponent(hero.id)}&platform=${platform}`, { cache: "no-store" });
       const data = await response.json() as { insights?: Insight[] };
       if (response.ok) setInsights(data.insights ?? []);
     } catch { setInsights([]); }
-  }, [hero.id]);
+  }, [hero.id, platform]);
 
   useEffect(() => { void loadInsights(); }, [loadInsights]);
 
@@ -82,7 +91,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
 
   async function submitInsight() {
     setInsightStatus("Posting…");
-    const response = await fetch("/api/insights", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "comment", heroId: hero.id, voterId: voterId(), displayName: insightName, rank: insightRank, body: insightBody }) });
+    const response = await fetch("/api/insights", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "comment", heroId: hero.id, voterId: voterId(), displayName: insightName, rank: insightRank, platform, body: insightBody }) });
     const data = await response.json() as { error?: string };
     if (!response.ok) { setInsightStatus(data.error || "Unable to post insight."); return; }
     setInsightBody(""); setInsightStatus("Insight posted."); await loadInsights();
@@ -95,11 +104,11 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
 
   const rows = useMemo(() => RANKS.map((rank) => {
     const counts = hero.teamUpAbilities.map((ability) =>
-      seededCount(hero.id, ability.slot, rank) + (liveVotes[rank]?.[ability.id] ?? 0),
+      Math.max(1, Math.round(seededCount(hero.id, ability.slot, rank) * (platform === "PC" ? 1 : 0.8))) + (liveVotes[rank]?.[ability.id] ?? 0),
     ) as [number, number];
     const total = counts[0] + counts[1];
     return { rank, counts, total, percentages: counts.map((count) => total ? Math.round((count / total) * 100) : 50) as [number, number] };
-  }), [hero, liveVotes]);
+  }), [hero, liveVotes, platform]);
 
   const selectedRow = selectedRank === "All Ranks" ? null : rows.find((row) => row.rank === selectedRank);
   const totals = (selectedRow?.counts ?? hero.teamUpAbilities.map((_, index) => rows.reduce((sum, row) => sum + row.counts[index], 0))) as [number, number];
@@ -146,15 +155,17 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
       </section>
 
       <section className="detail-content">
-        <div className="detail-section-heading teamup-heading"><div><span>01</span><h2>Team-Up totals</h2></div><p>Showing {selectedRank === "All Ranks" ? "all ranks" : selectedRank}.</p></div>
+        <div className="platform-toggle detail-platform-toggle" role="group" aria-label="Gaming platform"><span>PLATFORM DATA</span><button className={platform === "PC" ? "is-active" : ""} type="button" onClick={() => choosePlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} type="button" onClick={() => choosePlatform("Console")}>CONSOLE</button></div>
+        <div className="detail-section-heading teamup-heading"><div><span>01</span><h2>Team-Up totals</h2></div><div className="detail-teamup-tools"><p>Showing {selectedRank === "All Ranks" ? "all ranks" : selectedRank}.</p><button className={`hero-toggle ${enhanced ? "is-on" : ""}`} type="button" role="switch" aria-checked={enhanced} onClick={() => setEnhanced((current) => !current)}><span className="hero-toggle-track"><span /></span><b>{enhanced ? "⚡ ENHANCED ON" : "ENHANCED OFF"}</b></button></div></div>
         <div className="detail-teamups">
           {hero.teamUpAbilities.map((ability, index) => {
             const anchor = heroByName.get(ability.anchorPartner.toLowerCase());
             const percentage = totalVotes ? Math.round((totals[index] / totalVotes) * 100) : 50;
-            return <article className={index === leaderIndex ? "is-leader" : ""} key={ability.id}>
+            return <article className={`${index === leaderIndex ? "is-leader" : ""} ${enhanced ? "is-enhanced" : ""}`} key={ability.id}>
               {index === leaderIndex && <b className="detail-choice-badge">COMMUNITY CHOICE</b>}
-              <div className="detail-anchor"><img src={anchor ? `/heroes/${anchor.id}.webp` : "/heroes/hulk.webp"} alt="" /><span><small>ANCHOR</small><strong>{ability.anchorPartner}</strong></span><em>{percentage}%</em></div>
+              <div className="detail-anchor"><img className={enhanced ? "is-animated" : ""} src={anchor ? `/${enhanced ? "lord-icons" : "heroes"}/${anchor.id}.webp` : `/${enhanced ? "lord-icons" : "heroes"}/hulk.webp`} alt="" /><span><small>ANCHOR</small><strong>{ability.anchorPartner}</strong></span><em>{percentage}%</em></div>
               <h3>{ability.name}</h3><p>{ability.baseDescription}</p>
+              {enhanced && <p className="enhanced-addon"><strong>⚡ ENHANCED:</strong> {ability.enhancedDescription}</p>}
               <footer><span>{totals[index].toLocaleString()} votes</span><strong>{percentage}% of community</strong></footer>
             </article>;
           })}
@@ -195,7 +206,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
           </div>
           <div className="insight-list">
             {insights.length ? insights.map((insight) => <article key={insight.id}>
-              <header><strong>{insight.displayName}</strong><span>{insight.rank || "Unranked"} · {insight.patch}</span></header>
+              <header><strong>{insight.displayName}</strong><span>{insight.rank || "Unranked"} · {insight.platform} · {insight.patch}</span></header>
               <p>{insight.body}</p>
               <footer><button type="button" onClick={() => void reactToInsight(insight.id, "react", 1)}>▲ UPVOTE</button><b>{insight.score}</b><button type="button" onClick={() => void reactToInsight(insight.id, "react", -1)}>▼ DOWNVOTE</button><button className="flag-insight" type="button" onClick={() => void reactToInsight(insight.id, "flag")}>FLAG</button></footer>
             </article>) : <p className="empty-insights">No insights yet. Be the first to explain your vote.</p>}
@@ -203,6 +214,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
         </section>
 
       </section>
+      <footer className="detail-legal-footer"><span>RIVALS TEAM-UPS // {platform.toUpperCase()} COMMUNITY META</span><nav className="legal-links"><a href="/legal-notice">LEGAL NOTICE</a><a href="/privacy-policy">PRIVACY</a><a href="/terms-of-use">TERMS</a><a href="/cookie-policy">COOKIES</a></nav><a href="/">DIRECTORY ↑</a></footer>
     </main>
   );
 }

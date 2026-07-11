@@ -3,12 +3,14 @@ import { getDb } from "@/db";
 import { teamUpVoteActivity, teamUpVotes } from "@/db/schema";
 import heroesJson from "@/src/data/heroes.json";
 import { RANKS, type HeroesData, type PlayerRank } from "@/src/types";
+import { getActiveEra, isDeviceBlocked } from "@/db/community-admin";
 
 type VotePayload = {
   voterId?: string;
   heroId?: string;
   abilityId?: string;
   rank?: PlayerRank;
+  platform?: "PC" | "Console";
 };
 
 const CURRENT_SEASON = "Season 09";
@@ -29,7 +31,8 @@ export async function GET(request: Request) {
     const season = url.searchParams.get("season") || CURRENT_SEASON;
     const patch = url.searchParams.get("patch") || CURRENT_PATCH;
     const window = url.searchParams.get("window") || "all";
-    const filters = [eq(teamUpVotes.season, season), eq(teamUpVotes.patch, patch)];
+    const platform = url.searchParams.get("platform") === "Console" ? "Console" : "PC";
+    const filters = [eq(teamUpVotes.season, season), eq(teamUpVotes.patch, patch), eq(teamUpVotes.platform, platform)];
     if (window === "recent") filters.push(gte(teamUpVotes.updatedAt, new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)));
 
     const rows = await getDb()
@@ -38,7 +41,7 @@ export async function GET(request: Request) {
       .where(and(...filters))
       .groupBy(teamUpVotes.abilityId, teamUpVotes.rank);
 
-    return Response.json({ votes: rows, season, patch, window });
+    return Response.json({ votes: rows, season, patch, window, platform });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to load votes";
     return Response.json({ error: message, votes: [] }, { status: 500 });
@@ -52,10 +55,12 @@ export async function POST(request: Request) {
     const heroId = payload.heroId?.trim();
     const abilityId = payload.abilityId?.trim();
     const rank = payload.rank;
+    const platform = payload.platform === "Console" ? "Console" : "PC";
 
     if (!voterId || !heroId || !abilityId || !rank || !RANKS.includes(rank)) {
       return Response.json({ error: "A valid hero, Team-Up, voter, and rank are required." }, { status: 400 });
     }
+    if (await isDeviceBlocked(voterId)) return Response.json({ error: "This device is not permitted to vote." }, { status: 403 });
 
     const hero = heroData.heroes.find((candidate) => candidate.id === heroId);
     if (!hero?.teamUpAbilities.some((ability) => ability.id === abilityId)) {
@@ -80,11 +85,12 @@ export async function POST(request: Request) {
       );
     }
 
+    const activeEra = await getActiveEra();
     await db
       .insert(teamUpVotes)
-      .values({ voterId, heroId, abilityId, rank, season: CURRENT_SEASON, patch: CURRENT_PATCH })
+      .values({ voterId, heroId, abilityId, rank, season: activeEra.season, patch: activeEra.patch, platform })
       .onConflictDoUpdate({
-        target: [teamUpVotes.voterId, teamUpVotes.heroId, teamUpVotes.rank, teamUpVotes.season, teamUpVotes.patch],
+        target: [teamUpVotes.voterId, teamUpVotes.heroId, teamUpVotes.rank, teamUpVotes.season, teamUpVotes.patch, teamUpVotes.platform],
         set: { abilityId, updatedAt: new Date() },
       });
 
@@ -93,7 +99,7 @@ export async function POST(request: Request) {
     const [{ total }] = await db
       .select({ total: count() })
       .from(teamUpVotes)
-      .where(and(eq(teamUpVotes.abilityId, abilityId), eq(teamUpVotes.season, CURRENT_SEASON), eq(teamUpVotes.patch, CURRENT_PATCH)));
+      .where(and(eq(teamUpVotes.abilityId, abilityId), eq(teamUpVotes.season, activeEra.season), eq(teamUpVotes.patch, activeEra.patch), eq(teamUpVotes.platform, platform)));
 
     return Response.json({ ok: true, total });
   } catch (error) {
