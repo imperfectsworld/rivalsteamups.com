@@ -152,7 +152,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
 
       <section className="detail-content">
         <div className="platform-toggle detail-platform-toggle" role="group" aria-label="Gaming platform"><span>PLATFORM DATA</span><button className={platform === "PC" ? "is-active" : ""} type="button" onClick={() => choosePlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} type="button" onClick={() => choosePlatform("Console")}>CONSOLE</button></div>
-        <div className="detail-section-heading teamup-heading"><div><span>01</span><h2>Team-Up totals</h2></div><div className="detail-teamup-tools"><p>Showing {selectedRank === "All Ranks" ? "all ranks" : selectedRank}.</p><button className={`hero-toggle ${enhanced ? "is-on" : ""}`} type="button" role="switch" aria-checked={enhanced} onClick={() => setEnhanced((current) => !current)}><span className="hero-toggle-track"><span /></span><b>{enhanced ? "⚡ ENHANCED ON" : "ENHANCED OFF"}</b></button></div></div>
+        <div className="detail-section-heading teamup-heading"><div><h2>Team-Up totals</h2></div><div className="detail-teamup-tools"><p>Showing {selectedRank === "All Ranks" ? "all ranks" : selectedRank}.</p><button className={`hero-toggle ${enhanced ? "is-on" : ""}`} type="button" role="switch" aria-checked={enhanced} onClick={() => setEnhanced((current) => !current)}><span className="hero-toggle-track"><span /></span><b>{enhanced ? "⚡ ENHANCED ON" : "ENHANCED OFF"}</b></button></div></div>
         <div className="detail-teamups">
           {hero.teamUpAbilities.map((ability, index) => {
             const anchor = heroByName.get(ability.anchorPartner.toLowerCase());
@@ -182,7 +182,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
           <a className="role-discovery-all" href={`/#${roleAnchor}`}>VIEW ALL {hero.role.toUpperCase()} HEROES <b>›</b></a>
         </aside>
 
-        <div className="detail-section-heading"><div><span>02</span><h2>Detailed rank breakdown</h2></div><p>See how preference changes as the competitive tier rises.</p></div>
+        <div className="detail-section-heading"><div><h2>Detailed rank breakdown</h2></div><p>See how preference changes as the competitive tier rises.</p></div>
         <div className="rank-breakdown">
           {rows.map((row) => <article key={row.rank}>
             <div className="breakdown-rank"><img src={rankImages[row.rank]} alt="" /><span><strong>{row.rank}</strong><small>{row.total.toLocaleString()} votes</small></span></div>
@@ -193,7 +193,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
         </div>
 
         <section className="insights-section" id="hero-insights">
-          <div className="detail-section-heading"><div><span>03</span><h2>Community insights</h2></div><p>Ranked context from players behind the votes.</p></div>
+          <div className="detail-section-heading"><div><h2>Community insights</h2></div><p>Ranked context from players behind the votes.</p></div>
           <div className="insight-composer">
             <div><label>DISPLAY NAME <input value={insightName} maxLength={32} placeholder="Anonymous" onChange={(event) => setInsightName(event.target.value)} /></label><label>YOUR RANK <select value={insightRank} onChange={(event) => setInsightRank(event.target.value as PlayerRank | "")}><option value="">Not selected</option>{RANKS.map((rank) => <option value={rank} key={rank}>{rank}</option>)}</select></label></div>
             <label>YOUR INSIGHT <textarea value={insightBody} maxLength={800} placeholder="Why do you prefer one Team-Up? Share useful matchup, composition, or rank-specific context…" onChange={(event) => setInsightBody(event.target.value)} /></label>
