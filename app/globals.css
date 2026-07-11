@@ -228,7 +228,7 @@ button { border-radius: 0; }
 .card-vote-label { width: 100%; min-height: 40px; margin-top: auto; padding: 0 11px; display: flex; align-items: center; justify-content: space-between; border: 1px solid #46536a; color: #a7b2c2; background: #0d141e; transition: .16s ease; }
 .compact-ability:hover .card-vote-label { border-color: var(--role); color: var(--role); }
 .card-vote-label span { font: 700 8px var(--font-geist-mono); letter-spacing: .08em; }
-.card-vote-label b { width: 21px; height: 21px; display: grid; place-items: center; flex: 0 0 auto; border: 1px solid currentColor; border-radius: 50%; }
+.card-vote-label b { width: 21px; height: 21px; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; padding: 0 0 1px; border: 1px solid currentColor; border-radius: 50%; font-family: var(--font-geist-mono); font-size: 13px; line-height: 1; }
 .is-enhanced .card-vote-label { border-color: var(--lime); color: var(--lime); }
 .choice-footer { margin-top: auto; padding-top: 13px; display: flex; justify-content: space-between; align-items: center; color: #7e8ca0; font: 650 8px var(--font-geist-mono); letter-spacing: .1em; }
 .choice-footer b { width: 21px; height: 21px; display: grid; place-items: center; border: 1px solid var(--role); border-radius: 50%; color: var(--role); font-size: 12px; }
