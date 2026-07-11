@@ -59,7 +59,7 @@ const anchorImage = (anchorPartner: string, enhanced = false) => {
   return anchor ? (enhanced ? lordImage(anchor.id) : heroImage(anchor.id)) : "/heroes/hulk.webp";
 };
 
-export default function Home() {
+export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
   const [enhancedHeroes, setEnhancedHeroes] = useState<Record<string, boolean>>({});
   const [liveVotes, setLiveVotes] = useState<LiveVotes>({});
   const [selectedRank, setSelectedRank] = useState<RankFilter>("All Ranks");
@@ -111,10 +111,13 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const visibleRoles = roleFilter ? [roleFilter] : roles;
+  const directoryHeroes = useMemo(() => roleFilter ? heroData.heroes.filter((hero) => hero.role === roleFilter) : heroData.heroes, [roleFilter]);
+
   const suggestions = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    return heroData.heroes.filter((hero) => !normalized || hero.name.toLowerCase().includes(normalized));
-  }, [query]);
+    return directoryHeroes.filter((hero) => !normalized || hero.name.toLowerCase().includes(normalized));
+  }, [query, directoryHeroes]);
 
   function liveCount(abilityId: string, filter: RankFilter) {
     if (filter !== "All Ranks") return liveVotes[filter]?.[abilityId] ?? 0;
@@ -171,7 +174,7 @@ export default function Home() {
     }
   }
 
-  const visibleVoteTotal = heroData.heroes.reduce(
+  const visibleVoteTotal = directoryHeroes.reduce(
     (sum, hero) => sum + hero.teamUpAbilities.reduce((heroSum, ability) => heroSum + abilityCount(hero, ability), 0),
     0,
   );
@@ -197,8 +200,8 @@ export default function Home() {
       <section className="hero-intro hero-intro-simple">
         <div>
           <p className="eyebrow">A MARVEL RIVALS COMMUNITY TOOL</p>
-          <h1>CREATE THE<br /><span>META</span></h1>
-          <p className="intro-copy">Search a hero, filter the community by competitive rank, and vote for the Team-Up you trust. Open any hero’s details page for ranked insights explaining why the community voted that way.</p>
+          <h1>{roleFilter ? <>{roleFilter.toUpperCase()}<br /><span>META</span></> : <>CREATE THE<br /><span>META</span></>}</h1>
+          <p className="intro-copy">{roleFilter ? `Compare every ${roleFilter} Team-Up, filter results by competitive rank and platform, preview Enhanced effects, and vote for the abilities you trust.` : "Search a hero, filter the community by competitive rank, and vote for the Team-Up you trust. Open any hero’s details page for ranked insights explaining why the community voted that way."}</p>
         </div>
         <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
           <img className="rank-insight-icon" src={selectedRank === "All Ranks" ? "/rivals-icon.ico" : rankImages[selectedRank]} alt="" />
@@ -255,7 +258,7 @@ export default function Home() {
       </section>
 
       <section className="directory" aria-label="Hero Team-Up directory">
-        {roles.map((role) => {
+        {visibleRoles.map((role) => {
           const heroes = heroData.heroes.filter((hero) => hero.role === role);
           const meta = roleMeta[role];
           return (
