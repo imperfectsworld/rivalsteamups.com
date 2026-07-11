@@ -14,13 +14,13 @@ export const metadata: Metadata = {
     title: "Rivals Team-Up Meta | Season 9 Community Voting",
     description: "Scout the roster, lock two abilities, and preview enhanced anchor-partner effects.",
     type: "website",
-    images: [{ url: "/og.png", width: 1672, height: 943, alt: "Rivals Team-Up community meta" }],
+    images: [{ url: "/og-rivalsteamups-2026-07.png", width: 1672, height: 943, alt: "Rivals Team-Up community meta" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Rivals Team-Up Meta | Season 9 Community Voting",
     description: "Build and compare Team-Up ability drafts by hero, role, and anchor partner context.",
-    images: ["/og.png"],
+    images: ["/og-rivalsteamups-2026-07.png"],
   },
 };
 
