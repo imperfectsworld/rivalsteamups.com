@@ -43,6 +43,13 @@
       "when": 1783730869838,
       "tag": "0005_material_cyclops",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1783847550583,
+      "tag": "0006_brainy_tarot",
+      "breakpoints": true
     }
   ]
 }

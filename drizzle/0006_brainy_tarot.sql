@@ -1,0 +1,2 @@
+ALTER TABLE `team_up_vote_activity` ADD `ability_id` text;--> statement-breakpoint
+CREATE INDEX `vote_activity_voter_ability_time_idx` ON `team_up_vote_activity` (`voter_id`,`ability_id`,`created_at`);

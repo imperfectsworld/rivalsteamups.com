@@ -26,10 +26,12 @@ export const teamUpVoteActivity = sqliteTable(
     voterId: text("voter_id").notNull(),
     ipHash: text("ip_hash").notNull(),
     heroId: text("hero_id").notNull(),
+    abilityId: text("ability_id"),
     createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull().$defaultFn(() => new Date()),
   },
   (table) => [
     index("vote_activity_voter_time_idx").on(table.voterId, table.createdAt),
+    index("vote_activity_voter_ability_time_idx").on(table.voterId, table.abilityId, table.createdAt),
     index("vote_activity_ip_time_idx").on(table.ipHash, table.createdAt),
   ],
 );

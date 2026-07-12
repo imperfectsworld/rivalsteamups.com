@@ -171,7 +171,10 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
           platform: votePlatform,
         }),
       });
-      if (!response.ok) throw new Error("Vote could not be saved");
+      if (!response.ok) {
+        const result = (await response.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(result?.error || "Vote could not be saved");
+      }
       choosePlatform(votePlatform);
       localStorage.setItem("rivals-vote-rank", voteRank);
       setVoteStatus("Vote counted!");
@@ -180,8 +183,8 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
         setVoteCelebrating(false);
         setVoteStatus("Vote recorded. Thank you!");
       }, 950);
-    } catch {
-      setVoteStatus("Voting needs the hosted database. The local preview cannot save this vote.");
+    } catch (error) {
+      setVoteStatus(error instanceof Error ? error.message : "Vote could not be saved. Please try again.");
     }
   }
 

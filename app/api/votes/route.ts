@@ -71,12 +71,21 @@ export async function POST(request: Request) {
     const now = new Date();
     const minuteAgo = new Date(now.getTime() - 60_000);
     const twoSecondsAgo = new Date(now.getTime() - 2_000);
+    const cooldownStartedAt = new Date(now.getTime() - 24 * 60 * 60 * 1000);
     const ipHash = await requestFingerprint(request);
-    const [[voterRate], [ipRate], [rapidRepeat]] = await Promise.all([
+    const [[voterRate], [ipRate], [rapidRepeat], [sameTeamUpVote]] = await Promise.all([
       db.select({ total: count() }).from(teamUpVoteActivity).where(and(eq(teamUpVoteActivity.voterId, voterId), gte(teamUpVoteActivity.createdAt, minuteAgo))),
       db.select({ total: count() }).from(teamUpVoteActivity).where(and(eq(teamUpVoteActivity.ipHash, ipHash), gte(teamUpVoteActivity.createdAt, minuteAgo))),
       db.select({ total: count() }).from(teamUpVoteActivity).where(and(eq(teamUpVoteActivity.voterId, voterId), eq(teamUpVoteActivity.heroId, heroId), gte(teamUpVoteActivity.createdAt, twoSecondsAgo))),
+      db.select({ total: count() }).from(teamUpVoteActivity).where(and(eq(teamUpVoteActivity.voterId, voterId), eq(teamUpVoteActivity.abilityId, abilityId), gte(teamUpVoteActivity.createdAt, cooldownStartedAt))),
     ]);
+
+    if (sameTeamUpVote.total > 0) {
+      return Response.json(
+        { error: "You already voted for this Team-Up in the last 24 hours. Please try again after the cooldown ends." },
+        { status: 429, headers: { "Retry-After": "86400" } },
+      );
+    }
 
     if (voterRate.total >= 12 || ipRate.total >= 40 || rapidRepeat.total > 0) {
       return Response.json(
@@ -94,7 +103,7 @@ export async function POST(request: Request) {
         set: { abilityId, updatedAt: new Date() },
       });
 
-    await db.insert(teamUpVoteActivity).values({ voterId, ipHash, heroId });
+    await db.insert(teamUpVoteActivity).values({ voterId, ipHash, heroId, abilityId });
 
     const [{ total }] = await db
       .select({ total: count() })
