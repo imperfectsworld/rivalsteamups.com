@@ -55,6 +55,7 @@ const roleImage = (role: HeroRole) => `/roles/${role.toLowerCase()}.webp`;
 const heroByName = new Map(heroData.heroes.map((hero) => [hero.name.toLowerCase(), hero]));
 heroByName.set("deadpool", heroData.heroes.find((hero) => hero.id === "deadpool-duelist")!);
 const anchorImage = (anchorPartner: string, enhanced = false) => {
+  if (anchorPartner.toLowerCase() === "the hood") return "/heroes/the-hood.webp";
   const anchor = heroByName.get(anchorPartner.toLowerCase());
   return anchor ? (enhanced ? lordImage(anchor.id) : heroImage(anchor.id)) : "/heroes/hulk.webp";
 };
@@ -69,6 +70,7 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
   const [voteRank, setVoteRank] = useState<PlayerRank | "">("");
   const [votePlatform, setVotePlatform] = useState<Platform | "">("");
   const [voteStatus, setVoteStatus] = useState("");
+  const [voteCelebrating, setVoteCelebrating] = useState(false);
   const [selectedEra, setSelectedEra] = useState<ResultEra>(resultEras[0]);
   const [resultWindow, setResultWindow] = useState<ResultWindow>("all");
   const [showMobileSearch, setShowMobileSearch] = useState(false);
@@ -137,8 +139,11 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
   function openVote(hero: Hero, ability: TeamUpAbility) {
     setPendingVote({ hero, ability });
     setVoteStatus("");
-    setVoteRank(selectedRank === "All Ranks" ? "" : selectedRank);
-    setVotePlatform("");
+    setVoteCelebrating(false);
+    const savedRank = localStorage.getItem("rivals-vote-rank");
+    const savedPlatform = localStorage.getItem("rivals-platform");
+    setVoteRank(selectedRank === "All Ranks" ? (RANKS.includes(savedRank as PlayerRank) ? savedRank as PlayerRank : "") : selectedRank);
+    setVotePlatform(savedPlatform === "PC" || savedPlatform === "Console" ? savedPlatform : platform);
   }
 
   async function submitVote() {
@@ -168,7 +173,13 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
       });
       if (!response.ok) throw new Error("Vote could not be saved");
       choosePlatform(votePlatform);
-      setVoteStatus("Vote recorded. Thank you!");
+      localStorage.setItem("rivals-vote-rank", voteRank);
+      setVoteStatus("Vote counted!");
+      setVoteCelebrating(true);
+      window.setTimeout(() => {
+        setVoteCelebrating(false);
+        setVoteStatus("Vote recorded. Thank you!");
+      }, 950);
     } catch {
       setVoteStatus("Voting needs the hosted database. The local preview cannot save this vote.");
     }
@@ -330,7 +341,12 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
         <div className="vote-modal-backdrop" role="presentation" onMouseDown={() => setPendingVote(null)}>
           <section className="vote-modal" role="dialog" aria-modal="true" aria-labelledby="vote-modal-title" onMouseDown={(event) => event.stopPropagation()}>
             <button className="modal-close" type="button" onClick={() => setPendingVote(null)} aria-label="Close vote dialog">×</button>
-            {voteStatus === "Vote recorded. Thank you!" ? <>
+            {voteCelebrating ? <div className="vote-counted-animation" role="status" aria-live="polite">
+              <span className="vote-counted-ring"><b>✓</b></span>
+              <p className="eyebrow">VOTE LOCKED IN</p>
+              <h2 id="vote-modal-title">Vote counted</h2>
+              <p>Updating the community meta...</p>
+            </div> : voteStatus === "Vote recorded. Thank you!" ? <>
               <p className="eyebrow">VOTE RECORDED</p>
               <h2 id="vote-modal-title">Give more context?</h2>
               <p>Would you like to explain why you chose {pendingVote.ability.name}? Your Insight helps other players understand the community vote.</p>
