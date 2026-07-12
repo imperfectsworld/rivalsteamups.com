@@ -10,16 +10,16 @@
           "slot": "A",
           "name": "Cosmic Cyclone",
           "anchorPartner": "Storm",
-          "baseDescription": "Modifies Soulbond passive so that any linked teammates immediately receive an active movement speed boost.",
-          "enhancedDescription": "Linked teammates additionally gain a direct flat damage boost while Soulbond is active."
+          "baseDescription": "Teammates linked by Soul Bond receive a Speed Boost.",
+          "enhancedDescription": "When teaming up with Storm, linked teammates additionally gain a Damage Boost."
         },
         {
           "id": "adam-warlock-stark-protocol",
           "slot": "B",
-          "name": "Stark Protocol",
+          "name": "Flawless Design",
           "anchorPartner": "Ultron",
-          "baseDescription": "Increases maximum ammo capacity and modifies the Cosmic Cluster right-click to provide healing to allies on top of damaging enemies.",
-          "enhancedDescription": "Cosmic Cluster creates a localized explosion upon impact that can heal and damage in an AoE field."
+          "baseDescription": "Cosmic Cluster now provides healing to allies.",
+          "enhancedDescription": "When teaming up with Ultron, Cosmic Cluster creates an explosion upon impact."
         }
       ]
     },
@@ -31,18 +31,18 @@
         {
           "id": "black-panther-elemental-storing",
           "slot": "A",
-          "name": "Elemental Storing",
+          "name": "Damisa-Yao",
           "anchorPartner": "Storm",
-          "baseDescription": "Triggers stored armor power to deal area damage and apply a heavy slow to nearby enemies while automatically attaching a Vibranium Mark.",
-          "enhancedDescription": "Enemies caught within the active ability's range are physically pulled/launched directly toward Black Panther."
+          "baseDescription": "Triggers the elemental power within his armor, dealing damage and applying Slow to surrounding enemies while attaching Vibranium Marks.",
+          "enhancedDescription": "When teaming up with Storm, enemies within range are launched toward Black Panther."
         },
         {
           "id": "black-panther-dimensional-shortcut",
           "slot": "B",
           "name": "Dimensional Shortcut",
           "anchorPartner": "Magik",
-          "baseDescription": "Spawns a limbo stepping disc portal allowing Black Panther to instantly teleport back to his position from a few seconds ago while gaining bonus health. Discs explode to apply a Vibranium Mark on exit.",
-          "enhancedDescription": "The active teleportation transit sequence can be manually cancelled mid-transit to trigger immediate localized blast drops."
+          "baseDescription": "Activate a Limbo stepping disc to instantly return to your position from a few seconds ago, gaining Bonus Health in the process. When the teleport ends, the disc collapses in an explosion, damaging nearby enemies and applying Vibranium Marks.",
+          "enhancedDescription": "When teaming up with Magik, the teleportation sequence can be manually canceled mid-transit."
         }
       ]
     },
@@ -56,16 +56,16 @@
           "slot": "A",
           "name": "Allied Agents",
           "anchorPartner": "Hawkeye",
-          "baseDescription": "Landing primary fire hits builds focus. At 3 stacks, enters a Focus State where the next bullet deals boosted damage and pierces targets.",
-          "enhancedDescription": "Scoring any critical hit while in the Focus State prevents the focus meter from expiring, allowing infinite chain states if aim is perfect."
+          "baseDescription": "Landing hits with Red Room Rifle builds Focus. At three stacks, enter a Focused state where the next bullet gains the Hunter’s Sight effect, granting Damage Boost and pierce effects.",
+          "enhancedDescription": "When teaming up with Hawkeye, landing a critical hit prevents the Focused state from expiring, allowing continuous enhanced fire until missing a crit."
         },
         {
           "id": "black-widow-burning-bullets",
           "slot": "B",
           "name": "Burning Bullets",
           "anchorPartner": "Phoenix",
-          "baseDescription": "Activating the ability grants a massive primary weapon fire rate boost and turns the Plasma Cannon into an uncharged instant hitscan laser.",
-          "enhancedDescription": "Grants a second full ability charge of the fire rate and laser buff state to use back-to-back."
+          "baseDescription": "Activation grants the Red Room Rifle a Fire Rate Boost. Additionally, the Plasma Cannon projectile becomes a hitscan laser that no longer requires charging.",
+          "enhancedDescription": "When teaming up with Phoenix, her Plasma Cannon gains a second ability charge."
         }
       ]
     },
@@ -79,16 +79,16 @@
           "slot": "A",
           "name": "Savage Slam",
           "anchorPartner": "Captain America",
-          "baseDescription": "Leap high to smash the ground dealing damage and reducing kit cooldowns (Gamma Bubble/Exile) based on remaining missing health.",
-          "enhancedDescription": "Ground slam additionally applies vulnerability to all enemies hit."
+          "baseDescription": "Leap high and smash the ground, dealing damage to enemies and reducing the cooldowns of other abilities based on remaining Health.",
+          "enhancedDescription": "When teaming up with Captain America, the ground slam additionally applies Vulnerability to enemies hit."
         },
         {
           "id": "hulk-gamma-fastball",
           "slot": "B",
           "name": "Gamma Fastball",
           "anchorPartner": "Wolverine",
-          "baseDescription": "Enter a Furious State gaining movement and attack speed boosts. Unlocks 'Scars of Rage' granting Unstoppable status at low health.",
-          "enhancedDescription": "Classic Fastball Special returns: Hulk throws Wolverine forward, triggering Furious State on both heroes simultaneously (15s cooldown)."
+          "baseDescription": "Enter a Furious state upon activation, gaining Speed Boost and Attack Speed for a duration. Also unlocks the Dances With Werewolves ability, granting Unstoppable for a period when Health drops to a certain threshold.",
+          "enhancedDescription": "When teaming up with Wolverine, unlocks the Fastball Special. Upon mutual confirmation, Hulk hurls Wolverine forward."
         }
       ]
     },
@@ -102,16 +102,16 @@
           "slot": "A",
           "name": "Voltaic Union",
           "anchorPartner": "Thor",
-          "baseDescription": "Modifies Sentinel Strike into a lightning shield projectile. Landing 2 hits allows launching piercing lightning shield 4 times. Multiple throws on activation.",
-          "enhancedDescription": "Empowers shield with an AoE damaging splash lightning effect from the shield throw (16s cooldown)."
+          "baseDescription": "Modifies Sentinel Strike into a Lightning Shield projectile. After landing two hits, Captain America launches the piercing Lightning Shield four times.",
+          "enhancedDescription": "When teaming up with Thor, the lightning energy imbued in the shield intensifies. Each hit from the Lightning Shield triggers an extra burst of damage in the surrounding area."
         },
         {
           "id": "captain-america-mutual-rally",
           "slot": "B",
-          "name": "Mutual Rally",
+          "name": "Stars Aligned",
           "anchorPartner": "Winter Soldier",
-          "baseDescription": "Leap directly to a teammate, providing bonus health to both yourself and the ally while redirecting incoming damage to Cap.",
-          "enhancedDescription": "Triggers a mutual rally charging at one another, slamming to grant bonus health and movement speed to nearby allies. Targeted ally gets extra speed boost."
+          "baseDescription": "Captain America can leap directly to a teammate, providing Bonus Health to both himself and the ally, while redirecting a portion of their incoming damage to himself.",
+          "enhancedDescription": "When teaming up with Winter Soldier, the duo can trigger a mutual rally. Upon confirmation, they charge at one another, slamming together to grant Bonus Health and Movement Speed to all nearby friends. The original effect remains, now additionally granting a Speed Boost to the targeted teammate."
         }
       ]
     },
@@ -125,16 +125,16 @@
           "slot": "A",
           "name": "Oblivion Shroud",
           "anchorPartner": "The Hood",
-          "baseDescription": "Veil of Light Force and Terror Cape change into Twilight Veil and Void Veil. After traveling a set distance, veils halt in place; enemy damage passing through Twilight Veil is weakened, and enemy healing passing through Void Veil is reduced.",
-          "enhancedDescription": "Expands the active width of both veils. Allies passing through the veils are empowered by Hellfire energy to gain a damage boost."
+          "baseDescription": "Veil of Lightforce and Terror Cape are warped by hellfire energy, changing into Veil of Light and Veil of Darkness while retaining their original effects. After traveling a set distance, the veils halt in place. Enemy damage passing through the Veil of Light is weakened, while enemy healing passing through the Veil of Darkness suffers Healing Reduction.",
+          "enhancedDescription": "When teaming up with The Hood, the width of both the Veil of Light and Veil of Darkness expands. Additionally, allies passing through the veils are empowered by hellfire energy, gaining Damage Boost for a duration."
         },
         {
           "id": "cloak-and-dagger-frozen-haven",
           "slot": "B",
           "name": "Frozen Haven",
           "anchorPartner": "Luna Snow",
-          "baseDescription": "New active ability on a 20s cooldown that channels frost energy to encase yourself in an absolute block of ice, protecting you while emitting a weak healing aura to nearby allies.",
-          "enhancedDescription": "The healing aura emitted while encased inside the absolute block of ice becomes significantly stronger (perfect for protecting ultimate channels)."
+          "baseDescription": "Channel frost energy outward to encase yourself in an absolute block of ice. This offers great protection, but Freezes you in place. While frozen, you can be healed and emit a weak healing aura to nearby allies.",
+          "enhancedDescription": "When teaming up with Luna Snow, the healing aura provided to allies while Frozen becomes significantly stronger."
         }
       ]
     },
@@ -148,16 +148,16 @@
           "slot": "A",
           "name": "Gamma Maelstrom",
           "anchorPartner": "Hulk",
-          "baseDescription": "Upgrades Maelstrom of Madness energy charge rate and fully removes the anti-heal self-inflicted curse.",
-          "enhancedDescription": "Retains stored gamma energy (drops only to 50% instead of 0%) upon using the AoE pop, and energy doesn't decay over time."
+          "baseDescription": "Upgrade Maelstrom of Madness to Gamma Maelstrom. This drastically boosts energy charge rates and removes the Anti-Heal curse.",
+          "enhancedDescription": "When teaming up with Hulk, releasing Gamma Maelstrom retains some energy, and stored Gamma energy doesn’t decay over time."
         },
         {
           "id": "doctor-strange-psionic-vortex",
           "slot": "B",
           "name": "Psionic Vortex",
           "anchorPartner": "Invisible Woman",
-          "baseDescription": "Upgrades Maelstrom of Madness to Psionic Vortex, pulling enemies toward you and increasing shield values.",
-          "enhancedDescription": "Any damage dealt by Psionic Vortex gives proportional bonus health to Doctor Strange."
+          "baseDescription": "Upgrade Maelstrom of Madness to Psionic Vortex. Enemies caught in are Launched toward you. Shield of the Seraphim also gains increased shield value.",
+          "enhancedDescription": "When teaming up with Invisible Woman, any damage dealt by Psionic Vortex provides proportional Bonus Health for Doctor Strange."
         }
       ]
     },
@@ -171,16 +171,16 @@
           "slot": "A",
           "name": "Wild Wall",
           "anchorPartner": "Mantis",
-          "baseDescription": "Summon a Wild Wall providing continuous healing and bonus health to allies within its active field range.",
-          "enhancedDescription": "The Wild Wall evolves after hitting healing thresholds, drastically increasing its healing-over-time output."
+          "baseDescription": "Summon a Wild Wall that provides Continuous Healing and Bonus Health to allies within its range.",
+          "enhancedDescription": "When teaming up with Mantis, the Wild Wall evolves after providing a certain amount of healing, increasing its healing."
         },
         {
           "id": "groot-bubble-buddies",
           "slot": "B",
           "name": "Bubble Buddies",
           "anchorPartner": "Jeff the Land Shark",
-          "baseDescription": "Groot retreats completely inside a bubble shield to enter an invincible state alongside targeted continuous self-healing (20s cooldown).",
-          "enhancedDescription": "The healing inside the bubble increases significantly and translates directly into bonus health overcaps."
+          "baseDescription": "Retreat inside a Bubble Shield to enter an Invincible state, granting self-targeted Continuous Healing.",
+          "enhancedDescription": "When teaming up with Jeff the Land Shark, the healing effect inside the bubble is enhanced, and any excess healing converts into Bonus Health."
         }
       ]
     },
@@ -192,18 +192,18 @@
         {
           "id": "hawkeye-moonlight-slash",
           "slot": "A",
-          "name": "Moonlight Slash",
-          "anchorPartner": "Cloak and Dagger",
-          "baseDescription": "Crescent Slash fires a forward energy wave that heals and boosts teammate healing while damaging and applying vulnerability to enemies.",
-          "enhancedDescription": "Grants Hawkeye an active, fluid three-hit melee slashing combo pattern instead of a single slash."
+          "name": "Moonlit Slash",
+          "anchorPartner": "Cloak & Dagger",
+          "baseDescription": "Upgrade Crescent Slash to Moonlit Slash, projecting a radiant slash outward. It heals and boosts healing for allies, while damaging enemies and applying Vulnerability.",
+          "enhancedDescription": "When teaming up with Cloak & Dagger, Moonlit Slash can be chained into a three-hit combo, firing off three consecutive sweeping light blades."
         },
         {
           "id": "hawkeye-psionic-arrows",
           "slot": "B",
-          "name": "Psionic Arrows",
+          "name": "Senbonzakura Strike",
           "anchorPartner": "Psylocke",
-          "baseDescription": "Upgrades Blast Arrow. Holding down the draw continuously accumulates extra tracking psionic arrows that fire simultaneously upon release.",
-          "enhancedDescription": "The accumulated psionic arrows travel significantly faster and explode directly upon hitting any enemy or the terrain environment."
+          "baseDescription": "Upgrade Blast Arrow to Psionic Arrow. While drawn, Hawkeye can continuously bank extra Psionic Arrows. Releasing the bowstring rapidly fires all accumulated arrows forward in sequence.",
+          "enhancedDescription": "When teaming up with Psylocke, the nocking speed for each Psionic Arrow is significantly quickened, and they explode upon hitting enemies or the environment."
         }
       ]
     },
@@ -215,18 +215,18 @@
         {
           "id": "hela-hell-tendrils",
           "slot": "A",
-          "name": "Hell Tendrils",
+          "name": "Hel Tendrils",
           "anchorPartner": "Venom",
-          "baseDescription": "Replaces Soul Drainer with active Hell Tendrils. Impact pulls nearby enemies together and tethers them, slowing targets trying to flee.",
-          "enhancedDescription": "Upgrades Piercing Night right-click to unleash a rapid volley of symbiote infused swords where each direct hit heals Hela."
+          "baseDescription": "Replace Soul Drainer with Hel Tendrils. Upon hit, tendrils pull nearby enemies toward the impact point and links them, Slowing enemies that try to escape.",
+          "enhancedDescription": "When teaming up with Venom, Piercing Night fires a dense volley of symbiote-infused Nightsword Thorns. Each direct Nightsword Thorn hit restores a portion of Hela’s Health."
         },
         {
           "id": "hela-deep-wrath",
           "slot": "B",
           "name": "Deep Wrath",
           "anchorPartner": "Namor",
-          "baseDescription": "Passive: Participating in any enemy KO automatically spawns an undead monstro turret. Using Piercing Night commands the turret to fire at targets.",
-          "enhancedDescription": "During her ultimate form, every single descending projectile impact point automatically spawns a new undead monstro turret."
+          "baseDescription": "Whenever Hela participates in a KO, an Undead Monstro spawns at the fallen enemy’s position. While an Undead Monstro is present, casting Piercing Night will command the Monstro to spit a Nightsword Thorn at the nearest enemy.",
+          "enhancedDescription": "When teaming up with Namor, each attack during Goddess of Death spawns an Undead Monstro at the point of impact."
         }
       ]
     },
@@ -238,18 +238,18 @@
         {
           "id": "iron-fist-kuan-yin-palm",
           "slot": "A",
-          "name": "Kuan-Yin Palm",
+          "name": "Kumiho Palm",
           "anchorPartner": "White Fox",
-          "baseDescription": "Landing hits with flurry strikes releases an active burst of healing to all surrounding brawling or diving teammates.",
-          "enhancedDescription": "Significantly extends total target lock-on engagement distance for starting flurry rushes."
+          "baseDescription": "Hitting an enemy with Yat Jee Chung Kuen provides a burst of healing to nearby allies.",
+          "enhancedDescription": "When teaming up White Fox, the lock-on distance for Yat Jee Chung Kuen is significantly increased."
         },
         {
           "id": "iron-fist-iron-and-stone",
           "slot": "B",
-          "name": "Iron and Stone",
+          "name": "Iron & Stone",
           "anchorPartner": "The Thing",
-          "baseDescription": "Adds a rising uppercut skill on an 8s cooldown that launches targeted enemies upward to extend airborne combo gameplay loops.",
-          "enhancedDescription": "Enables Iron Fist to chain the rising uppercut directly into a sweeping ground leg strike follow-up for heavy squash lethality."
+          "baseDescription": "Unleash a powerful uppercut to Launch Up enemies.",
+          "enhancedDescription": "When teaming up The Thing, unleashing the uppercut can be chained directly into a sweeping leg sweep for a follow-up attack."
         }
       ]
     },
@@ -263,16 +263,16 @@
           "slot": "A",
           "name": "Gamma Charge",
           "anchorPartner": "Hulk",
-          "baseDescription": "Upgrades Armor Overdrive into Gamma Overdrive, rewarding Iron Man with a localized gamma shield and significantly boosting Repulsor and Unibeam damage.",
-          "enhancedDescription": "Enables Invincible Pulse Cannon, granting a massive gamma shield and firing heavily infused blasts that deal continuous passive flight damage."
+          "baseDescription": "Upgrade Armor Overdrive to Gamma Overdrive. In this state, Iron Man gains a Gamma Shield and can fire significantly stronger Repulsor Blasts and Unibeams.",
+          "enhancedDescription": "When teaming up with Hulk, releasing Invincible Pulse Cannon generates a Gamma Shield and heavily infuses the blast, creating a Gamma Pulse Cannon. Its radiation creates a massive damage increase while the projectile flies."
         },
         {
           "id": "iron-man-thunder-overdrive",
           "slot": "B",
           "name": "Thunder Overdrive",
           "anchorPartner": "Thor",
-          "baseDescription": "Permanently enhances Unibeam (in and out of overdrive) to emit bounding lightning energy that deals bonus damage to targets near the beam edge.",
-          "enhancedDescription": "Reduces the active cooldown of Armor Overdrive from a standard 20 seconds down to a rapid 15 seconds."
+          "baseDescription": "Enhance Unibeam both in and out of Armor Overdrive. When fired, a ring of volatile lightning energy forms, dealing bonus damage to enemies caught near the beam’s edge.",
+          "enhancedDescription": "When teaming up with Thor, Armor Overdrive cooldown is massively reduced."
         }
       ]
     },
@@ -286,16 +286,16 @@
           "slot": "A",
           "name": "Guardian of the Deep",
           "anchorPartner": "Venom",
-          "baseDescription": "Shoots out healing tendrils that link to allies to provide continuous healing, converting excess healing directly into overcap bonus health.",
-          "enhancedDescription": "Adds symbiotic tendrils that lash out at nearby enemies within range to inflict continuous passive damage."
+          "baseDescription": "Shoot out healing tendrils; linked allies receive Continuous Healing, and excess healing is converted into Bonus Health.",
+          "enhancedDescription": "When teaming up with Venom, symbiote tendrils can also lash out at nearby enemies within range, inflicting continuous damage."
         },
         {
           "id": "jeff-the-land-shark-mr-pool-s-interdimensional-toy-box",
           "slot": "B",
-          "name": "Mr. Pool's Interdimensional Toy Box",
+          "name": "Mr. Pool’s Interdimensional Toy Box",
           "anchorPartner": "Deadpool",
-          "baseDescription": "New ability on a 15s cooldown that spits out a Deadpool plushie that continuously taunt nearby enemies while spraying a healing mist onto surrounding allies.",
-          "enhancedDescription": "The Deadpool plushie exerts a much stronger taunt pull while concurrently dealing area damage to enemies caught in its radius."
+          "baseDescription": "Gain a new ability to spit out a Deadpool Plushie. The plushie continuously Taunts nearby enemies while spraying a healing mist onto surrounding allies.",
+          "enhancedDescription": "When teaming up with Deadpool, the Deadpool Plushie asserts a much stronger Taunt while concurrently damaging enemies caught in its radius."
         }
       ]
     },
@@ -309,16 +309,16 @@
           "slot": "A",
           "name": "Vibrant Vitality",
           "anchorPartner": "Mantis",
-          "baseDescription": "Crystals are upgraded to permanently provide a damage boost to affecting allies within their active range and expanded radius.",
-          "enhancedDescription": "Crystals emit a natural energy shockwave that damages enemies within a radius and slightly launches them upward."
+          "baseDescription": "Regeneration Domain provides a Damage Boost effect to allies within range; the Runestone triggers a psychic catalysis, expanding the domain’s radius.",
+          "enhancedDescription": "When teaming up with Mantis, deploying Regenerative Domain emits a shockwave of nature energy that damages enemies within the radius and slightly Launch them up."
         },
         {
           "id": "loki-villain-s-illusion",
           "slot": "B",
-          "name": "Villain's Illusion",
+          "name": "Villain’s Illusion",
           "anchorPartner": "Hela",
-          "baseDescription": "New active ability allowing Loki to target any fallen hero (friend or foe) to assume their form and use their standard abilities for a set time (cannot use their ultimate).",
-          "enhancedDescription": "Transformation duration is increased. If Loki dies while transformed or while ulting, he does not die; he safely reverts back to Loki with health remaining."
+          "baseDescription": "Gain a new ability to target fallen heroes (friend or foe), letting Loki assume their form for a set time (cannot cast their Ultimate Ability).",
+          "enhancedDescription": "When teaming up with Hela, Loki’s transformation lasts slightly longer. Furthermore, taking lethal damage while transformed or in his Ultimate Ability state will merely revert him back to Loki with a sliver of Health, preventing a KO."
         }
       ]
     },
@@ -332,16 +332,16 @@
           "slot": "A",
           "name": "Atlas Bond",
           "anchorPartner": "White Fox",
-          "baseDescription": "Unleashes a Spirit Fox that charms enemies and heals allies in its path. Activating it instantly cleanses all negative status effects on Luna Snow.",
-          "enhancedDescription": "The Spirit Fox automatically returns after reaching its maximum distance, and the self-cleanse behavior is retained."
+          "baseDescription": "Unleash a spirit fox forward that Charms enemies while healing any allies in its path. Activating the ability instantly cleanses all negative status effects on Luna Snow.",
+          "enhancedDescription": "When teaming up with White Fox, the spirit fox automatically returns after reaching its maximum distance, and the self-cleanse is retained."
         },
         {
           "id": "luna-snow-duality-dance",
           "slot": "B",
           "name": "Duality Dance",
           "anchorPartner": "Adam Warlock",
-          "baseDescription": "Casts a localized soul bond tethering characters in range; attacking tethered enemies or healing linked allies restores Luna's personal health.",
-          "enhancedDescription": "Scoring critical hits with Light and Dark Ice primary attacks directly reduces the active cooldowns of her Freeze and Ice Arts abilities."
+          "baseDescription": "Cast Soul Bond to tether all characters within range. Attacking tethered enemies or healing linked allies restores your Health.",
+          "enhancedDescription": "When teaming up with Adam Warlock, scoring critical hits with Light & Dark Ice reduces the cooldowns of Absolute Zero and Ice Arts."
         }
       ]
     },
@@ -353,18 +353,18 @@
         {
           "id": "magik-chaining-agamotto",
           "slot": "A",
-          "name": "Chaining Agamotto",
+          "name": "Chain of Cyttorak",
           "anchorPartner": "Doctor Strange",
-          "baseDescription": "Active tether skill that hooks and drags two targeted enemies together to the same location simultaneously to enable combo grouping.",
-          "enhancedDescription": "Removes the target cap limit completely, enabling Magik to tether and pull an entire enemy squad to a single point."
+          "baseDescription": "Chain of Cyttorak can tether two enemies simultaneously, dragging both targets to the same location.",
+          "enhancedDescription": "When teaming up with Doctor Strange, Chain of Cyttorak can tether multiple enemies at once, pulling the entire group to a singular point."
         },
         {
           "id": "magik-void-pentagram",
           "slot": "B",
           "name": "Void Pentagram",
           "anchorPartner": "The Hood",
-          "baseDescription": "Casting stepping discs inside a void magic circle instantly refunds ability energy and automatically spawns a helpful limbo demon minion.",
-          "enhancedDescription": "The summoned limbo demon minions receive heavily increased flat health pools and a wider melee attack sweep range."
+          "baseDescription": "Casting Stepping Discs within an Hellish Magic Circle refunds energy, and each use of Stepping Discs summons a Limbo Demon.",
+          "enhancedDescription": "When teaming up with The Hood, the summoned Limbo Demons have heavily increased Health and a wider attack range."
         }
       ]
     },
@@ -378,16 +378,16 @@
           "slot": "A",
           "name": "Metallic Chaos",
           "anchorPartner": "Scarlet Witch",
-          "baseDescription": "Grants permanent access to the classic ranged bolts weapon on a low 12-second cooldown.",
-          "enhancedDescription": "Transforms Mag Cannon (right-click) into a Kamehameha-style beam burning energy to fire chaotic great swords for extreme damage."
+          "baseDescription": "Summons a Chaos Greatsword that deals damage to enemies in front.",
+          "enhancedDescription": "When teaming up with Scarlet Witch, Magnetic Cannon becomes a charged ability. Charging consumes passive energy, and each energy segment consumed fires a Chaos Greatsword that deals damage to enemies."
         },
         {
           "id": "magneto-echoing-projection",
           "slot": "B",
-          "name": "Echoing Projection",
+          "name": "Magnetic Resonance",
           "anchorPartner": "Emma Frost",
-          "baseDescription": "Cast a magnetic projection echo that mimics Magneto's movements and attacks perfectly from the enemy perspective (15s cooldown).",
-          "enhancedDescription": "The echoes never decay or go away automatically, possessing high health pools until killed (creates a 7v6 scenario)."
+          "baseDescription": "Cast a magnetic projection that mimics Magneto’s movement and ability casts perfectly from the enemy’s perspective.",
+          "enhancedDescription": "When teaming up with Emma Frost, the magnetic projection receives a massive Health bump and will persist indefinitely unless destroyed or manually recalled."
         }
       ]
     },
@@ -401,16 +401,16 @@
           "slot": "A",
           "name": "Star Blossom",
           "anchorPartner": "Star-Lord",
-          "baseDescription": "Allows Mantis to use AoE healing by recasting her healing flower on a teammate, spreading an enhanced healing aura.",
-          "enhancedDescription": "Always triggers the maximum enhanced spell and healing effect continuously without manual recasts."
+          "baseDescription": "Recasting Healing Flower on a teammate with the effect enhances and spreads the healing aura.",
+          "enhancedDescription": "When teaming up with Star-Lord, using Healing Flower on any teammate instantly triggers the enhanced Spell Field and healing effect."
         },
         {
           "id": "mantis-vitality-pack",
           "slot": "B",
-          "name": "Vitality Pack",
+          "name": "Vitality Pact",
           "anchorPartner": "Adam Warlock",
-          "baseDescription": "Upon defeat, Mantis can move freely as a soul to lightly heal nearby allies and reforge her body at a chosen spot. Using Natural Anger enhances Nature's Favor healing.",
-          "enhancedDescription": "Soul state can forge a soul bond with nearby teammates upon death to grant healing over time and distribute incoming damage taken across the bond."
+          "baseDescription": "Upon defeat, Mantis can freely move as a soul, healing nearby allies, and reforge her body at a chosen spot. After using Natural Anger, the effect of Nature’s Favor is enhanced, increasing the amount of healing provided.",
+          "enhancedDescription": "When teaming up with Adam Warlock, her soul state can forge Soul Bond with nearby teammates, granting Healing Over Time and distributing damage taken across the bond."
         }
       ]
     },
@@ -423,17 +423,17 @@
           "id": "moon-knight-luminous-moon",
           "slot": "A",
           "name": "Luminous Moon",
-          "anchorPartner": "Cloak and Dagger",
-          "baseDescription": "New active skill on a 15s cooldown that lets Moon Knight enter a phased state to dash forward, emitting a light energy wave that heals himself and allies.",
-          "enhancedDescription": "Extends phase duration and dash range while significantly expanding the healing wave's radius and scaling up total health output."
+          "anchorPartner": "Cloak & Dagger",
+          "baseDescription": "Enter Phased state and dash forward. Upon concluding, emit a Light Energy Healing Wave that heals Moon Knight and nearby allies.",
+          "enhancedDescription": "When teaming up with Cloak & Dagger, the Phased state duration is extended, the dash distance increases, and the Light Energy Healing Wave boasts a larger radius and stronger healing output."
         },
         {
           "id": "moon-knight-blood-moon",
           "slot": "B",
           "name": "Blood Moon",
           "anchorPartner": "Elsa Bloodstone",
-          "baseDescription": "Deploys ankh traps that materialize a Talon of Khonshu upon trigger, pulling nearby caught enemies directly into the center of the trap zone.",
-          "enhancedDescription": "Ankh traps summon multiple overlapping Talons of Khonshu to continuously bombard the trapped zone (supports 4 active ankhs)."
+          "baseDescription": "Deploy an Ankh Trap. Upon triggering, an Ankh materializes at the location, while summoning a single Talon of Khonshu to Launch enemies toward the trap’s center.",
+          "enhancedDescription": "When teaming up with Elsa Bloodstone, triggering the trap summons multiple Talons of Khonshu to bombard the area."
         }
       ]
     },
@@ -445,18 +445,18 @@
         {
           "id": "namor-tidal-wave",
           "slot": "A",
-          "name": "Tidal Wave",
+          "name": "Chilling Charisma",
           "anchorPartner": "Luna Snow",
-          "baseDescription": "Active ability summoning a massive forward-rolling wave that knocks back enemies and inflicts a movement slow debuff.",
-          "enhancedDescription": "Grants two full charges of Tidal Wave. Waves crash down at maximum distance to deal secondary area damage and re-apply slows."
+          "baseDescription": "Gain a new ability to summon a Frost Tide forward. The wave damages, Pushes Back, and inflicts a Slow on all enemies hit.",
+          "enhancedDescription": "When teaming up with Luna Snow, the Frost Tide gains 1 charge and crashes down upon reaching its maximum range, dealing area damage and Slowing enemies caught near the endpoint."
         },
         {
           "id": "namor-gamma-monstro",
           "slot": "B",
           "name": "Gamma Monstro",
           "anchorPartner": "Hulk",
-          "baseDescription": "Landing critical hits automatically summons an extra Gamma Monstro squid turret that gains attack speed and fires a beam when using Wrath of the Seas.",
-          "enhancedDescription": "Casting Blessing of the Deep creates a gamma-infused water barrier that accelerates turret cooldowns and boosts damage while inside."
+          "baseDescription": "Summon an extra Gamma Monstro that continuously damages the nearest enemy. Upon landing critical hits, the Gamma Monstro gains increased Attack Speed. Hitting an enemy with Wrath of the Seven Seas prompts it to fire a powerful beam.",
+          "enhancedDescription": "When teaming up with Hulk, casting Blessing of the Deep creates a water barrier infused with Gamma energy. Standing inside accelerates the Gamma Monstro cooldown and grants it a Damage Boost."
         }
       ]
     },
@@ -470,16 +470,16 @@
           "slot": "A",
           "name": "Vibranium Mech",
           "anchorPartner": "Black Panther",
-          "baseDescription": "Boosts primary attack speed and damage, and deploys a frontal 300 HP vibranium shield while reducing web energy costs (6s duration).",
-          "enhancedDescription": "Shield increases to 400 HP and turns Penny's primary fire into a rapid machine gun output."
+          "baseDescription": "Upon activation, briefly grants Cyber-Web Cluster an Attack Speed and Damage Boost.",
+          "enhancedDescription": "When teaming up with Black Panther, activating the ability deploys a frontal Vibranium Shield, while reducing the Vibranium Energy cost of Cyber-Web Cluster."
         },
         {
           "id": "peni-parker-rocket-network",
           "slot": "B",
           "name": "Rocket Network",
           "anchorPartner": "Rocket Raccoon",
-          "baseDescription": "Deploy a secondary nest that periodically drops tracking spider drones and armor packs for team bonus health.",
-          "enhancedDescription": "The secondary nest passively regenerates its own health pool over time, and Rocket's BRB creates webs, drones, and mines."
+          "baseDescription": "Deploy an Armored Spider-Nest that periodically drops Spider-Drones and Armor Packs that grant Bonus Health.",
+          "enhancedDescription": "When teaming up with Rocket Raccoon, the Armored Spider-Nest passively regenerates its own Health. Furthermore, Rocket’s B.R.B. will generate Cyber-Webs, and spawn both Spider-Drones and Arachno-Mines."
         }
       ]
     },
@@ -491,18 +491,18 @@
         {
           "id": "psylocke-light-and-dark-darts",
           "slot": "A",
-          "name": "Light and Dark Darts",
-          "anchorPartner": "Cloak and Dagger",
-          "baseDescription": "Fires a ring of light darts dealing damage and stealing health, leaving a shadow domain puddle that grants immediate stealth upon entry.",
-          "enhancedDescription": "Expands shadow domain radius. Re-entering the zone continuously refires the light dart ring in all directions to lock down 1v1s."
+          "name": "Light & Dark Darts",
+          "anchorPartner": "Cloak & Dagger",
+          "baseDescription": "Unleash a ring of Light Darts in all directions that damage enemies and restore Psylocke’s Health upon impact, leaving behind a Shadow Domain. Staying inside the domain for a short time will re-enter Stealth.",
+          "enhancedDescription": "When teaming up with Cloak & Dagger, the radius of the Shadow Domain expands, and each time re-entering Stealth, the Light Darts are fired in all directions again."
         },
         {
           "id": "psylocke-mental-projection",
           "slot": "B",
           "name": "Mental Projection",
           "anchorPartner": "Emma Frost",
-          "baseDescription": "Creates a forward-dashing clone illusion that mimics Psylocke's melee strikes while the real Psylocke enters a temporary cloaked stealth state.",
-          "enhancedDescription": "Elevates mental power, allowing Psylocke to reactivate the skill to instantly swap physical places with her active illusion clone."
+          "baseDescription": "Create an illusory projection that automatically dashes forward to use Psi-Blade Dash, while Psylocke enters Stealth. If Psylocke attacks, the illusion mimics her strikes.",
+          "enhancedDescription": "When teaming up with Emma Frost, Psylocke’s mental powers are elevated, allowing her to reactivate the ability to instantly swap places with her illusion."
         }
       ]
     },
@@ -516,16 +516,16 @@
           "slot": "A",
           "name": "Ammo Overload",
           "anchorPartner": "Rocket Raccoon",
-          "baseDescription": "Throws down an ammo overload device in a target direction on a 25s cooldown. Entering its range grants a heavily increased firing rate.",
-          "enhancedDescription": "The device grants both infinite ammo and the increased firing rate simultaneously while inside its radius."
+          "baseDescription": "Throw an Ammo Overload Device in the target direction. Upon entering the device’s range, receive Faster Firing.",
+          "enhancedDescription": "When teaming up with Rocket Raccoon, the device grants Infinite Ammo."
         },
         {
           "id": "punisher-piercing-vision",
           "slot": "B",
-          "name": "Piercing Vision",
+          "name": "Bestial Hunt",
           "anchorPartner": "Daredevil",
-          "baseDescription": "Fires a high-damage piercing bullet that carries an integrated flat damage boost effect.",
-          "enhancedDescription": "The bullet gains heavily increased projectile speed when piercing through enemies, summoned player walls, and shields."
+          "baseDescription": "Shoot piercing bullets that carry a Damage Boost effect.",
+          "enhancedDescription": "When teaming up with Daredevil, the bullets break enemy summoned walls and shields more quickly."
         }
       ]
     },
@@ -539,16 +539,16 @@
           "slot": "A",
           "name": "Planet X Pals",
           "anchorPartner": "Groot",
-          "baseDescription": "Converts bombard mode main damage to thorny spores on a 10s+ cooldown. Spores deal continuous damage to enemies while healing and granting bonus health to allies in a radius.",
-          "enhancedDescription": "Extends the activation duration of thorny spores significantly while riding on Groot's shoulders."
+          "baseDescription": "Converts Bombard Mode to launch Thorny Spores. Upon impact, they deal continuous damage to enemies within the radius while healing and granting Bonus Health to allies.",
+          "enhancedDescription": "When teaming up with Groot, Rocket can ride on Groot’s shoulders, and the active duration of the Thorny Spores field is extended."
         },
         {
           "id": "rocket-raccoon-mammalian-bond",
           "slot": "B",
           "name": "Mammalian Bond",
           "anchorPartner": "Squirrel Girl",
-          "baseDescription": "Tosses out collectible acorns that teammates can pick up to receive a burst of healing and a global cooldown reduction on their abilities.",
-          "enhancedDescription": "Increases the maximum charge count for throwing out acorns."
+          "baseDescription": "Tosses out a scattered batch of augmented Vitality Acorns. Acorns that hit the floor can be collected. Whether struck directly or picked up, teammates receive a burst of healing and global cooldown reduction.",
+          "enhancedDescription": "When teaming up with Squirrel Girl, the maximum charge count for this ability is increased."
         }
       ]
     },
@@ -560,18 +560,18 @@
         {
           "id": "scarlet-witch-sorcerer-supreme",
           "slot": "A",
-          "name": "Sorcerer Supreme",
+          "name": "Sorcerers Supreme",
           "anchorPartner": "Doctor Strange",
-          "baseDescription": "Replaces standard right-click projectiles with a hold-down channel that releases a massive stream of continuous high-damage magic energy.",
-          "enhancedDescription": "Increases total channel resource pool capacity and causes Chaos Control to generate energy significantly faster when attacking."
+          "baseDescription": "Chthonian Burst is replaced with Mystic Burst upon activation. Hold down the attack button to unleash a rapid, relentless salvo of magical missiles in the target direction.",
+          "enhancedDescription": "When teaming up with Doctor Strange, Scarlet Witch’s maximum total Chaos Energy pool increases, and Chaos Control generates energy much faster when attacking."
         },
         {
           "id": "scarlet-witch-hex-fireworks",
           "slot": "B",
           "name": "Hex Fireworks",
           "anchorPartner": "Jubilee",
-          "baseDescription": "Infuses fireworks into Dark Seal forcefields, changing it into a plasmoid shield. Recasting detonates it for area damage and vulnerability.",
-          "enhancedDescription": "Scarlet Witch receives constant passive self-healing from firework energy whenever she is actively using Mystic Projection."
+          "baseDescription": "Infuse firework energy into the Dark Seal forcefield, turning it into a Plasmoid Seal, allowing for a secondary blast. After expanding the Plasmoid Seal, pressing the {Ability1} key again while it persists will detonate the fireworks, dealing damage and inflicting Vulnerability.",
+          "enhancedDescription": "When teaming up with Jubilee, Scarlet Witch receives constant healing from the firework energy while using Mystic Projection."
         }
       ]
     },
@@ -585,16 +585,16 @@
           "slot": "A",
           "name": "Symbiote Bond",
           "anchorPartner": "Venom",
-          "baseDescription": "Activating symbiote form turns tendrils into explosive ground spikes that deal area damage, knock back enemies, and grant 90% invincibility.",
-          "enhancedDescription": "Triggers additional clinging tendrils that continuously tether and damage all enemies caught near the spike zone."
+          "baseDescription": "Venom shares a part of his symbiote with Spider-Man, activating their symbiote abilities. Spider-Man can convert the symbiotes into explosive spikes that inflict harm on nearby enemies and relentlessly drive them back.",
+          "enhancedDescription": "When teaming up with Venom, this triggers additional Touch of Klyntar tendrils that continuously tether and damage enemies on top of the base effect."
         },
         {
           "id": "spider-man-sticky-trap",
           "slot": "B",
-          "name": "Sticky Trap",
+          "name": "Parker Power-Up",
           "anchorPartner": "Peni Parker",
-          "baseDescription": "Tosses a sticky spider bomb that deals damage and tracks targets. Detonating it on Spider-Man instantly recharges all web cluster shots.",
-          "enhancedDescription": "Spider tracers applied by web clusters are heavily upgraded. Detonating these marks rewards Spider-Man with immediate bonus health."
+          "baseDescription": "Peni Parker whips up a Sticky Spider-Bomb for Spider-Man! Prime it, then toss it before the timer’s up for a blast that damages nearby enemies and attaches a Spider-Tracer to them. If not thrown in time, it explodes on Spider-Man, recharging all Web-Cluster shots.",
+          "enhancedDescription": "When teaming up with Peni Parker, Spider-Tracers applied by Web-Cluster are upgraded. Detonating these upgraded marks generates Bonus Bonus Health for Spider-Man."
         }
       ]
     },
@@ -608,16 +608,16 @@
           "slot": "A",
           "name": "Squirrel Missile",
           "anchorPartner": "Iron Man",
-          "baseDescription": "Launches a tracking squirrel projectile that rides on Iron Man's nanotech glove to hunt down a designated target as a homing missile.",
-          "enhancedDescription": "Launching an acorn to imprison/stun a target automatically fires an extra synchronized tracking squirrel missile at them."
+          "baseDescription": "Squirrel Girl gains the Squirrel Missile ability. She directs a squirrel to ride Iron Man’s nanotech glove as a homing missile. Upon hit, the squirrel flees just before a fiery explosion.",
+          "enhancedDescription": "When teaming up with Iron Man, using Squirrel Blockade simultaneously fires a Squirrel Missile."
         },
         {
           "id": "squirrel-girl-esu-alumni",
           "slot": "B",
-          "name": "ESU Alumni",
+          "name": "ESU Alumnus",
           "anchorPartner": "Spider-Man",
-          "baseDescription": "Gains an explosive web bomb ability that can be thrown to deal localized splash damage and briefly slow all caught enemies.",
-          "enhancedDescription": "Web bombs leave a sticky web puddle on the floor that continuously damages, slows, and scales into a full stun over time."
+          "baseDescription": "Spider-Man gives Squirrel Girl a web bomb. She can launch it to unleash an explosion upon contact with the environment or an enemy, briefly Slowing and damaging enemies caught in the blast.",
+          "enhancedDescription": "When teaming up with Spider-Man, Squirrel Girl receives more Web Fluid. After throwing Webbed Acorn, viscous web fluid coats the ground alongside the explosion, leaving behind a sticky Web Area. Enemies within suffer a continuous Slow that scales into a Stun if they linger too long."
         }
       ]
     },
@@ -629,18 +629,18 @@
         {
           "id": "star-lord-thorn-snares",
           "slot": "A",
-          "name": "Thorn Snares",
+          "name": "Flora Munitions",
           "anchorPartner": "Groot",
-          "baseDescription": "Tosses twisted thorn seeds that rapidly sprout into floor snares, dealing damage and trapping stepping enemies in a direct root effect.",
-          "enhancedDescription": "Increases total number of thorn snares deployed simultaneously and boosts flat snare damage values."
+          "baseDescription": "Gain a new ability to toss Twisted Thorn Seeds forward. Upon landing, they rapidly Sprout and take root, generating Thorn Snares around the area. Enemies stepping on a snare take damage and suffer a Root effect.",
+          "enhancedDescription": "When teaming up with Groot, the number of Thorn Snares deployed increases, and the damage dealt when an enemy steps on them is boosted."
         },
         {
           "id": "star-lord-star-soul",
           "slot": "B",
-          "name": "Star Soul",
+          "name": "Star-Soul",
           "anchorPartner": "Adam Warlock",
-          "baseDescription": "Deploys a telekinetic beacon on a 100s cooldown that Star-Lord can teleport back to. If the beacon is alive when Star-Lord dies, he instantly respawns at it.",
-          "enhancedDescription": "Participating in any enemy KO directly reduces the active remaining cooldown of the telekinetic resurrection beacon."
+          "baseDescription": "Gain a new ability to place a Telekinetic Beacon. You can teleport back to the location where the beacon is deployed from anywhere on the map. Upon defeat, Star-Lord will cocoon and respawn at the Telekinetic Beacon’s coordinates.",
+          "enhancedDescription": "When teaming up with Adam Warlock, every time Star-Lord participates in a KO, Telekinetic Beacon cooldown is reduced."
         }
       ]
     },
@@ -652,18 +652,18 @@
         {
           "id": "storm-god-of-thunder",
           "slot": "A",
-          "name": "God of Thunder",
+          "name": "Gods of Thunder",
           "anchorPartner": "Thor",
-          "baseDescription": "Upgrades Windblade primary attack permanently into a hitscan lightning beam that detonates for damage on impact (retains fall-off; can headshot).",
-          "enhancedDescription": "Replaces Bolt Rush with Chain Lightning on a 5s cooldown, allowing attacks to bounce from target to target across groups."
+          "baseDescription": "Upgrade Wind Blade into a hitscan beam that detonates upon striking a target.",
+          "enhancedDescription": "When teaming up with Thor, Bolt Rush becomes Chain Lightning, allowing it to bounce from foe to foe."
         },
         {
           "id": "storm-jaws-of-fate",
           "slot": "B",
           "name": "Jaws of Fate",
           "anchorPartner": "Jeff the Land Shark",
-          "baseDescription": "New active ability on a 15s cooldown that unleashes a localized downpour continuously healing Storm and her occupying allies.",
-          "enhancedDescription": "During Omega Hurricane, Jeff can swim inside the cyclone to transform it into a massive healing and damaging Jeff-Nato."
+          "baseDescription": "Unleash a torrential downpour that continuously heals both herself and her teammates.",
+          "enhancedDescription": "When teaming up with Jeff the Land Shark, casting Omega Hurricane allows Jeff to swim inside the cyclone, generating a localized Jeff-nado."
         }
       ]
     },
@@ -677,16 +677,16 @@
           "slot": "A",
           "name": "Ragnarok Rebirth",
           "anchorPartner": "Hela",
-          "baseDescription": "Passive: Upon taking fatal damage, death is prevented and Thor gains a decaying pool of bonus health. Securing a kill resurrects him.",
-          "enhancedDescription": "If Thor or Hela secure a kill while the passive is active, Thor instantly revives, translating bonus health into permanent health plus continuous healing."
+          "baseDescription": "Receiving fatal damage prevents immediate defeat, Thor gains a decaying pool of Bonus Health. If he participates in a KO during this time, he resurrects and recovers a small amount of Health.",
+          "enhancedDescription": "When teaming up with Hela, if either of them participates in a KO, Thor instantly revives, restoring Health equal to his remaining Bonus Health and gaining a Continuous Healing effect."
         },
         {
           "id": "thor-divine-armory",
           "slot": "B",
           "name": "Divine Armory",
           "anchorPartner": "Angela",
-          "baseDescription": "Adds a throwable thunder spear ability that restores Thor Force per enemy struck; Thor can leap to the spear location (20s cooldown).",
-          "enhancedDescription": "Leaping directly to the spear grants a chunk of immediate bonus health."
+          "baseDescription": "Hurl a Thunder Spear that restores Thorforce for each enemy struck. Afterward, Thor can leap to the spear’s explosion point, dealing a second wave of damage to all enemies within range.",
+          "enhancedDescription": "When teaming up with Angela, leaping to the Thunder Spear grants Bonus Health."
         }
       ]
     },
@@ -700,16 +700,16 @@
           "slot": "A",
           "name": "Blood Leech",
           "anchorPartner": "Blade",
-          "baseDescription": "Right-click cellular corrosion siphons health continuously from every single connected/linked enemy target.",
-          "enhancedDescription": "Gains an additional burst of health upon activating specific movement and diving abilities (Swing, E, Dive)."
+          "baseDescription": "Cellular Corrosion new effect: while tethered to enemies, continuously siphon health from every linked target, restoring Venom’s Health.",
+          "enhancedDescription": "When teaming up with Blade, Venom gains a burst of one-time healing when using certain specific abilities."
         },
         {
           "id": "venom-abyssal-flames",
           "slot": "B",
           "name": "Abyssal Flames",
           "anchorPartner": "Phoenix",
-          "baseDescription": "Ignites symbiote with Phoenix Flames, replacing primary attacks with a wide, sweeping frontal claw slash with extended range.",
-          "enhancedDescription": "Primary attacks apply Sparks that detonate upon reaching 3 stacks on a target."
+          "baseDescription": "Ignites the symbiote with Phoenix Flames for a duration, replacing Dark Predation with a sweeping Phoenix Touch frontal slash.",
+          "enhancedDescription": "When teaming up with Phoenix, Venom’s Phoenix Force is enhanced: every Phoenix Touch applies Sparks. Upon reaching three stacks, the Sparks detonate."
         }
       ]
     },
@@ -723,16 +723,16 @@
           "slot": "A",
           "name": "Timeless Veterans",
           "anchorPartner": "The Punisher",
-          "baseDescription": "Unlocks Burst Spike. Activating the bionic arm emits a forward arc of electricity that deals damage and knocks back blocking or approaching targets.",
-          "enhancedDescription": "The electric burst applies a direct grounded crowd control status effect and amplifies the physical knockback distance."
+          "baseDescription": "Unlocks the Burst Spike ability. Using the bionic arm emits forward electricity, dealing damage and Knocking Back enemies.",
+          "enhancedDescription": "When teaming up with The Punisher, the electric burst applies a Grounded effect and Knocks Back enemies even further."
         },
         {
           "id": "winter-soldier-expert-instinct",
           "slot": "B",
           "name": "Expert Instinct",
           "anchorPartner": "Elsa Bloodstone",
-          "baseDescription": "Passive: Securing or assisting in an enemy KO grants stacks of Cooling Instinct, reducing all active kit cooldowns. Stacks clear on death.",
-          "enhancedDescription": "Significantly boosts the maximum flat overshield bonus health capacity generated by Winter Soldier's natural bionic arm passive."
+          "baseDescription": "Securing or participating in a KO grants a stack of Culling Instinct. Each stack reduces the cooldowns of Winter Soldier’s other abilities. All stacks are lost upon defeat.",
+          "enhancedDescription": "When teaming up with Elsa Bloodstone, the Bonus Health generated by Ceaseless Charge is increased."
         }
       ]
     },
@@ -746,16 +746,16 @@
           "slot": "A",
           "name": "Blast Slash",
           "anchorPartner": "Cyclops",
-          "baseDescription": "Extends attack range on Savage Claw and Berserk Claw. Replaces Vicious Rampage with Kinetic Claws, lunging forward in a heavy slashing flurry.",
-          "enhancedDescription": "The extended range Blast Slash state becomes permanently and passively active on his primary right-click at all times."
+          "baseDescription": "Activation extends the attack range of Savage Claw and Berserk Claw Strike. Vicious Rampage is replaced with Kinetic Claws, granting a brief forward lunge that unleashes a flurry of slashes around.",
+          "enhancedDescription": "When teaming up with Cyclops, Blast Slash is permanently active."
         },
         {
           "id": "wolverine-pair-of-threes",
           "slot": "B",
           "name": "Pair of Threes",
           "anchorPartner": "Gambit",
-          "baseDescription": "Activating the skill grants a kinetic speed and jump height boost, embedding particles on enemies that detonate after a delay for bonus damage.",
-          "enhancedDescription": "Wolverine receives high continuous passive health regeneration for the entire duration of the active kinetic boost state."
+          "baseDescription": "Upon activation, Wolverine receives Kinetic Enhancement, gaining increased Movement Speed and a Jump Boost. Attacking enemies applies Kinetic Particles that detonate after a short delay for bonus damage. The effect lasts for duration.",
+          "enhancedDescription": "When teaming up with Gambit, Wolverine receives Continuous Healing for the entire duration of the ability."
         }
       ]
     },
@@ -769,16 +769,16 @@
           "slot": "A",
           "name": "Fantastic Amplifier",
           "anchorPartner": "Rocket Raccoon",
-          "baseDescription": "Equips a permanent amplifier boosting maximum elasticity limits and enabling manual activation of his ballooned inflation block state.",
-          "enhancedDescription": "Brainiac Bounce successfully launches and knocks down all impacted enemy targets caught beneath the drop zone."
+          "baseDescription": "Equips the Fantastic Amplifier. For the duration, Mister Fantastic’s maximum Elasticity is increased, and he can actively enter Inflation State.",
+          "enhancedDescription": "When teaming up with Rocket Raccoon, Brainiac Bounce Launches hit enemies."
         },
         {
           "id": "mister-fantastic-clobbering-research",
           "slot": "B",
-          "name": "Clobbering Research",
+          "name": "Clobberin’ Research Dept.",
           "anchorPartner": "The Thing",
-          "baseDescription": "Brawler stance stretch punch becomes a chargeable attack on a 20s cooldown, rewarding scaling bonus health on hit and launching enemies at full charge.",
-          "enhancedDescription": "Distended Grip upgrades to a heavy charged hammer smash that rewards massive overcap health chunks and knocks up multiple targets."
+          "baseDescription": "In brawler stance, Stretch Punch becomes a charged ability, firing a forward Brawling Punch. Hitting an enemy grants Bonus Health scaling with damage, and a full charge Launches hit enemies.",
+          "enhancedDescription": "When teaming up with The Thing, while in the brawling stance, Distended Grip also becomes a charged ability, slamming down a Distended Hammer. Hitting enemies grants Bonus Health based on damage, and Launches enemies at full charge."
         }
       ]
     },
@@ -792,16 +792,16 @@
           "slot": "A",
           "name": "United Siblings",
           "anchorPartner": "Human Torch",
-          "baseDescription": "Generates a flame shield for herself or a targeted ally that blocks damage while emitting a healing aura. Teammate projectiles fired through it gain a damage boost; enemies passing through are slowed.",
-          "enhancedDescription": "Boasts a larger shield radius and a heavily increased flat shield block value."
+          "baseDescription": "Generate a Flame Shield for a targeted ally that blocks incoming damage while providing a Continuous Healing aura to everyone nearby. Projectiles from teammates shot through the Flame Shield receive a Damage Boost. Enemies that pass through the shield are Slowed.",
+          "enhancedDescription": "When teaming up with Human Torch, the Flame Shield boasts a larger radius and heavily increased shield value."
         },
         {
           "id": "invisible-woman-first-family",
           "slot": "B",
           "name": "First Family",
           "anchorPartner": "Mister Fantastic",
-          "baseDescription": "New active ability on a 20s cooldown that turns Invisible Woman and surrounding allies completely invisible, granting healing and a speed boost. Disengaging from combat lets you re-enter stealth.",
-          "enhancedDescription": "The healing and speed boost effects are heavily enhanced, and the active duration of the invisible state is increased."
+          "baseDescription": "Invisible Woman and surrounding allies enter Invisible state, gaining healing and a Speed Boost. The effect ends if they take damage or the duration expires. Disengaging from combat for a duration will re-enter the Invisible state.",
+          "enhancedDescription": "When teaming up with Mister Fantastic, the healing and Speed Boost effects are enhanced, and the Invisible state duration is increased."
         }
       ]
     },
@@ -815,16 +815,16 @@
           "slot": "A",
           "name": "Fiery Sparks",
           "anchorPartner": "Jubilee",
-          "baseDescription": "Gains a passive aura on a 15s cooldown that continuously ticks away chip fire damage to all enemies caught within a close radius of his body.",
-          "enhancedDescription": "Activating the close-range fire aura immediately grants Johnny a chunk of bonus health overcaps to assist flyer survival loops."
+          "baseDescription": "Passively detect enemies in the immediate vicinity and launch tracking Sparks to chip away their health.",
+          "enhancedDescription": "When teaming up with Jubilee, successfully landing a Firework Spark on an enemy grants Human Torch Bonus Health."
         },
         {
           "id": "human-torch-storming-ignition",
           "slot": "B",
           "name": "Storming Ignition",
           "anchorPartner": "Storm",
-          "baseDescription": "Active skill on a 20s cooldown releasing a forward stream of pulling fire. Omega Hurricane sweeping across it transforms fields into moving flame tornadoes.",
-          "enhancedDescription": "Increases the maximum simultaneous flame tornado cap from 3 up to 6, creating total point-wipe configurations."
+          "baseDescription": "Unleash a storm-driven blaze of fire forward, generating a persistent Fire Vortex upon impact that continuously damages and pulls in enemies.",
+          "enhancedDescription": "When teaming up with Storm, her Omega Hurricane ignites into a Burning Hurricane if it crosses a Flame Tornado. Furthermore, any Omega Hurricane, Jeff-Nado, or Flame Tornado that sweeps across a Flame Field left by Human Torch will instantly generate a new Flame Tornado."
         }
       ]
     },
@@ -836,18 +836,18 @@
         {
           "id": "the-thing-two-in-one",
           "slot": "A",
-          "name": "Two In One",
+          "name": "Two-In-One",
           "anchorPartner": "Human Torch",
-          "baseDescription": "Enter an enhanced flame state where Rocky Jab deals splash damage and Stone Haymaker causes a frontal cone explosion (15s cooldown).",
-          "enhancedDescription": "Allows Human Torch to lift and throw The Thing down to trigger a massive area stun, automatically entering the flame state (30s cooldown)."
+          "baseDescription": "Enter an enhanced state upon activation. For the duration, The Thing’s fists are violently engulfed in flames. Every Rocky Jab deals splash damage, and every Stone Haymaker creates an explosion, dealing damage in a frontal cone.",
+          "enhancedDescription": "When teaming up with Human Torch, Human Torch can lift The Thing into the air and slam him down, dealing damage and Stun to enemies. The Thing then automatically enters his flaming enhanced state upon landing."
         },
         {
           "id": "the-thing-unbreakable-forces",
           "slot": "B",
           "name": "Unbreakable Forces",
           "anchorPartner": "Invisible Woman",
-          "baseDescription": "Generate a layer of psionic armor granting bonus health scaling off current missing health pools.",
-          "enhancedDescription": "While active, taking chunks of damage causes the armor to pulse healing waves to allies and boosts health conversion ratio."
+          "baseDescription": "Generate a layer of Psionic Armor upon activation, granting Bonus Health scaling off currently missing Health.",
+          "enhancedDescription": "When teaming up with Invisible Woman, the Psionic Armor is fortified. While active, every time The Thing takes a set amount of damage, the armor pulses out a wave of area healing for allies. Furthermore, the conversion ratio for missing Health into Bonus Health is increased."
         }
       ]
     },
@@ -861,16 +861,16 @@
           "slot": "A",
           "name": "Iced Out Diamond",
           "anchorPartner": "Luna Snow",
-          "baseDescription": "Projects ice energy forward to slow/damage. Diamond form condenses frost into an absolute zero barrier blocking attacks.",
-          "enhancedDescription": "While in diamond form, all basic attacks and the ultimate utility apply an extra stacking slow movement debuff."
+          "baseDescription": "Emma Frost releases winter energy forward, dealing damage and Slow to enemies. She can also enhance her diamond form, condensing frost in front of her to form Zero Diamond that blocks enemy attacks and movement.",
+          "enhancedDescription": "When Emma Frost teams up with Luna Snow, after activating Diamond Form, all ability damage applies Slow, and Soul Wave also applies Slow."
         },
         {
           "id": "emma-frost-spirit-breaker",
           "slot": "B",
           "name": "Spirit Breaker",
           "anchorPartner": "Mantis",
-          "baseDescription": "Adds an effect to Psychic Spear that converts damage dealt directly into immediate personal bonus health.",
-          "enhancedDescription": "Shattering a spear point grants instant bonus health overcaps and takes several seconds off the active ability cooldown."
+          "baseDescription": "Deals damage to the summoned Soul Crystal, which can be converted into Bonus Health for yourself.",
+          "enhancedDescription": "When Emma Frost teams up with Mantis, shattering the Soul Crystal grants a one-time Bonus Health and reduces the cooldown of Mind Control."
         }
       ]
     },
@@ -884,16 +884,16 @@
           "slot": "A",
           "name": "Stark Protocol",
           "anchorPartner": "Iron Man",
-          "baseDescription": "Replaces primary weapon fire with a piercing Nano-Ray that heals allies and damages enemies simultaneously.",
-          "enhancedDescription": "Enhances Imperative Firewall to fire powerful homing missiles at enemies in range, causing area damage."
+          "baseDescription": "Upgrade Encephalo-Ray to Nano-Ray, firing multiple damaging nano-projectiles forward.",
+          "enhancedDescription": "When teaming up with Iron Man, Imperative: Firewall fires powerful homing missiles at enemies in range, causing area damage."
         },
         {
           "id": "ultron-spider-sync",
           "slot": "B",
-          "name": "Spider Sync",
-          "anchorPartner": "Penny Parker",
-          "baseDescription": "New ability that instantly applies tracking drones to all allies simultaneously instead of just a single target.",
-          "enhancedDescription": "Imperative Firewall applies to all drones, allowing the ability effects to be triggered multiple times simultaneously for massive AoE healing on a 15s cooldown."
+          "name": "SP//DR Sync",
+          "anchorPartner": "Peni Parker",
+          "baseDescription": "Apply Imperative: Patch to all allies.",
+          "enhancedDescription": "When teaming up with Peni Parker, Imperative: Firewall applies to all Drones, allowing the ability effects to be triggered multiple times simultaneously."
         }
       ]
     },
@@ -907,16 +907,16 @@
           "slot": "A",
           "name": "Circle of Life",
           "anchorPartner": "Hela",
-          "baseDescription": "Replaces Psionic Detonation with Netherfire, applying a mark that causes secondary micro-stuns, anti-healing reduction, and sparks on a 12s cooldown.",
-          "enhancedDescription": "Every consecutive netherfire explosion blast automatically inflicts multiple overlapping stacks of Sparks onto caught units."
+          "baseDescription": "Psionic Detonation is replaced by Phoenix Netherfire, applying a Telekinetic Mark to the targeted location. Upon hitting, it triggers an initial small explosion that briefly Stuns enemies, followed by two larger explosions that apply a Healing Reduction effect. Every single blast inflicts Sparks onto the enemies.",
+          "enhancedDescription": "When teaming up with Hela, every blast in the sequence applies multiple stacks of Sparks to enemies caught within."
         },
         {
           "id": "phoenix-telekinetic-beatdown",
           "slot": "B",
           "name": "Telekinetic Beatdown",
           "anchorPartner": "Rogue",
-          "baseDescription": "Active skill on a 12s cooldown firing a shockwave that commands the Phoenix Force to punch a target and rapidly blink strike nearby units while healing Phoenix.",
-          "enhancedDescription": "Adds an extra spark stack per hit, enhances personal self-healing outputs, and scales up the maximum number of consecutive blink strikes."
+          "baseDescription": "Fire a telekinetic shockwave forward. If it lands, the Phoenix Force rushes the enemy and delivers a powerful punch. If there are other targets nearby, the Phoenix Force rapidly blinks between them to strike them as well, inflicting Sparks on each victim while healing Phoenix.",
+          "enhancedDescription": "When teaming up with Rogue, the width of the telekinetic shockwave expands, and the Phoenix Force’s target detection range is increased."
         }
       ]
     },
@@ -930,16 +930,16 @@
           "slot": "A",
           "name": "Blade of Khonshu",
           "anchorPartner": "Moon Knight",
-          "baseDescription": "Performs a heavy forward cleaving lunge that executes 4 rapid sword slashes, throwing tracking dark moon blades that bounce across nearby targets.",
-          "enhancedDescription": "Each consecutive whirlwind sword slash triggers and throws one extra ricocheting dark moon blade into the enemy cluster."
+          "baseDescription": "Perform a heavy forward cleave with the Ancestral Sword while performing a short dash. At the end of the dash, swiftly slash four times, each strike sending a Darkmoon Blade forward. When a Darkmoon Blade hits an enemy, it bounces to nearby targets.",
+          "enhancedDescription": "When teaming up with Moon Knight, each Whirlwind Slash triggered generates one additional Darkmoon Blade."
         },
         {
           "id": "blade-bleed-for-battle",
           "slot": "B",
-          "name": "Bleed for Battle",
+          "name": "Bleed For Battle",
           "anchorPartner": "Captain America",
-          "baseDescription": "Passive: Taking set damage thresholds builds bloodline awakening stacks to enhance speed and kit performance.",
-          "enhancedDescription": "Taking critical health damage instantly triggers Bloodline Awakening while significantly raising the overall stack cap to unlock extreme scaling."
+          "baseDescription": "For every set amount of damage taken, Blade builds a stack of Bloodline Awakening.",
+          "enhancedDescription": "When teaming up with Captain America, taking critical damage instantly triggers the Bloodline Awakening state, gaining bonus stacks while raising the overall stack cap."
         }
       ]
     },
@@ -951,18 +951,18 @@
         {
           "id": "angela-odin-s-unacknowledged",
           "slot": "A",
-          "name": "Odin's Unacknowledged",
+          "name": "Odin’s Unacknowledged",
           "anchorPartner": "Loki",
-          "baseDescription": "Projects an illusion forward utilizing Assassin's Charge to pin and carry struck enemies through the air without consuming your real charge.",
-          "enhancedDescription": "Grants two full charges of the illusion projectile on a 15-second cooldown."
+          "baseDescription": "Project an Illusion forward. The illusion utilizes Assassin’s Charge to thrust at enemies. Enemies struck head-on will be carried through the air for a short while.",
+          "enhancedDescription": "When teaming up with Loki, the ability gains two charges."
         },
         {
           "id": "angela-guardians-of-the-galaxy",
           "slot": "B",
-          "name": "Guardians of the Galaxy",
+          "name": "Asgardians of the Galaxy",
           "anchorPartner": "Star-Lord",
-          "baseDescription": "First cast reveals a targeted area (UAV style). Second cast performs a diving slam attack that grounds hit enemies (25s cooldown).",
-          "enhancedDescription": "Angela gains an immediate chunk of bonus health scaling directly with the number of enemies hit by the slam."
+          "baseDescription": "Activation grants Reveal within a targeted area. Activating the ability again performs a slam attack; enemies hit by the slam are Grounded.",
+          "enhancedDescription": "When teaming up with Star-Lord, Angela gains Bonus Health scaling with the number of enemies struck by the slam."
         }
       ]
     },
@@ -976,16 +976,16 @@
           "slot": "A",
           "name": "Comprehensive Defense",
           "anchorPartner": "Iron Fist",
-          "baseDescription": "Upgrades right-click to block, parry, and deflect incoming projectile weapons from all directions while actively generating fury resource points.",
-          "enhancedDescription": "Passively recovers health continuously for the entire active channel duration of the multi-directional parry block."
+          "baseDescription": "Objection! is enhanced. Whirling billy clubs now damage all enemies in range while deflecting Projectiles from all directions. Successfully deflecting attacks recovers Fury.",
+          "enhancedDescription": "When teaming up with Iron Fist, Daredevil passively recovers Health for the entire duration of the ability."
         },
         {
           "id": "daredevil-devilish-affair",
           "slot": "B",
           "name": "Devilish Affair",
           "anchorPartner": "Black Widow",
-          "baseDescription": "New active skill on a 12s cooldown swinging chains in a wide crisscross pattern to damage and slow multiple forward targets (chains with Righteous Cross).",
-          "enhancedDescription": "Significantly expands the physical chain damage sweep radius and rewards immediate fury resource points upon landing hits."
+          "baseDescription": "Swings Devil’s Chain in a criss-cross pattern, dealing damage to enemies in front and inflicting a Slow.",
+          "enhancedDescription": "When teaming up with Black Widow, the damage radius is expanded, and landing hits recovers Fury."
         }
       ]
     },
@@ -999,16 +999,16 @@
           "slot": "A",
           "name": "Favorable Odds",
           "anchorPartner": "Magneto",
-          "baseDescription": "New ability on a 12s cooldown throwing two magnetic playing cards that create an environmental sphere repelling and launching enemies, or acts as a healing bubble for allies.",
-          "enhancedDescription": "The magnetic poles of the cards reverse upon landing, slamming back together and exploding for a burst of area healing to allies and damage to enemies."
+          "baseDescription": "Throw two magnetic playing cards forward. Upon hitting the environment or a character, the two cards magnetically repel and unfurl, spinning in place for a duration. They heal allies they hit, while damaging and Launching enemies.",
+          "enhancedDescription": "When teaming up with Magneto, after the duration ends, the magnetic poles of the two cards reverse. They violently slam back together and explode, providing an extra burst of healing to allies and damage to enemies."
         },
         {
           "id": "gambit-sparkling-staff",
           "slot": "B",
           "name": "Sparkling Staff",
           "anchorPartner": "Jubilee",
-          "baseDescription": "New ability on a 12s cooldown that twirls his staff to radiate healing firework sparks, deal damage to enemies, and actively block incoming enemy projectile weapons.",
-          "enhancedDescription": "Bayou Bash and Big Easy Impact both gain an additional continuous healing aura effect for the team."
+          "baseDescription": "Twirl your firework-energy enhanced bo staff. The radiating firework sparks provide healing to nearby allies. Concurrently, the staff deals damage to close-range enemies, and the rapid spinning blocks incoming damage from most projectiles.",
+          "enhancedDescription": "When teaming up with Jubilee, both Bayou Bash and Big Easy Impact gain an additional Continuous Healing aura."
         }
       ]
     },
@@ -1022,16 +1022,16 @@
           "slot": "A",
           "name": "Mr. & Mrs. X",
           "anchorPartner": "Gambit",
-          "baseDescription": "Every attack triggers a kinetic explosion dealing area damage to surrounding enemies while healing nearby teammates (30s cooldown).",
-          "enhancedDescription": "The kinetic explosion ability becomes completely passive and permanently active on Rogue without needing cooldowns."
+          "baseDescription": "After activation, every attack triggers a kinetic explosion, dealing area damage to surrounding enemies while simultaneously healing nearby allies.",
+          "enhancedDescription": "When teaming up with Gambit, Rogue remains permanently locked in the “Hearts as One” state."
         },
         {
           "id": "rogue-defensive-fortification",
           "slot": "B",
-          "name": "Defensive Fortification",
+          "name": "Explosive Entanglement",
           "anchorPartner": "Magneto",
-          "baseDescription": "Expands the active range of defensive stance and dramatically scales up its flat damage reduction ratio.",
-          "enhancedDescription": "Southern Brawl primary punch gains a heavy knockback effect that deals bonus damage if enemies collide with walls."
+          "baseDescription": "Defensive Stance is fortified. Activating the ability expands a magnetic field, drastically boosting the Damage Reduction ratio of Defensive Stance. Furthermore, all damage absorbed by the field is converted directly into damage for Southern Brawl.",
+          "enhancedDescription": "When teaming up with Magneto, Southern Brawl Knocks back enemies. Extra damage is dealt if they’re propelled into a wall."
         }
       ]
     },
@@ -1068,16 +1068,16 @@
           "slot": "A",
           "name": "Gumbo Chimichangas",
           "anchorPartner": "Gambit",
-          "baseDescription": "Activating the skill triggers kinetic energy that propels Deadpool into a forward leap, scattering a ring of kinetically charged chimichangas that deal area damage.",
-          "enhancedDescription": "The blast radius from the landing chimichangas inflicts a direct crowd control stun effect to all caught enemies."
+          "baseDescription": "Activate for kinetic energy, propelling Deadpool in a forward leap. Upon landing, he scatters a ring of kinetically charged chimichangas that deal damage to enemies.",
+          "enhancedDescription": "When teaming up with Gambit, the kinetic energy causes Deadpool’s landing to inflict a Stun effect on enemies in the blast radius."
         },
         {
           "id": "deadpool-duelist-hell-yeah-honey",
           "slot": "B",
-          "name": "Hell Yeah Honey",
+          "name": "Hel-Yeah, Honey",
           "anchorPartner": "Hela",
-          "baseDescription": "Allows weapons to level up one extra time. Level 3 Desert Eagles gain bullet pierce and homing death rattle bubbles. Level 3 Katanas inject undead energy that detonates for percentage-based true damage scaling off max health.",
-          "enhancedDescription": "If Hela is actively on your team, you can simultaneously upgrade BOTH the Desert Eagles and the Katanas instead of choosing just one weapon upgrade."
+          "baseDescription": "Receive upgrades from Hel, allowing the Desert Eagles or Katanas to be upgraded one additional time. Hel-Yeah Desert Eagles: Duelist and Vanguard gain pierce, and the thought bubbles transform into homing death-rattle bubbles. Strategist death-rattle bubbles also home in on allies, exploding to provide healing. Hel-Yeah Katanas: Every strike injects undead energy into the enemy. Hitting an enemy three times with the Katanas detonates the energy, dealing percentage-based true damage scaling off their max Health.",
+          "enhancedDescription": "When teaming up with Hela, BOTH the Desert Eagles and Katanas can be upgraded one extra time."
         }
       ]
     },
@@ -1114,16 +1114,16 @@
           "slot": "A",
           "name": "Prehistoric Trap",
           "anchorPartner": "Devil Dinosaur",
-          "baseDescription": "Upgrades Smoky Snare traps to summon a Diablo minion that physically immobilizes targets while spraying continuous tracking poison gas.",
-          "enhancedDescription": "Elsa can store, cycle, and deploy up to two independent localized smoky snare minion traps simultaneously."
+          "baseDescription": "After deploying the Smoky Snare trap, Diablo will monitor the area. If enemies approach, Diablo Immobilizes and Damages them. He also releases a lethal gas, causing continuous area damage.",
+          "enhancedDescription": "When teaming up with Devil Dinosaur, Elsa can store and deploy two Smoky Snares."
         },
         {
           "id": "elsa-bloodstone-loudmouth-mercs",
           "slot": "B",
           "name": "Loudmouth Mercs",
           "anchorPartner": "Deadpool",
-          "baseDescription": "Passive: Living bullets swap to special rounds that taunt targets, slow, and deal damage over time before recalling to heal Elsa and add an instinct block.",
-          "enhancedDescription": "Significantly amplifies the baseline acquisition rate of her Hunter Instinct passive gauge when paired with Deadpool."
+          "baseDescription": "Living Bullet changes to special rounds that Taunt targets with Deadpool’s chatter, while Slowing, and damaging nearby enemies over time. After a timer, the bullet auto-recalls, healing Elsa based on the damage dealt while adding one extra gauge block to her Inherited Instinct passive cap.",
+          "enhancedDescription": "When teaming up with Deadpool, Deadpool breaks the fourth wall, significantly boosting Instinct acquisition rate."
         }
       ]
     },
@@ -1137,16 +1137,16 @@
           "slot": "A",
           "name": "Feline Alliance",
           "anchorPartner": "Black Panther",
-          "baseDescription": "Passive: Accumulating damage builds Vibranium energy that explodes at thresholds to deal knockback damage while granting speed and bonus health.",
-          "enhancedDescription": "Removes the passive automatic threshold trigger, enabling Black Cat to manually detonate the stored Vibranium blast at will."
+          "baseDescription": "Taking damage accumulates Vibranium Energy. Upon reaching a specific threshold, Black Cat can unleash a violent explosion, damaging and Knocking back surrounding enemies while gaining a brief Speed Boost and Bonus Health.",
+          "enhancedDescription": "When teaming up with Black Panther, this explosion is no longer restricted by the energy threshold and can be triggered at any time."
         },
         {
           "id": "black-cat-binding-ties",
           "slot": "B",
           "name": "Binding Ties",
           "anchorPartner": "Spider-Man",
-          "baseDescription": "Replaces Turn of Fortune with a dual-charge spiderweb grapple. Hooking enemies steals fortune resources and marks them with a Spider Tracer.",
-          "enhancedDescription": "Attacking a target carrying a Spider Tracer with any active ability detonates the mark for bonus damage and temporarily immobilizes them in place."
+          "baseDescription": "Turn of Fortune is replaced by Spider-Web Grapple, which has 2 charges. Landing the grapple on an enemy steals Fortune and applies a Spider-Tracer. If Black Cat hits an enemy carrying a Spider-Tracer with any other ability, she triggers the mark to deal bonus damage.",
+          "enhancedDescription": "When teaming up with Spider-Man, using Spider-Web Grapple to hit an enemy already marked with a Spider-Tracer temporarily Immobilizes them in place."
         }
       ]
     },
@@ -1159,17 +1159,17 @@
           "id": "devil-dinosaur-primal-punishment",
           "slot": "A",
           "name": "Primal Punishment",
-          "anchorPartner": "The Punisher",
-          "baseDescription": "Replaces Primal Bite with dual mounted magnetic cannons firing explosive rounds that apply bleed effects.",
-          "enhancedDescription": "Enables the classic rider team-up: Punisher mounts his back to deliver massive synchronized fire support (12s cooldown)."
+          "anchorPartner": "Punisher",
+          "baseDescription": "Adds a new ability. Upon activation, Primal Bite is replaced. Devil Dinosaur gains 2 magnetic cannons that can be fired forward; the cannonballs detonate when hitting enemies or the environment.",
+          "enhancedDescription": "When teaming up with The Punisher, the duo can request an interaction. Once accepted, The Punisher rides atop Devil Dinosaur, restricting him to only Adjudication/Deliverance and Scourge Grenade while disabling other abilities. While mounted, The Punisher gains Damage Reduction; Devil Dinosaur absorbs a portion of all damage inflicted on The Punisher."
         },
         {
           "id": "devil-dinosaur-surf-and-turf",
           "slot": "B",
           "name": "Surf & Turf",
           "anchorPartner": "Jeff the Land Shark",
-          "baseDescription": "Replaces impact laser beam with a frontal water spray that damages enemies while simultaneously healing teammates.",
-          "enhancedDescription": "Jeff rides on top of Devil Dinosaur's head, granting both units flat damage reduction and continuous passive healing."
+          "baseDescription": "Impact Beam is replaced by a frontal water spray. This stream damages enemies while providing healing to teammates.",
+          "enhancedDescription": "When teaming up with Jeff the Land Shark, Jeff can ride atop Devil Dinosaur’s head. While riding, both gain some Damage Reduction and are swirled in therapeutic waters, receiving Continuous Healing. Jeff can only cast Joyful Splash, Aqua Burst, and Healing Bubble during this time."
         }
       ]
     },
@@ -1181,18 +1181,18 @@
         {
           "id": "cyclops-phoenix-flame",
           "slot": "A",
-          "name": "Phoenix Flame",
+          "name": "Slim & Red",
           "anchorPartner": "Phoenix",
-          "baseDescription": "Ricochet Force inflicts continuous fire burn damage. Hitting burnt targets with Optic Blast or Concussive Beam detonates remaining burn values instantly.",
-          "enhancedDescription": "Every spark detonation triggered across the battlefield directly reduces the active remaining cooldown of Ricochet Force."
+          "baseDescription": "Hitting an enemy with Ricochet Force summons the Phoenix Force to ignite them, causing continuous burn damage over a set duration. Hitting an ignited target with Optic Blast or Concussive Beam instantly triggers a percentage of the remaining burn damage as a single burst.",
+          "enhancedDescription": "When teaming up with Phoenix, Spark detonations reduce the cooldown of Ricochet Force."
         },
         {
           "id": "cyclops-kinetic-kin",
           "slot": "B",
           "name": "Kinetic Kin",
           "anchorPartner": "Gambit",
-          "baseDescription": "New active skill on a 15s cooldown that expends stored energy to grant Cyclops significantly increased movement speed and vertical jump height properties.",
-          "enhancedDescription": "During the active kinetic mobility state, weapon firing speeds for both Optic Blast and Concussive Beam are significantly increased."
+          "baseDescription": "Release stored kinetic energy to enter an enhanced state for a duration. While active, Cyclops gains significantly increased movement speed and jump height.",
+          "enhancedDescription": "When teaming up with Gambit, during the enhanced state, the attack speeds for both Optic Blast and Concussive Beam are increased."
         }
       ]
     },
@@ -1206,16 +1206,16 @@
           "slot": "A",
           "name": "Hellfire Sparks",
           "anchorPartner": "The Hood",
-          "baseDescription": "When attack speed is enhanced, her primary fire transforms into a hitscan attack capable of scoring critical hits and granting personal self-healing on hit.",
-          "enhancedDescription": "The void magic mark is never cleared, allowing Jubilee to indefinitely sustain her powerful hitscan attack form."
+          "baseDescription": "When Attack Speed is enhanced, Energy Plasmoids transform into a hitscan attack that grants self-healing on hit and is capable of dealing critical hits.",
+          "enhancedDescription": "When teaming up with The Hood, the Void Magic Mark is never cleared, allowing her to indefinitely sustain the hitscan attack form."
         },
         {
           "id": "jubilee-vampiric-kin",
           "slot": "B",
           "name": "Vampiric Kin",
           "anchorPartner": "Blade",
-          "baseDescription": "Deploys a vampiric field on the ground that grants all occupying allies active life steal benefits when attacking enemies.",
-          "enhancedDescription": "Allies inside the vampiric field receive an additional continuous flat healing effect over time alongside the lifesteal."
+          "baseDescription": "Deploy a Vampiric Field. Allies standing within the field gain Life Steal when attacking enemies.",
+          "enhancedDescription": "When teaming up with Blade, allies inside the field receive an additional Continuous Healing effect."
         }
       ]
     },
@@ -1227,18 +1227,18 @@
         {
           "id": "white-fox-lucky-lone",
           "slot": "A",
-          "name": "Lucky Lone",
+          "name": "Lucky Loan",
           "anchorPartner": "Black Cat",
-          "baseDescription": "Receives an orb of life converting energy into a Nine-Tailed aura that tracks units in all directions, granting speed/healing to allies and damaging/slowing enemies.",
-          "enhancedDescription": "Using the orb triggers a temporary state where spirit tail energy is not consumed, allowing free use of Spectral Surge and Fox Form Awakening."
+          "baseDescription": "White Fox receives an Orb of Life from Black Cat. Upon use, it recovers Spirit Tail energy and converts life energy into Nine-Tailed Aura that shoots out in all directions. This automatically tracks nearby allies and enemies, granting Speed and Healing to allies while damaging and Slowing enemies.",
+          "enhancedDescription": "When teaming up with Black Cat, using the Orb triggers a state where Spirit Tail Energy is no longer consumed for a duration, allowing free use of Spectral Surge and Fox Form Awakening."
         },
         {
           "id": "white-fox-psionic-fox",
           "slot": "B",
           "name": "Psionic Fox",
           "anchorPartner": "Psylocke",
-          "baseDescription": "Activating Fox Form Awakening no longer consumes spirit tail energy as a base passive, immediately granting the maximum possible duration upon use.",
-          "enhancedDescription": "Drastically reduces the active cooldown of Fox Form Awakening down to a low 12-second rotation cycle."
+          "baseDescription": "Activating Fox Form Awakening no longer consumes Spirit Tail energy, and grants the maximum possible duration immediately upon use.",
+          "enhancedDescription": "When teaming up with Psylocke, the cooldown for Fox Form Awakening is drastically reduced."
         }
       ]
     }
