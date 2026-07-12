@@ -195,6 +195,25 @@ button {
   padding-bottom: 62px;
 }
 
+.voting-progress {
+  max-width: 1232px;
+  margin: -30px auto 34px;
+  padding: 18px 20px;
+  display: grid;
+  grid-template-columns: minmax(220px, .7fr) minmax(260px, 1.5fr) minmax(240px, 1fr);
+  align-items: center;
+  gap: 22px;
+  border: 1px solid #26384b;
+  background: linear-gradient(90deg, rgba(67, 221, 255, .07), transparent 55%), #0d1520;
+}
+
+.voting-progress>div:first-child { display: grid; gap: 5px; }
+.voting-progress span { color: #7f91a7; font: 750 8px var(--font-geist-mono); letter-spacing: .12em; }
+.voting-progress strong { color: var(--cyan); font: 850 13px var(--font-geist-mono); }
+.voting-progress p { margin: 0; color: #8c9aab; font-size: 10px; line-height: 1.5; }
+.progress-track { height: 7px; overflow: hidden; border: 1px solid #304258; background: #070d14; }
+.progress-track i { display: block; height: 100%; background: linear-gradient(90deg, var(--cyan), var(--lime)); box-shadow: 0 0 14px rgba(67, 221, 255, .5); transition: width .45s ease; }
+
 .eyebrow {
   margin: 0 0 12px;
   color: var(--cyan);
@@ -2671,7 +2690,7 @@ footer a:hover {
 
 .post-vote-actions {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
   gap: 9px;
 }
@@ -2679,6 +2698,22 @@ footer a:hover {
 .post-vote-actions .post-vote-insight {
   margin-top: 0;
 }
+
+.share-result-button {
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 5px 12px;
+  border: 1px solid var(--lime);
+  color: #b7c3d2;
+  background: rgba(184, 243, 74, .07);
+  cursor: pointer;
+  text-align: left;
+}
+
+.share-result-button strong { color: var(--lime); font: 800 9px var(--font-geist-mono); letter-spacing: .08em; }
+.share-result-button span { font-size: 10px; line-height: 1.45; }
+.share-result-button b { grid-column: 2; grid-row: 1 / span 2; align-self: center; color: var(--lime); font-size: 20px; }
 
 .vote-more-button {
   width: 100%;
@@ -2798,6 +2833,8 @@ footer a:hover {
     gap: 32px;
     padding-top: 48px;
   }
+
+  .voting-progress { grid-template-columns: 1fr; margin: -16px 24px 28px; gap: 12px; }
 
   .hero-intro h1 {
     font-size: 70px;

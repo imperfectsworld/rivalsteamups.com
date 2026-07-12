@@ -71,6 +71,8 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
   const [votePlatform, setVotePlatform] = useState<Platform | "">("");
   const [voteStatus, setVoteStatus] = useState("");
   const [voteCelebrating, setVoteCelebrating] = useState(false);
+  const [shareStatus, setShareStatus] = useState("");
+  const [votedHeroIds, setVotedHeroIds] = useState<string[]>([]);
   const [selectedEra, setSelectedEra] = useState<ResultEra>(resultEras[0]);
   const [resultWindow, setResultWindow] = useState<ResultWindow>("all");
   const [showMobileSearch, setShowMobileSearch] = useState(false);
@@ -96,6 +98,14 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
 
   useEffect(() => { void loadVotes(); }, [loadVotes]);
   useEffect(() => { const saved = localStorage.getItem("rivals-platform"); if (saved === "Console") setPlatform("Console"); }, []);
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("rivals-voted-heroes") || "[]");
+      if (Array.isArray(saved)) setVotedHeroIds(saved.filter((id): id is string => typeof id === "string"));
+    } catch {
+      localStorage.removeItem("rivals-voted-heroes");
+    }
+  }, []);
 
   function choosePlatform(next: Platform) {
     setPlatform(next);
@@ -140,6 +150,7 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
     setPendingVote({ hero, ability });
     setVoteStatus("");
     setVoteCelebrating(false);
+    setShareStatus("");
     const savedRank = localStorage.getItem("rivals-vote-rank");
     const savedPlatform = localStorage.getItem("rivals-platform");
     setVoteRank(selectedRank === "All Ranks" ? (RANKS.includes(savedRank as PlayerRank) ? savedRank as PlayerRank : "") : selectedRank);
@@ -177,6 +188,11 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
       }
       choosePlatform(votePlatform);
       localStorage.setItem("rivals-vote-rank", voteRank);
+      setVotedHeroIds((current) => {
+        const next = current.includes(pendingVote.hero.id) ? current : [...current, pendingVote.hero.id];
+        localStorage.setItem("rivals-voted-heroes", JSON.stringify(next));
+        return next;
+      });
       setVoteStatus("Vote counted!");
       setVoteCelebrating(true);
       window.setTimeout(() => {
@@ -188,10 +204,112 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
     }
   }
 
+  async function shareVoteResult() {
+    if (!pendingVote || !voteRank || !votePlatform) return;
+    setShareStatus("CREATING CARD...");
+    const hero = pendingVote.hero;
+    const selectedAbility = pendingVote.ability;
+    const otherAbility = hero.teamUpAbilities.find((ability) => ability.id !== selectedAbility.id)!;
+    const selectedVotes = liveCount(selectedAbility.id, voteRank) + 1;
+    const otherVotes = liveCount(otherAbility.id, voteRank);
+    const percentage = Math.round((selectedVotes / Math.max(1, selectedVotes + otherVotes)) * 100);
+    const url = `${window.location.origin}/heroes/${hero.id}`;
+    const caption = `I voted for ${selectedAbility.name} as ${hero.name}'s better Team-Up. ${voteRank} ${votePlatform} players currently give it ${percentage}% of the vote. Cast yours: ${url}`;
+    const canvas = document.createElement("canvas");
+    canvas.width = 1200;
+    canvas.height = 630;
+    const context = canvas.getContext("2d");
+    if (!context) return;
+    const gradient = context.createLinearGradient(0, 0, 1200, 630);
+    gradient.addColorStop(0, "#071019");
+    gradient.addColorStop(.65, "#101a29");
+    gradient.addColorStop(1, "#132f39");
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 1200, 630);
+    context.fillStyle = "#43ddff";
+    context.fillRect(0, 0, 12, 630);
+    context.fillStyle = "rgba(67,221,255,.09)";
+    context.beginPath();
+    context.arc(1040, 90, 330, 0, Math.PI * 2);
+    context.fill();
+    const loadImage = (src: string) => new Promise<HTMLImageElement>((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = reject;
+      image.src = src;
+    });
+    try {
+      const image = await loadImage(heroImage(hero.id));
+      context.save();
+      context.beginPath();
+      context.arc(180, 183, 116, 0, Math.PI * 2);
+      context.clip();
+      context.drawImage(image, 64, 67, 232, 232);
+      context.restore();
+      context.strokeStyle = "#43ddff";
+      context.lineWidth = 5;
+      context.beginPath();
+      context.arc(180, 183, 116, 0, Math.PI * 2);
+      context.stroke();
+    } catch { /* The text-only card remains shareable. */ }
+    context.fillStyle = "#43ddff";
+    context.font = "700 24px monospace";
+    context.fillText("RIVALS TEAM-UPS // COMMUNITY VOTE", 340, 92);
+    context.fillStyle = "#ffffff";
+    context.font = "900 64px Arial, sans-serif";
+    context.fillText(hero.name.toUpperCase(), 340, 175);
+    context.fillStyle = "#a7b5c7";
+    context.font = "700 25px monospace";
+    context.fillText(`${voteRank.toUpperCase()} · ${votePlatform.toUpperCase()}`, 342, 218);
+    context.fillStyle = "#ffffff";
+    context.font = "800 43px Arial, sans-serif";
+    context.fillText(selectedAbility.name.toUpperCase(), 70, 388);
+    context.fillStyle = "#b8f34a";
+    context.font = "900 104px Arial, sans-serif";
+    context.textAlign = "right";
+    context.fillText(`${percentage}%`, 1125, 413);
+    context.textAlign = "left";
+    context.fillStyle = "#a7b5c7";
+    context.font = "700 23px monospace";
+    context.fillText(`${selectedAbility.anchorPartner.toUpperCase()} TEAM-UP`, 72, 438);
+    context.strokeStyle = "#314154";
+    context.beginPath();
+    context.moveTo(70, 485);
+    context.lineTo(1130, 485);
+    context.stroke();
+    context.fillStyle = "#43ddff";
+    context.font = "800 27px monospace";
+    context.fillText("CAST YOUR VOTE", 70, 550);
+    context.fillStyle = "#ffffff";
+    context.textAlign = "right";
+    context.fillText("RIVALSTEAMUPS.COM", 1130, 550);
+    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png"));
+    if (!blob) return;
+    const file = new File([blob], `${hero.id}-team-up-result.png`, { type: "image/png" });
+    try {
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ title: `${hero.name} Team-Up vote`, text: caption, url, files: [file] });
+        setShareStatus("SHARED");
+      } else {
+        await navigator.clipboard.writeText(caption);
+        const download = document.createElement("a");
+        download.href = URL.createObjectURL(blob);
+        download.download = file.name;
+        download.click();
+        URL.revokeObjectURL(download.href);
+        setShareStatus("CARD SAVED · CAPTION COPIED");
+      }
+    } catch (error) {
+      setShareStatus(error instanceof Error && error.name === "AbortError" ? "" : "SHARING WAS NOT AVAILABLE");
+    }
+  }
+
   const visibleVoteTotal = directoryHeroes.reduce(
     (sum, hero) => sum + hero.teamUpAbilities.reduce((heroSum, ability) => heroSum + abilityCount(hero, ability), 0),
     0,
   );
+  const completedHeroes = directoryHeroes.filter((hero) => votedHeroIds.includes(hero.id)).length;
+  const progressPercent = Math.round((completedHeroes / Math.max(1, directoryHeroes.length)) * 100);
 
   return (
     <main className="app-shell" id="top">
@@ -222,6 +340,12 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
           <div><span>LIVE RANK INSIGHT</span><strong>{selectedRank}</strong></div>
           <p>Showing {resultWindow === "recent" ? "the last 30 days" : "all-time results"} for {selectedEra.label}, from {selectedRank === "All Ranks" ? "the full ranked community" : `${selectedRank} players`}.</p>
         </div>
+      </section>
+
+      <section className="voting-progress" aria-label="Your voting progress">
+        <div><span>YOUR VOTING PROGRESS</span><strong>{completedHeroes} / {directoryHeroes.length} HEROES</strong></div>
+        <div className="progress-track" aria-hidden="true"><i style={{ width: `${progressPercent}%` }} /></div>
+        <p>{completedHeroes === directoryHeroes.length ? "Directory complete. Return after cooldowns or the next patch." : `${directoryHeroes.length - completedHeroes} heroes left to shape the community meta on this device.`}</p>
       </section>
 
       <section className="control-deck" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label="Directory controls">
@@ -356,6 +480,7 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
               <div className="vote-summary"><span>{pendingVote.hero.name}</span><strong>{pendingVote.ability.name}</strong><small>{pendingVote.ability.anchorPartner} TEAM-UP</small></div>
               <div className="post-vote-actions">
                 <a className="post-vote-insight" href={`/heroes/${pendingVote.hero.id}?rank=${encodeURIComponent(voteRank)}&platform=${encodeURIComponent(votePlatform)}#hero-insights`}><strong>GIVE CONTEXT TO MY VOTE</strong><span>Open {pendingVote.hero.name}’s Insights section.</span><b>→</b></a>
+                <button className="share-result-button" type="button" onClick={() => void shareVoteResult()}><strong>SHARE RESULT CARD</strong><span>{shareStatus || "Create an image and invite more votes."}</span><b>↗</b></button>
                 <button className="vote-more-button" type="button" onClick={() => setPendingVote(null)}>VOTE MORE</button>
               </div>
             </> : <>
