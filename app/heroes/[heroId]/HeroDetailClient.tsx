@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import heroesJson from "@/src/data/heroes.json";
-import { RANKS, type Hero, type HeroesData, type PlayerRank } from "@/src/types";
+import { RANKS, type Hero, type HeroesData, type PlayerRank, type TeamUpAbility } from "@/src/types";
 
 type LiveVotes = Record<string, Record<string, number>>;
 type DetailRank = "All Ranks" | PlayerRank;
@@ -37,6 +37,11 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
   const [insightStatus, setInsightStatus] = useState("");
   const [enhanced, setEnhanced] = useState(false);
   const [platform, setPlatform] = useState<Platform>("PC");
+  const [pendingAbility, setPendingAbility] = useState<TeamUpAbility | null>(null);
+  const [voteRank, setVoteRank] = useState<PlayerRank | "">("");
+  const [votePlatform, setVotePlatform] = useState<Platform | "">("");
+  const [voteStatus, setVoteStatus] = useState("");
+  const [voteCelebrating, setVoteCelebrating] = useState(false);
 
   const loadVotes = useCallback(async () => {
     try {
@@ -83,6 +88,50 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
     let id = localStorage.getItem("rivals-voter-id");
     if (!id) { id = crypto.randomUUID(); localStorage.setItem("rivals-voter-id", id); }
     return id;
+  }
+
+  function openVote(ability: TeamUpAbility) {
+    const savedRank = localStorage.getItem("rivals-vote-rank");
+    const savedPlatform = localStorage.getItem("rivals-platform");
+    setPendingAbility(ability);
+    setVoteStatus("");
+    setVoteCelebrating(false);
+    setVoteRank(selectedRank === "All Ranks" ? (RANKS.includes(savedRank as PlayerRank) ? savedRank as PlayerRank : "") : selectedRank);
+    setVotePlatform(savedPlatform === "PC" || savedPlatform === "Console" ? savedPlatform : platform);
+  }
+
+  async function submitVote() {
+    if (!pendingAbility || !voteRank || !votePlatform) {
+      setVoteStatus("Choose your competitive rank and platform to continue.");
+      return;
+    }
+    setVoteStatus("Saving vote...");
+    try {
+      const response = await fetch("/api/votes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ voterId: voterId(), heroId: hero.id, abilityId: pendingAbility.id, rank: voteRank, platform: votePlatform }),
+      });
+      const data = (await response.json().catch(() => null)) as { error?: string } | null;
+      if (!response.ok) throw new Error(data?.error || "Vote could not be saved.");
+      choosePlatform(votePlatform);
+      localStorage.setItem("rivals-vote-rank", voteRank);
+      const votedHeroes = JSON.parse(localStorage.getItem("rivals-voted-heroes") || "[]") as unknown;
+      const next = Array.isArray(votedHeroes) ? [...new Set([...votedHeroes.filter((id): id is string => typeof id === "string"), hero.id])] : [hero.id];
+      localStorage.setItem("rivals-voted-heroes", JSON.stringify(next));
+      setVoteStatus("Vote counted!");
+      setVoteCelebrating(true);
+      await loadVotes();
+      window.setTimeout(() => { setVoteCelebrating(false); setVoteStatus("Vote recorded. Thank you!"); }, 950);
+    } catch (error) {
+      setVoteStatus(error instanceof Error ? error.message : "Vote could not be saved. Please try again.");
+    }
+  }
+
+  function continueToInsights() {
+    setPendingAbility(null);
+    setInsightRank(voteRank);
+    window.setTimeout(() => document.getElementById("hero-insights")?.scrollIntoView({ behavior: "smooth" }), 0);
   }
 
   async function submitInsight() {
@@ -163,6 +212,7 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
               <h3>{ability.name}</h3><p>{ability.baseDescription}</p>
               {enhanced && <p className="enhanced-addon"><strong>⚡ ENHANCED:</strong> {ability.enhancedDescription}</p>}
               <footer><span>{totals[index].toLocaleString()} votes</span><strong>{percentage}% of community</strong></footer>
+              <button className="detail-vote-button" type="button" onClick={() => openVote(ability)}>VOTE FOR {ability.anchorPartner.toUpperCase()} TEAM-UP <b>+</b></button>
             </article>;
           })}
         </div>
@@ -211,6 +261,22 @@ export default function HeroDetailClient({ hero }: { hero: Hero }) {
 
       </section>
       <footer className="detail-legal-footer"><span>RIVALS TEAM-UPS // {platform.toUpperCase()} COMMUNITY META</span><nav className="legal-links"><a href="/legal-notice">LEGAL NOTICE</a><a href="/privacy-policy">PRIVACY</a><a href="/terms-of-use">TERMS</a><a href="/cookie-policy">COOKIES</a></nav><a href="/">DIRECTORY ↑</a></footer>
+      {pendingAbility && <div className="vote-modal-backdrop" role="presentation" onMouseDown={() => setPendingAbility(null)}>
+        <section className="vote-modal" role="dialog" aria-modal="true" aria-labelledby="detail-vote-title" onMouseDown={(event) => event.stopPropagation()}>
+          <button className="modal-close" type="button" onClick={() => setPendingAbility(null)} aria-label="Close vote dialog">×</button>
+          {voteCelebrating ? <div className="vote-counted-animation" role="status" aria-live="polite"><span className="vote-counted-ring"><b>✓</b></span><p className="eyebrow">VOTE LOCKED IN</p><h2 id="detail-vote-title">Vote counted</h2><p>Updating the community meta...</p></div> : voteStatus === "Vote recorded. Thank you!" ? <>
+            <p className="eyebrow">VOTE RECORDED</p><h2 id="detail-vote-title">Add your context</h2><p>Tell other {hero.name} players why you chose {pendingAbility.name}, or keep exploring this page.</p>
+            <div className="vote-summary"><span>{hero.name}</span><strong>{pendingAbility.name}</strong><small>{pendingAbility.anchorPartner} TEAM-UP</small></div>
+            <div className="post-vote-actions detail-post-vote-actions"><button className="share-result-button" type="button" onClick={continueToInsights}><strong>ADD MY INSIGHT</strong><span>Explain your vote to the community.</span><b>↓</b></button><button className="vote-more-button" type="button" onClick={() => setPendingAbility(null)}>CLOSE</button></div>
+          </> : <>
+            <p className="eyebrow">ONE LAST STEP</p><h2 id="detail-vote-title">What rank are you?</h2><p>Your rank and platform keep the community results useful and comparable.</p>
+            <div className="vote-summary"><span>{hero.name}</span><strong>{pendingAbility.name}</strong><small>{pendingAbility.anchorPartner} TEAM-UP</small></div>
+            <div className="modal-ranks">{RANKS.map((rank, index) => <button className={voteRank === rank ? "is-active" : ""} type="button" onClick={() => { setVoteRank(rank); setVoteStatus(""); }} key={rank}><img src={rankImages[rank]} alt="" /><i>{String(index + 1).padStart(2, "0")}</i><span>{rank}</span></button>)}</div>
+            <div className="modal-platforms" role="group" aria-label="Select voting platform"><span>YOUR PLATFORM</span><button className={votePlatform === "PC" ? "is-active" : ""} type="button" onClick={() => { setVotePlatform("PC"); setVoteStatus(""); }}>PC</button><button className={votePlatform === "Console" ? "is-active" : ""} type="button" onClick={() => { setVotePlatform("Console"); setVoteStatus(""); }}>CONSOLE</button></div>
+            {voteStatus && <p className="vote-status" aria-live="polite">{voteStatus}</p>}<button className="submit-vote" type="button" onClick={() => void submitVote()} disabled={!voteRank || !votePlatform}>RECORD MY VOTE <b>→</b></button>
+          </>}<small className="privacy-note">One vote per hero every 24 hours. No account is required.</small>
+        </section>
+      </div>}
     </main>
   );
 }

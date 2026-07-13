@@ -1848,6 +1848,36 @@ footer {
   color: var(--rank-accent);
 }
 
+.detail-vote-button {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 14px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--rank-accent);
+  color: var(--rank-accent);
+  background: color-mix(in srgb, var(--rank-accent) 6%, #0c141f);
+  cursor: pointer;
+  font: 800 8px var(--font-geist-mono);
+  letter-spacing: .08em;
+}
+
+.detail-vote-button b {
+  width: 23px;
+  height: 23px;
+  display: grid;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.detail-vote-button:hover { color: #071018; background: var(--rank-accent); }
+.detail-post-vote-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
 .detail-teamup-tools {
   display: flex;
   align-items: center;
