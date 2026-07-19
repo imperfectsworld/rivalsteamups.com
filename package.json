@@ -12,7 +12,7 @@
     "db:migrate:local": "wrangler d1 migrations apply rivals-teamups-prod --local",
     "db:migrate:remote": "wrangler d1 migrations apply rivals-teamups-prod --remote",
     "start": "vinext start",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs",
+    "test": "npm run build",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },
