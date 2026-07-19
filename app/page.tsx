@@ -2,16 +2,22 @@
 
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import heroesJson from "@/src/data/heroes.json";
+import heroesEsJson from "@/src/data/heroes-es.json";
 import { RANKS, type Hero, type HeroRole, type HeroesData, type PlayerRank, type TeamUpAbility } from "@/src/types";
+import { localePath, translate, type SiteLocale } from "@/src/i18n";
 
 const heroData = heroesJson as HeroesData;
+type SpanishAbility = TeamUpAbility & { nameEs: string; anchorPartnerEs: string; baseDescriptionEs: string; enhancedDescriptionEs: string };
+type SpanishHero = { id: string; nameEs: string; teamUpAbilities: SpanishAbility[] };
+const spanishHeroes = (heroesEsJson as unknown as { heroes: SpanishHero[] }).heroes;
+const spanishHeroNames = new Map(spanishHeroes.map((hero) => [hero.id, hero.nameEs]));
+const spanishAbilities = new Map(spanishHeroes.flatMap((hero) => hero.teamUpAbilities).map((ability) => [ability.id, ability]));
 const roles: HeroRole[] = ["Vanguard", "Duelist", "Strategist"];
 const rankFilters = ["All Ranks", ...RANKS] as const;
 type RankFilter = (typeof rankFilters)[number];
 type LiveVotes = Record<string, Record<string, number>>;
 const resultEras = [
   { id: "s9-launch", season: "Season 09", patch: "S9 Launch", label: "S9 · Launch" },
-  { id: "s8-final", season: "Season 08", patch: "Final Balance", label: "S8 · Final" },
 ] as const;
 type ResultEra = (typeof resultEras)[number];
 type ResultWindow = "all" | "recent";
@@ -60,7 +66,11 @@ const anchorImage = (anchorPartner: string, enhanced = false) => {
   return anchor ? (enhanced ? lordImage(anchor.id) : heroImage(anchor.id)) : "/heroes/hulk.webp";
 };
 
-export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
+export default function Home({ roleFilter, locale = "en" }: { roleFilter?: HeroRole; locale?: SiteLocale } = {}) {
+  const tx = (value: string) => translate(locale, value);
+  const path = (value: string) => localePath(locale, value);
+  const localizedHeroName = (hero: Hero) => locale === "es" ? (spanishHeroNames.get(hero.id) ?? hero.name) : hero.name;
+  const localizedAbility = (ability: TeamUpAbility) => { const spanish = spanishAbilities.get(ability.id); return locale === "es" && spanish ? { ...ability, name: spanish.nameEs, anchorPartner: spanish.anchorPartnerEs, baseDescription: spanish.baseDescriptionEs, enhancedDescription: spanish.enhancedDescriptionEs } : ability; };
   const [enhancedHeroes, setEnhancedHeroes] = useState<Record<string, boolean>>({});
   const [liveVotes, setLiveVotes] = useState<LiveVotes>({});
   const [selectedRank, setSelectedRank] = useState<RankFilter>("All Ranks");
@@ -124,11 +134,11 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
   }, []);
 
   const visibleRoles = roleFilter ? [roleFilter] : roles;
-  const directoryHeroes = useMemo(() => roleFilter ? heroData.heroes.filter((hero) => hero.role === roleFilter) : heroData.heroes, [roleFilter]);
+  const directoryHeroes = useMemo(() => (roleFilter ? heroData.heroes.filter((hero) => hero.role === roleFilter) : heroData.heroes).slice().sort((a, b) => a.name.localeCompare(b.name)), [roleFilter]);
 
   const suggestions = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    return directoryHeroes.filter((hero) => !normalized || hero.name.toLowerCase().includes(normalized));
+    return directoryHeroes.filter((hero) => !normalized || hero.name.toLowerCase().includes(normalized) || localizedHeroName(hero).toLowerCase().includes(normalized));
   }, [query, directoryHeroes]);
 
   function liveCount(abilityId: string, filter: RankFilter) {
@@ -141,7 +151,7 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
   }
 
   function chooseSuggestion(hero: Hero) {
-    setQuery(hero.name);
+    setQuery(localizedHeroName(hero));
     setSearchOpen(false);
     document.getElementById(`hero-${hero.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
@@ -310,17 +320,35 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
   );
   const completedHeroes = directoryHeroes.filter((hero) => votedHeroIds.includes(hero.id)).length;
   const progressPercent = Math.round((completedHeroes / Math.max(1, directoryHeroes.length)) * 100);
+  const featuredHero = useMemo(() => {
+    const utcDay = Math.floor(Date.now() / 86_400_000);
+    return heroData.heroes[(utcDay * 37 + 11) % heroData.heroes.length];
+  }, []);
+  const [featuredAbilityA, featuredAbilityB] = featuredHero.teamUpAbilities;
+  const featuredDisplayA = localizedAbility(featuredAbilityA);
+  const featuredDisplayB = localizedAbility(featuredAbilityB);
+  const featuredVotesA = abilityCount(featuredHero, featuredAbilityA);
+  const featuredVotesB = abilityCount(featuredHero, featuredAbilityB);
+  const featuredTotal = featuredVotesA + featuredVotesB;
+  const featuredPercentA = featuredTotal ? Math.round(featuredVotesA / featuredTotal * 100) : 50;
+  const featuredPercentB = 100 - featuredPercentA;
+
+  function focusFeaturedHero() {
+    setCollapsedRoles((current) => ({ ...current, [featuredHero.role]: false }));
+    window.setTimeout(() => document.getElementById(`hero-${featuredHero.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
+  }
 
   return (
     <main className="app-shell" id="top">
       <header className="topbar">
-        <a className="brand" href={roleFilter ? "/" : "#top"} aria-label="Rivals Team-Ups home">
+        <a className="brand" href={roleFilter ? path("/") : "#top"} aria-label="Rivals Team-Ups home">
           <span className="brand-mark">R</span>
-          <span><strong>RIVALS</strong><small>TEAM-UP META</small></span>
+          <span><strong>RIVALS</strong><small>TEAM-UP</small></span>
         </a>
         <nav className="role-nav" aria-label="Hero roles">
-          <a href={roleFilter ? "/roles/vanguards" : "#vanguards"}>Vanguards</a><a href={roleFilter ? "/roles/duelists" : "#duelists"}>Duelists</a><a href={roleFilter ? "/roles/strategists" : "#strategists"}>Strategists</a>
+          <a href={roleFilter ? path("/roles/vanguards") : "#vanguards"}>{tx("Vanguards")}</a><a href={roleFilter ? path("/roles/duelists") : "#duelists"}>{tx("Duelists")}</a><a href={roleFilter ? path("/roles/strategists") : "#strategists"}>{tx("Strategists")}</a>
         </nav>
+        <a className="language-switch" href={locale === "es" ? "/" : "/es"} hrefLang={locale === "es" ? "en" : "es"}>{locale === "es" ? "EN" : "ES"}</a>
         <div className="header-stats" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label={`${selectedRank}, ${visibleVoteTotal} visible votes`}>
           <img src={selectedRank === "All Ranks" ? "/rivals-icon.ico" : rankImages[selectedRank]} alt="" />
           <div><span>{selectedRank.toUpperCase()}</span><strong>{visibleVoteTotal.toLocaleString()}</strong></div>
@@ -331,38 +359,45 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
 
       <section className="hero-intro hero-intro-simple">
         <div>
-          <p className="eyebrow">A MARVEL RIVALS COMMUNITY TOOL</p>
-          <h1>{roleFilter ? <>{roleFilter.toUpperCase()}<br /><span>META</span></> : <>CREATE THE<br /><span>META</span></>}</h1>
-          <p className="intro-copy">{roleFilter ? `Compare every ${roleFilter} Team-Up, filter results by competitive rank and platform, preview Enhanced effects, and vote for the abilities you trust.` : "Search a hero, filter the community by competitive rank, and vote for the Team-Up you trust. Open any hero’s details page for ranked insights explaining why the community voted that way."}</p>
+          <p className="eyebrow">{tx("A MARVEL RIVALS COMMUNITY TOOL")}</p>
+          <h1>{roleFilter ? <>{tx(roleFilter).toUpperCase()}<br /><span>{tx("META")}</span></> : <>{tx("CREATE THE")}<br /><span>{tx("META")}</span></>}</h1>
+          <p className="intro-copy">{locale === "es" ? (roleFilter ? `Compara todos los Team-Ups de ${tx(roleFilter).toLowerCase()}, filtra los resultados por rango y plataforma, consulta los efectos mejorados y vota por tus habilidades favoritas.` : "Busca un héroe, filtra la comunidad por rango competitivo y vota por el Team-Up que prefieras. Abre la página de cualquier héroe para consultar estadísticas y opiniones de la comunidad.") : (roleFilter ? `Compare every ${roleFilter} Team-Up, filter results by competitive rank and platform, preview Enhanced effects, and vote for the abilities you trust.` : "Search a hero, filter the community by competitive rank, and vote for the Team-Up you trust. Open any hero’s details page for ranked insights explaining why the community voted that way.")}</p>
         </div>
         <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
           <img className="rank-insight-icon" src={selectedRank === "All Ranks" ? "/rivals-icon.ico" : rankImages[selectedRank]} alt="" />
-          <div><span>LIVE RANK INSIGHT</span><strong>{selectedRank}</strong></div>
-          <p>Showing {resultWindow === "recent" ? "the last 30 days" : "all-time results"} for {selectedEra.label}, from {selectedRank === "All Ranks" ? "the full ranked community" : `${selectedRank} players`}.</p>
+          <div><span>{tx("LIVE RANK INSIGHT")}</span><strong>{tx(selectedRank)}</strong></div>
+          <p>{locale === "es" ? `Mostrando ${resultWindow === "recent" ? "los últimos 30 días" : "resultados históricos"} de ${tx(selectedEra.label)}, ${selectedRank === "All Ranks" ? "para toda la comunidad competitiva" : `de jugadores de rango ${tx(selectedRank)}`}.` : <>Showing {resultWindow === "recent" ? "the last 30 days" : "all-time results"} for {selectedEra.label}, from {selectedRank === "All Ranks" ? "the full ranked community" : `${selectedRank} players`}.</>}</p>
         </div>
       </section>
 
+      {!roleFilter && <section className="daily-debate" aria-labelledby="daily-debate-title">
+        <div className="daily-debate-hero"><img src={heroImage(featuredHero.id)} alt=""/><span><small>{tx("24-HOUR FEATURED MATCHUP")}</small><strong>{localizedHeroName(featuredHero)}</strong></span></div>
+        <div className="daily-debate-copy"><p className="eyebrow">{tx("TODAY'S META DEBATE")}</p><h2 id="daily-debate-title">{featuredDisplayA.name} <i>{locale === "es" ? "O" : "OR"}</i> {featuredDisplayB.name}?</h2><p>{locale === "es" ? `Ayuda a decidir el duelo destacado de hoy. Resultados de ${selectedRank === "All Ranks" ? "todos los rangos" : selectedRank} en ${platform}.` : <>Help settle today&apos;s featured Team-Up matchup. Results reflect {selectedRank === "All Ranks" ? "all competitive ranks" : selectedRank} on {platform}.</>}</p></div>
+        <div className="daily-debate-score" aria-label={`Current result: ${featuredAbilityA.name} ${featuredPercentA} percent, ${featuredAbilityB.name} ${featuredPercentB} percent`}><div className={featuredPercentA > featuredPercentB ? "is-leading" : ""}><span><i className="debate-key debate-key-a"/>{featuredAbilityA.name}</span><strong>{featuredPercentA}%</strong></div><div className="daily-debate-track"><i className="debate-segment-a" style={{ width: `${featuredPercentA}%` }}/><i className="debate-segment-b" style={{ width: `${featuredPercentB}%` }}/></div><div className={featuredPercentB > featuredPercentA ? "is-leading" : ""}><span><i className="debate-key debate-key-b"/>{featuredAbilityB.name}</span><strong>{featuredPercentB}%</strong></div><small>{featuredTotal.toLocaleString()} VOTES · ROTATES EVERY 24 HOURS</small></div>
+        <button type="button" onClick={focusFeaturedHero}>{tx("VOTE IN TODAY'S DEBATE")} <b>→</b></button>
+      </section>}
+
       <section className="voting-progress" aria-label="Your voting progress">
-        <div><span>YOUR VOTING PROGRESS</span><strong>{completedHeroes} / {directoryHeroes.length} HEROES</strong></div>
+        <div><span>{tx("YOUR VOTING PROGRESS")}</span><strong>{completedHeroes} / {directoryHeroes.length} {tx("HEROES")}</strong></div>
         <div className="progress-track" aria-hidden="true"><i style={{ width: `${progressPercent}%` }} /></div>
-        <p>{completedHeroes === directoryHeroes.length ? "Directory complete. Return after cooldowns or the next patch." : `${directoryHeroes.length - completedHeroes} heroes left to shape the community meta on this device.`}</p>
+        <p>{locale === "es" ? (completedHeroes === directoryHeroes.length ? "Directorio completado. Regresa cuando terminen los tiempos de espera o llegue el próximo parche." : `Faltan ${directoryHeroes.length - completedHeroes} héroes para ayudar a definir el meta de la comunidad en este dispositivo.`) : (completedHeroes === directoryHeroes.length ? "Directory complete. Return after cooldowns or the next patch." : `${directoryHeroes.length - completedHeroes} heroes left to shape the community meta on this device.`)}</p>
       </section>
 
       <section className="control-deck" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label="Directory controls">
-        <div className="platform-toggle" role="group" aria-label="Gaming platform"><span>PLATFORM DATA</span><button className={platform === "PC" ? "is-active" : ""} type="button" onClick={() => choosePlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} type="button" onClick={() => choosePlatform("Console")}>CONSOLE</button></div>
+        <div className="platform-toggle" role="group" aria-label="Gaming platform"><span>{tx("PLATFORM DATA")}</span><button className={platform === "PC" ? "is-active" : ""} type="button" onClick={() => choosePlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} type="button" onClick={() => choosePlatform("Console")}>{locale === "es" ? "CONSOLA" : "CONSOLE"}</button></div>
         <div className="history-controls">
-          <div><span>PATCH &amp; SEASON HISTORY</span>{resultEras.map((era) => <button className={selectedEra.id === era.id ? "is-active" : ""} type="button" onClick={() => setSelectedEra(era)} key={era.id}>{era.label}</button>)}</div>
-          <div><span>RESULT WINDOW</span><button className={resultWindow === "all" ? "is-active" : ""} type="button" onClick={() => setResultWindow("all")}>ALL-TIME</button><button className={resultWindow === "recent" ? "is-active" : ""} type="button" onClick={() => setResultWindow("recent")}>LAST 30 DAYS</button></div>
+          <div><span>{tx("PATCH & SEASON HISTORY")}</span>{resultEras.map((era) => <button className={selectedEra.id === era.id ? "is-active" : ""} type="button" onClick={() => setSelectedEra(era)} key={era.id}>{tx(era.label)}</button>)}</div>
+          <div><span>{tx("RESULT WINDOW")}</span><button className={resultWindow === "all" ? "is-active" : ""} type="button" onClick={() => setResultWindow("all")}>{tx("ALL-TIME")}</button><button className={resultWindow === "recent" ? "is-active" : ""} type="button" onClick={() => setResultWindow("recent")}>{tx("LAST 30 DAYS")}</button></div>
         </div>
         <div className="hero-search">
-          <label htmlFor="hero-search">SEARCH HERO</label>
+          <label htmlFor="hero-search">{tx("SEARCH HERO")}</label>
           <div className="search-input-wrap">
             <span aria-hidden="true">⌕</span>
             <input
               id="hero-search"
               type="search"
               value={query}
-              placeholder="Search for a hero…"
+              placeholder={tx("Search for a hero…")}
               autoComplete="off"
               onChange={(event) => { setQuery(event.target.value); setSearchOpen(true); }}
               onFocus={() => setSearchOpen(true)}
@@ -375,7 +410,7 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
               {suggestions.length ? suggestions.map((hero) => (
                 <button type="button" onMouseDown={() => chooseSuggestion(hero)} key={hero.id}>
                   <span className="suggestion-avatar"><img src={heroImage(hero.id)} alt="" /></span>
-                  <strong>{hero.name}</strong><small><img src={roleImage(hero.role)} alt="" />{hero.role}</small>
+                  <strong>{localizedHeroName(hero)}</strong><small><img src={roleImage(hero.role)} alt="" />{tx(hero.role)}</small>
                 </button>
               )) : <p>No heroes match “{query}”</p>}
             </div>
@@ -383,12 +418,12 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
         </div>
 
         <div className="rank-filter">
-          <div className="rank-filter-heading"><span>FILTER COMMUNITY BY RANK</span><strong>{selectedRank}</strong></div>
+          <div className="rank-filter-heading"><span>{tx("FILTER COMMUNITY BY RANK")}</span><strong>{tx(selectedRank)}</strong></div>
           <div className="rank-scale" role="group" aria-label="Community rank filter">
             {rankFilters.map((rank, index) => (
               <button className={selectedRank === rank ? "is-active" : ""} type="button" onClick={() => setSelectedRank(rank)} key={rank}>
                 {rank === "All Ranks" ? <img className="all-ranks-icon" src="/rivals-icon.ico" alt="Marvel Rivals" /> : <img src={rankImages[rank]} alt="" />}
-                <i>{index === 0 ? "00" : String(index).padStart(2, "0")}</i><span>{rank}</span>
+                <i>{index === 0 ? "00" : String(index).padStart(2, "0")}</i><span>{tx(rank)}</span>
               </button>
             ))}
           </div>
@@ -397,14 +432,14 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
 
       <section className="directory" aria-label="Hero Team-Up directory">
         {visibleRoles.map((role) => {
-          const heroes = heroData.heroes.filter((hero) => hero.role === role);
+          const heroes = heroData.heroes.filter((hero) => hero.role === role).sort((a, b) => a.name.localeCompare(b.name));
           const meta = roleMeta[role];
           return (
             <section className={`role-section role-${role.toLowerCase()}`} id={meta.anchor} key={role}>
               <button className="role-banner role-collapse-button" type="button" aria-expanded={!collapsedRoles[role]} onClick={() => setCollapsedRoles((current) => ({ ...current, [role]: !current[role] }))}>
                 <span className="role-symbol"><img src={roleImage(role)} alt="" /></span>
-                <div><h2>{role} heroes</h2><p>{meta.label} · {heroes.length} operatives</p></div>
-                <span className="role-count">{collapsedRoles[role] ? "EXPAND +" : "COLLAPSE −"}</span>
+                <div><h2>{tx(role)} {tx("HEROES").toLowerCase()}</h2><p>{meta.label} · {heroes.length} {locale === "es" ? "operativos" : "operatives"}</p></div>
+                <span className="role-count">{collapsedRoles[role] ? `${tx("EXPAND")} +` : `${tx("COLLAPSE")} −`}</span>
               </button>
               {!collapsedRoles[role] && <div className="hero-panels">
                 {heroes.map((hero) => {
@@ -414,17 +449,18 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
                   return (
                     <article className={`hero-panel ${enhanced ? "hero-enhanced" : ""}`} id={`hero-${hero.id}`} key={hero.id}>
                       <div className="hero-panel-header">
-                        <a className="hero-profile-link" href={`/heroes/${hero.id}`} aria-label={`View ${hero.name} details`}>
+                        <a className="hero-profile-link" href={path(`/heroes/${hero.id}`)} aria-label={`View ${hero.name} details`}>
                           <span className={`hero-avatar ${enhanced ? "is-lord" : ""}`} aria-hidden="true"><img src={enhanced ? lordImage(hero.id) : heroImage(hero.id)} alt="" /></span>
-                          <span className="hero-identity"><strong>{hero.name}</strong><small>{heroTotal.toLocaleString()} {selectedRank.toUpperCase()} VOTES</small><span className="hero-details-link">VIEW DETAILS →</span></span>
+                          <span className="hero-identity"><strong>{localizedHeroName(hero)}</strong><small>{heroTotal.toLocaleString()} {selectedRank.toUpperCase()} VOTES</small><span className="hero-details-link">{tx("VIEW DETAILS")} →</span></span>
                         </a>
                         <button className={`hero-toggle ${enhanced ? "is-on" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Enhanced descriptions for ${hero.name}`} onClick={() => setEnhancedHeroes((current) => ({ ...current, [hero.id]: !current[hero.id] }))}>
                           <span className="hero-toggle-track"><span /></span><b>{enhanced ? "⚡ ENHANCED ON" : "ENHANCED OFF"}</b>
                         </button>
                       </div>
-                      <div className="ability-divider"><span>CHOOSE THE BETTER TEAM-UP</span></div>
+                      <div className="ability-divider"><span>{tx("CHOOSE THE BETTER TEAM-UP")}</span></div>
                       <div className="panel-abilities">
                         {hero.teamUpAbilities.map((ability, abilityIndex) => {
+                          const displayAbility = localizedAbility(ability);
                           const count = counts[abilityIndex];
                           const otherCount = counts[abilityIndex === 0 ? 1 : 0];
                           const percentage = heroTotal ? Math.round((count / heroTotal) * 100) : 50;
@@ -443,12 +479,12 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
                                 }
                               }}
                             >
-                              {count > otherCount && <span className="community-choice">◎ COMMUNITY CHOICE</span>}
-                              <div className="compact-topline"><span className={`ability-glyph ${enhanced ? "is-lord" : ""}`}><img src={anchorImage(ability.anchorPartner, enhanced)} alt={`${ability.anchorPartner} portrait`} /></span><span className="ability-name">{ability.name}</span><strong className="vote-percent">{percentage}%</strong></div>
-                              <span className="anchor-chip">ANCHOR · {ability.anchorPartner}</span>
-                              <p className="compact-description">{ability.baseDescription}</p>
-                              {enhanced && <p className="enhanced-addon"><strong>⚡ ENHANCED:</strong> {ability.enhancedDescription}</p>}
-                              <span className="card-vote-label"><span>VOTE FOR {ability.anchorPartner.toUpperCase()} TEAM-UP</span><b>+</b></span>
+                              {count > otherCount && <span className="community-choice">◎ {tx("COMMUNITY CHOICE")}</span>}
+                              <div className="compact-topline"><span className={`ability-glyph ${enhanced ? "is-lord" : ""}`}><img src={anchorImage(ability.anchorPartner, enhanced)} alt={`${ability.anchorPartner} portrait`} /></span><span className="ability-name">{displayAbility.name}</span><strong className="vote-percent">{percentage}%</strong></div>
+                              <span className="anchor-chip">{locale === "es" ? "ANCLA" : "ANCHOR"} · {displayAbility.anchorPartner}</span>
+                              <p className="compact-description">{displayAbility.baseDescription}</p>
+                              {enhanced && <p className="enhanced-addon"><strong>⚡ {locale === "es" ? "MEJORADO:" : "ENHANCED:"}</strong> {displayAbility.enhancedDescription}</p>}
+                              <span className="card-vote-label"><span>{tx("VOTE FOR")} {displayAbility.anchorPartner.toUpperCase()} TEAM-UP</span><b>+</b></span>
                             </article>
                           );
                         })}
@@ -462,7 +498,10 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
         })}
       </section>
 
-      <footer><span>RIVALS TEAM-UPS // {platform.toUpperCase()} COMMUNITY META</span><nav className="legal-links"><a href="/roles/vanguards">VANGUARDS</a><a href="/roles/duelists">DUELISTS</a><a href="/roles/strategists">STRATEGISTS</a><a href="/patches">PATCHES</a><a href="/legal-notice">LEGAL</a><a href="/privacy-policy">PRIVACY</a><a href="/terms-of-use">TERMS</a><a href="/cookie-policy">COOKIES</a></nav><a href="#top">BACK TO TOP ↑</a></footer>
+      <aside className="clarity-disclosure">
+        <p>{locale === "es" ? "Usamos Microsoft Clarity para comprender cómo utilizas el sitio mediante métricas de comportamiento, mapas de calor y repeticiones de sesión, con el fin de mejorar la experiencia, el rendimiento y la promoción del sitio. Al utilizar este sitio, aceptas que nosotros y Microsoft podamos recopilar y utilizar estos datos." : "We use Microsoft Clarity to understand how you use the site through behavioral metrics, heatmaps, and session replay so we can improve the experience, performance, and promotion of the site. By using this site, you agree that we and Microsoft may collect and use this data."} <a href="/privacy-policy">{locale === "es" ? "Consulta nuestra Política de Privacidad." : "See our Privacy Policy for details."}</a></p>
+      </aside>
+      <footer><span>RIVALS TEAM-UPS // {platform.toUpperCase()} {tx("COMMUNITY META")}</span><nav className="legal-links"><a href={path("/roles/vanguards")}>{tx("Vanguards").toUpperCase()}</a><a href={path("/roles/duelists")}>{tx("Duelists").toUpperCase()}</a><a href={path("/roles/strategists")}>{tx("Strategists").toUpperCase()}</a><a href="/patches">{tx("PATCHES")}</a><a href="/contact">{tx("CONTACT")}</a><a href="/legal-notice">{tx("LEGAL")}</a><a href="/privacy-policy">{tx("PRIVACY")}</a><a href="/terms-of-use">{tx("TERMS")}</a><a href="/cookie-policy">{tx("COOKIES")}</a></nav><a href="#top">{tx("BACK TO TOP")} ↑</a></footer>
 
       {pendingVote && (
         <div className="vote-modal-backdrop" role="presentation" onMouseDown={() => setPendingVote(null)}>
@@ -470,32 +509,32 @@ export default function Home({ roleFilter }: { roleFilter?: HeroRole } = {}) {
             <button className="modal-close" type="button" onClick={() => setPendingVote(null)} aria-label="Close vote dialog">×</button>
             {voteCelebrating ? <div className="vote-counted-animation" role="status" aria-live="polite">
               <span className="vote-counted-ring"><b>✓</b></span>
-              <p className="eyebrow">VOTE LOCKED IN</p>
-              <h2 id="vote-modal-title">Vote counted</h2>
-              <p>Updating the community meta...</p>
+              <p className="eyebrow">{tx("VOTE LOCKED IN")}</p>
+              <h2 id="vote-modal-title">{tx("Vote counted")}</h2>
+              <p>{locale === "es" ? "Actualizando el meta de la comunidad..." : "Updating the community meta..."}</p>
             </div> : voteStatus === "Vote recorded. Thank you!" ? <>
-              <p className="eyebrow">VOTE RECORDED</p>
-              <h2 id="vote-modal-title">Give more context?</h2>
-              <p>Would you like to explain why you chose {pendingVote.ability.name}? Your Insight helps other players understand the community vote.</p>
-              <div className="vote-summary"><span>{pendingVote.hero.name}</span><strong>{pendingVote.ability.name}</strong><small>{pendingVote.ability.anchorPartner} TEAM-UP</small></div>
+              <p className="eyebrow">{tx("VOTE RECORDED")}</p>
+              <h2 id="vote-modal-title">{locale === "es" ? "¿Quieres añadir contexto?" : "Give more context?"}</h2>
+              <p>{locale === "es" ? `¿Quieres explicar por qué elegiste ${localizedAbility(pendingVote.ability).name}? Tu opinión ayuda a otros jugadores a comprender el voto de la comunidad.` : <>Would you like to explain why you chose {pendingVote.ability.name}? Your Insight helps other players understand the community vote.</>}</p>
+              <div className="vote-summary"><span>{localizedHeroName(pendingVote.hero)}</span><strong>{localizedAbility(pendingVote.ability).name}</strong><small>{localizedAbility(pendingVote.ability).anchorPartner} TEAM-UP</small></div>
               <div className="post-vote-actions">
-                <a className="post-vote-insight" href={`/heroes/${pendingVote.hero.id}?rank=${encodeURIComponent(voteRank)}&platform=${encodeURIComponent(votePlatform)}#hero-insights`}><strong>GIVE CONTEXT TO MY VOTE</strong><span>Open {pendingVote.hero.name}’s Insights section.</span><b>→</b></a>
-                <button className="share-result-button" type="button" onClick={() => void shareVoteResult()}><strong>SHARE RESULT CARD</strong><span>{shareStatus || "Create an image and invite more votes."}</span><b>↗</b></button>
-                <button className="vote-more-button" type="button" onClick={() => setPendingVote(null)}>VOTE MORE</button>
+                <a className="post-vote-insight" href={`${path(`/heroes/${pendingVote.hero.id}`)}?rank=${encodeURIComponent(voteRank)}&platform=${encodeURIComponent(votePlatform)}#hero-insights`}><strong>{locale === "es" ? "EXPLICAR MI VOTO" : "GIVE CONTEXT TO MY VOTE"}</strong><span>{locale === "es" ? `Abre las opiniones de ${localizedHeroName(pendingVote.hero)}.` : `Open ${pendingVote.hero.name}’s Insights section.`}</span><b>→</b></a>
+                <button className="share-result-button" type="button" onClick={() => void shareVoteResult()}><strong>{locale === "es" ? "COMPARTIR RESULTADO" : "SHARE RESULT CARD"}</strong><span>{shareStatus || (locale === "es" ? "Crea una imagen e invita a otros a votar." : "Create an image and invite more votes.")}</span><b>↗</b></button>
+                <button className="vote-more-button" type="button" onClick={() => setPendingVote(null)}>{locale === "es" ? "SEGUIR VOTANDO" : "VOTE MORE"}</button>
               </div>
             </> : <>
-              <p className="eyebrow">ONE LAST STEP</p>
-              <h2 id="vote-modal-title">What rank are you?</h2>
-              <p>Your rank lets the community compare which Team-Ups different skill tiers prefer.</p>
-              <div className="vote-summary"><span>{pendingVote.hero.name}</span><strong>{pendingVote.ability.name}</strong><small>{pendingVote.ability.anchorPartner} TEAM-UP</small></div>
+              <p className="eyebrow">{tx("ONE LAST STEP")}</p>
+              <h2 id="vote-modal-title">{tx("What rank are you?")}</h2>
+              <p>{locale === "es" ? "Tu rango permite comparar qué Team-Ups prefieren los jugadores de cada nivel competitivo." : "Your rank lets the community compare which Team-Ups different skill tiers prefer."}</p>
+              <div className="vote-summary"><span>{localizedHeroName(pendingVote.hero)}</span><strong>{localizedAbility(pendingVote.ability).name}</strong><small>{localizedAbility(pendingVote.ability).anchorPartner} TEAM-UP</small></div>
               <div className="modal-ranks">
-                {RANKS.map((rank, index) => <button className={voteRank === rank ? "is-active" : ""} type="button" onClick={() => { setVoteRank(rank); setVoteStatus(""); }} key={rank}><img src={rankImages[rank]} alt="" /><i>{String(index + 1).padStart(2, "0")}</i><span>{rank}</span></button>)}
+                {RANKS.map((rank, index) => <button className={voteRank === rank ? "is-active" : ""} type="button" onClick={() => { setVoteRank(rank); setVoteStatus(""); }} key={rank}><img src={rankImages[rank]} alt="" /><i>{String(index + 1).padStart(2, "0")}</i><span>{tx(rank)}</span></button>)}
               </div>
-              <div className="modal-platforms" role="group" aria-label="Select voting platform"><span>YOUR PLATFORM</span><button className={votePlatform === "PC" ? "is-active" : ""} type="button" onClick={() => { setVotePlatform("PC"); setVoteStatus(""); }}>PC</button><button className={votePlatform === "Console" ? "is-active" : ""} type="button" onClick={() => { setVotePlatform("Console"); setVoteStatus(""); }}>CONSOLE</button></div>
+              <div className="modal-platforms" role="group" aria-label={locale === "es" ? "Selecciona tu plataforma" : "Select voting platform"}><span>{tx("YOUR PLATFORM")}</span><button className={votePlatform === "PC" ? "is-active" : ""} type="button" onClick={() => { setVotePlatform("PC"); setVoteStatus(""); }}>PC</button><button className={votePlatform === "Console" ? "is-active" : ""} type="button" onClick={() => { setVotePlatform("Console"); setVoteStatus(""); }}>{locale === "es" ? "CONSOLA" : "CONSOLE"}</button></div>
               {voteStatus && <p className="vote-status" aria-live="polite">{voteStatus}</p>}
-              <button className="submit-vote" type="button" onClick={() => void submitVote()} disabled={!voteRank || !votePlatform}>RECORD MY VOTE <b>→</b></button>
+              <button className="submit-vote" type="button" onClick={() => void submitVote()} disabled={!voteRank || !votePlatform}>{tx("RECORD MY VOTE")} <b>→</b></button>
             </>}
-            <small className="privacy-note">Your vote uses a random device ID. No name or account is collected.</small>
+            <small className="privacy-note">{locale === "es" ? "Tu voto utiliza un identificador aleatorio del dispositivo. No se recopila ningún nombre ni cuenta." : "Your vote uses a random device ID. No name or account is collected."}</small>
           </section>
         </div>
       )}

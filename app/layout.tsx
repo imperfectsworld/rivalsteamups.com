@@ -9,9 +9,16 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://rivalsteamups.com"),
   title: "Rivals Team-Up Meta | Season 9 Community Voting",
   description: "Build and compare Marvel Rivals Team-Up ability drafts by hero, role, and anchor partner context.",
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", languages: { en: "/", es: "/es", "x-default": "/" } },
   robots: { index: true, follow: true },
-  icons: { icon: "/rivals-icon.ico", shortcut: "/rivals-icon.ico", apple: "/rivals-icon.ico" },
+  icons: {
+    icon: [
+      { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" }],
+  },
   openGraph: {
     title: "Rivals Team-Up Meta | Season 9 Community Voting",
     description: "Scout the roster, lock two abilities, and preview enhanced anchor-partner effects.",

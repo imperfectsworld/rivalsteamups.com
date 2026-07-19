@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ heroId: s
   return {
     title,
     description,
-    alternates: { canonical },
+    alternates: { canonical, languages: { en: canonical, es: `/es/heroes/${hero.id}` } },
     openGraph: { title, description, url: canonical, type: "website", images: ["/og-rivalsteamups-v3.png"] },
     twitter: { card: "summary_large_image", title, description, images: ["/og-rivalsteamups-v3.png"] },
   };
