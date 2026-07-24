@@ -1131,6 +1131,7 @@ button {
 .hero-toggle b {
   display: block;
   margin-top: 5px;
+  padding-left: 25px;
   color: #6f7c90;
   font: 700 6px var(--font-geist-mono);
   letter-spacing: .07em;
@@ -1150,6 +1151,60 @@ button {
 
 .hero-toggle.is-on b {
   color: var(--lime);
+}
+
+.hero-toggle.is-discoverable .hero-toggle-track {
+  border-color: #e9b743;
+  animation: enhanced-discovery-pulse 1.15s ease-in-out infinite;
+}
+
+@keyframes enhanced-discovery-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(233, 183, 67, .08); }
+  50% { box-shadow: 0 0 0 6px rgba(233, 183, 67, .2), 0 0 22px rgba(233, 183, 67, .55); }
+}
+
+.daily-debate > button.is-featured-pulse {
+  border-color: #e9b743;
+  color: #ffd765;
+  animation: enhanced-discovery-pulse 1.15s ease-in-out infinite;
+}
+
+.enhanced-tap-cue {
+  position: absolute;
+  z-index: 2;
+  top: -23px;
+  right: 0;
+  padding: 5px 7px;
+  border: 1px solid #e9b743;
+  background: #17130a;
+  color: #ffd765;
+  box-shadow: 0 0 15px rgba(233, 183, 67, .18);
+  font: 800 7px var(--font-geist-mono);
+  letter-spacing: .07em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.enhanced-tap-cue::after {
+  content: "";
+  position: absolute;
+  right: 19px;
+  bottom: -5px;
+  width: 8px;
+  height: 8px;
+  border-right: 1px solid #e9b743;
+  border-bottom: 1px solid #e9b743;
+  background: #17130a;
+  transform: rotate(45deg);
+}
+
+.hero-panel-header,
+.enhanced-cue-wrap {
+  position: relative;
+}
+
+.enhanced-cue-wrap {
+  margin-left: auto;
 }
 
 .ability-divider {
@@ -1907,6 +1962,47 @@ footer {
   margin: 0;
 }
 
+.teamups-explainer {
+  margin: 52px 0 24px;
+  padding: 28px;
+  border: 1px solid #2b3d54;
+  background: rgba(12, 20, 31, .82);
+}
+
+.teamups-explainer > h2 {
+  max-width: 800px;
+  margin: 6px 0 24px;
+  color: #edf5ff;
+  font-size: clamp(26px, 3vw, 44px);
+  font-weight: 500;
+  letter-spacing: -.04em;
+}
+
+.teamups-explainer > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: #2b3d54;
+}
+
+.teamups-explainer article {
+  padding: 20px;
+  background: #0c141f;
+}
+
+.teamups-explainer h3 {
+  margin: 0 0 10px;
+  color: var(--cyan);
+  font-size: 16px;
+}
+
+.teamups-explainer article p {
+  margin: 0;
+  color: #a9b8ca;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
 .detail-anchor img {
   object-fit: cover;
   object-position: center 42%;
@@ -2517,6 +2613,17 @@ footer {
 
 footer a {
   text-decoration: none;
+}
+
+@media (max-width: 720px) {
+  .teamups-explainer {
+    margin-top: 36px;
+    padding: 20px;
+  }
+
+  .teamups-explainer > div {
+    grid-template-columns: 1fr;
+  }
 }
 
 footer a:hover {

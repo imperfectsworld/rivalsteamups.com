@@ -33,6 +33,8 @@ const rankImages: Record<PlayerRank, string> = {
 const rankColors: Record<DetailRank, string> = {
   "All Ranks": "#43ddff", Bronze: "#c98b61", Silver: "#b8d5df", Gold: "#f2b431", Platinum: "#43e7df", Diamond: "#77adf3", Grandmaster: "#7b42ff", Celestial: "#ff7a1f", Eternity: "#f022ff", "One Above All": "#ff3023",
 };
+const enhancedPreferenceKey = "rivals-enhanced-heroes";
+const insightNamePreferenceKey = "rivals-insight-display-name";
 
 export default function HeroDetailClient({ hero, locale = "en" }: { hero: Hero; locale?: SiteLocale }) {
   const tx = (value: string) => translate(locale, value);
@@ -53,6 +55,7 @@ export default function HeroDetailClient({ hero, locale = "en" }: { hero: Hero; 
   const [votePlatform, setVotePlatform] = useState<Platform | "">("");
   const [voteStatus, setVoteStatus] = useState("");
   const [voteCelebrating, setVoteCelebrating] = useState(false);
+  const [showEnhancedDiscovery, setShowEnhancedDiscovery] = useState(false);
 
   const loadVotes = useCallback(async () => {
     try {
@@ -78,11 +81,31 @@ export default function HeroDetailClient({ hero, locale = "en" }: { hero: Hero; 
     if (linkedPlatform === "PC" || linkedPlatform === "Console") setPlatform(linkedPlatform);
     else if (localStorage.getItem("rivals-platform") === "Console") setPlatform("Console");
     if (RANKS.includes(linkedRank as PlayerRank)) setInsightRank(linkedRank as PlayerRank);
+    const savedInsightName = localStorage.getItem(insightNamePreferenceKey);
+    if (savedInsightName) setInsightName(savedInsightName);
+    try {
+      const saved = JSON.parse(localStorage.getItem(enhancedPreferenceKey) || "{}") as Record<string, boolean>;
+      setEnhanced(Boolean(saved[hero.id]));
+    } catch {
+      localStorage.removeItem(enhancedPreferenceKey);
+    }
+    setShowEnhancedDiscovery(true);
   }, []);
 
   function choosePlatform(next: Platform) {
     setPlatform(next);
     localStorage.setItem("rivals-platform", next);
+  }
+
+  function toggleEnhanced() {
+    setEnhanced((current) => {
+      const nextValue = !current;
+      let saved: Record<string, boolean> = {};
+      try { saved = JSON.parse(localStorage.getItem(enhancedPreferenceKey) || "{}"); } catch { /* Replace invalid storage. */ }
+      localStorage.setItem(enhancedPreferenceKey, JSON.stringify({ ...saved, [hero.id]: nextValue }));
+      return nextValue;
+    });
+    setShowEnhancedDiscovery(false);
   }
 
   const loadInsights = useCallback(async () => {
@@ -150,6 +173,8 @@ export default function HeroDetailClient({ hero, locale = "en" }: { hero: Hero; 
     const response = await fetch("/api/insights", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "comment", heroId: hero.id, voterId: voterId(), displayName: insightName, rank: insightRank, platform, body: insightBody }) });
     const data = await response.json() as { error?: string };
     if (!response.ok) { setInsightStatus(data.error || "Unable to post insight."); return; }
+    const savedName = insightName.trim();
+    if (savedName) localStorage.setItem(insightNamePreferenceKey, savedName);
     setInsightBody(""); setInsightStatus("Insight posted."); await loadInsights();
   }
 
@@ -213,7 +238,7 @@ export default function HeroDetailClient({ hero, locale = "en" }: { hero: Hero; 
 
       <section className="detail-content">
         <div className="platform-toggle detail-platform-toggle" role="group" aria-label="Gaming platform"><span>{tx("PLATFORM DATA")}</span><button className={platform === "PC" ? "is-active" : ""} type="button" onClick={() => choosePlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} type="button" onClick={() => choosePlatform("Console")}>{locale === "es" ? "CONSOLA" : "CONSOLE"}</button></div>
-        <div className="detail-section-heading teamup-heading"><div><h2>{tx("Team-Up totals")}</h2></div><div className="detail-teamup-tools"><p>{locale === "es" ? `Mostrando ${selectedRank === "All Ranks" ? "todos los rangos" : selectedRank}.` : `Showing ${selectedRank === "All Ranks" ? "all ranks" : selectedRank}.`}</p><button className={`hero-toggle ${enhanced ? "is-on" : ""}`} type="button" role="switch" aria-checked={enhanced} onClick={() => setEnhanced((current) => !current)}><span className="hero-toggle-track"><span /></span><b>{enhanced ? `⚡ ${tx("ENHANCED ON")}` : tx("ENHANCED OFF")}</b></button></div></div>
+        <div className="detail-section-heading teamup-heading"><div><h2>{tx("Team-Up totals")}</h2></div><div className="detail-teamup-tools"><p>{locale === "es" ? `Mostrando ${selectedRank === "All Ranks" ? "todos los rangos" : selectedRank}.` : `Showing ${selectedRank === "All Ranks" ? "all ranks" : selectedRank}.`}</p><div className="enhanced-cue-wrap"><button className={`hero-toggle ${enhanced ? "is-on" : ""} ${showEnhancedDiscovery ? "is-discoverable" : ""}`} type="button" role="switch" aria-checked={enhanced} onClick={toggleEnhanced}><span className="hero-toggle-track"><span /></span><b>{enhanced ? `⚡ ${tx("ENHANCED ON")}` : tx("ENHANCED OFF")}</b></button>{showEnhancedDiscovery && <span className="enhanced-tap-cue">{locale === "es" ? "TOCA PARA VER EL BONUS" : "TAP TO PREVIEW"} <b>⚡</b></span>}</div></div></div>
         <div className="detail-teamups">
           {hero.teamUpAbilities.map((ability, index) => {
             const displayAbility = localizedAbility(ability);

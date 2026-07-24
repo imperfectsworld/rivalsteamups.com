@@ -22,6 +22,7 @@ const resultEras = [
 type ResultEra = (typeof resultEras)[number];
 type ResultWindow = "all" | "recent";
 type Platform = "PC" | "Console";
+const enhancedPreferenceKey = "rivals-enhanced-heroes";
 
 const rankImages: Record<PlayerRank, string> = {
   Bronze: "/ranks/bronze.webp",
@@ -88,6 +89,7 @@ export default function Home({ roleFilter, locale = "en" }: { roleFilter?: HeroR
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [collapsedRoles, setCollapsedRoles] = useState<Record<HeroRole, boolean>>({ Vanguard: false, Duelist: false, Strategist: false });
   const [platform, setPlatform] = useState<Platform>("PC");
+  const [showEnhancedDiscovery, setShowEnhancedDiscovery] = useState(false);
 
   const loadVotes = useCallback(async () => {
     try {
@@ -110,6 +112,15 @@ export default function Home({ roleFilter, locale = "en" }: { roleFilter?: HeroR
   useEffect(() => { const saved = localStorage.getItem("rivals-platform"); if (saved === "Console") setPlatform("Console"); }, []);
   useEffect(() => {
     try {
+      const saved = JSON.parse(localStorage.getItem(enhancedPreferenceKey) || "{}");
+      if (saved && typeof saved === "object") setEnhancedHeroes(saved as Record<string, boolean>);
+    } catch {
+      localStorage.removeItem(enhancedPreferenceKey);
+    }
+    setShowEnhancedDiscovery(true);
+  }, []);
+  useEffect(() => {
+    try {
       const saved = JSON.parse(localStorage.getItem("rivals-voted-heroes") || "[]");
       if (Array.isArray(saved)) setVotedHeroIds(saved.filter((id): id is string => typeof id === "string"));
     } catch {
@@ -120,6 +131,15 @@ export default function Home({ roleFilter, locale = "en" }: { roleFilter?: HeroR
   function choosePlatform(next: Platform) {
     setPlatform(next);
     localStorage.setItem("rivals-platform", next);
+  }
+
+  function toggleEnhanced(heroId: string) {
+    setEnhancedHeroes((current) => {
+      const next = { ...current, [heroId]: !current[heroId] };
+      localStorage.setItem(enhancedPreferenceKey, JSON.stringify(next));
+      return next;
+    });
+    setShowEnhancedDiscovery(false);
   }
 
   useEffect(() => {
@@ -135,6 +155,9 @@ export default function Home({ roleFilter, locale = "en" }: { roleFilter?: HeroR
 
   const visibleRoles = roleFilter ? [roleFilter] : roles;
   const directoryHeroes = useMemo(() => (roleFilter ? heroData.heroes.filter((hero) => hero.role === roleFilter) : heroData.heroes).slice().sort((a, b) => a.name.localeCompare(b.name)), [roleFilter]);
+  const roleDiscoveryHeroIds = new Set(visibleRoles.map((role) => heroData.heroes
+    .filter((hero) => hero.role === role)
+    .sort((a, b) => a.name.localeCompare(b.name))[0]?.id));
 
   const suggestions = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -361,7 +384,7 @@ export default function Home({ roleFilter, locale = "en" }: { roleFilter?: HeroR
         <div>
           <p className="eyebrow">{tx("A MARVEL RIVALS COMMUNITY TOOL")}</p>
           <h1>{roleFilter ? <>{tx(roleFilter).toUpperCase()}<br /><span>{tx("META")}</span></> : <>{tx("CREATE THE")}<br /><span>{tx("META")}</span></>}</h1>
-          <p className="intro-copy">{locale === "es" ? (roleFilter ? `Compara todos los Team-Ups de ${tx(roleFilter).toLowerCase()}, filtra los resultados por rango y plataforma, consulta los efectos mejorados y vota por tus habilidades favoritas.` : "Busca un héroe, filtra la comunidad por rango competitivo y vota por el Team-Up que prefieras. Abre la página de cualquier héroe para consultar estadísticas y opiniones de la comunidad.") : (roleFilter ? `Compare every ${roleFilter} Team-Up, filter results by competitive rank and platform, preview Enhanced effects, and vote for the abilities you trust.` : "Search a hero, filter the community by competitive rank, and vote for the Team-Up you trust. Open any hero’s details page for ranked insights explaining why the community voted that way.")}</p>
+          <p className="intro-copy">{locale === "es" ? (roleFilter ? `Compara todos los Team-Ups de ${tx(roleFilter).toLowerCase()}, filtra los resultados por rango y plataforma, consulta los efectos mejorados y vota por tus habilidades favoritas.` : "Compara todos los Team-Ups de Marvel Rivals, filtra los votos de la comunidad por rango y plataforma, y descubre qué combinaciones de héroe ancla prefieren los jugadores.") : (roleFilter ? `Compare every ${roleFilter} Team-Up, filter results by competitive rank and platform, preview Enhanced effects, and vote for the abilities you trust.` : "Compare every Marvel Rivals teamup, filter community votes by rank and platform, and discover which anchor combinations players prefer.")}</p>
         </div>
         <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
           <img className="rank-insight-icon" src={selectedRank === "All Ranks" ? "/rivals-icon.ico" : rankImages[selectedRank]} alt="" />
@@ -374,7 +397,7 @@ export default function Home({ roleFilter, locale = "en" }: { roleFilter?: HeroR
         <div className="daily-debate-hero"><img src={heroImage(featuredHero.id)} alt=""/><span><small>{tx("24-HOUR FEATURED MATCHUP")}</small><strong>{localizedHeroName(featuredHero)}</strong></span></div>
         <div className="daily-debate-copy"><p className="eyebrow">{tx("TODAY'S META DEBATE")}</p><h2 id="daily-debate-title">{featuredDisplayA.name} <i>{locale === "es" ? "O" : "OR"}</i> {featuredDisplayB.name}?</h2><p>{locale === "es" ? `Ayuda a decidir el duelo destacado de hoy. Resultados de ${selectedRank === "All Ranks" ? "todos los rangos" : selectedRank} en ${platform}.` : <>Help settle today&apos;s featured Team-Up matchup. Results reflect {selectedRank === "All Ranks" ? "all competitive ranks" : selectedRank} on {platform}.</>}</p></div>
         <div className="daily-debate-score" aria-label={`Current result: ${featuredAbilityA.name} ${featuredPercentA} percent, ${featuredAbilityB.name} ${featuredPercentB} percent`}><div className={featuredPercentA > featuredPercentB ? "is-leading" : ""}><span><i className="debate-key debate-key-a"/>{featuredAbilityA.name}</span><strong>{featuredPercentA}%</strong></div><div className="daily-debate-track"><i className="debate-segment-a" style={{ width: `${featuredPercentA}%` }}/><i className="debate-segment-b" style={{ width: `${featuredPercentB}%` }}/></div><div className={featuredPercentB > featuredPercentA ? "is-leading" : ""}><span><i className="debate-key debate-key-b"/>{featuredAbilityB.name}</span><strong>{featuredPercentB}%</strong></div><small>{featuredTotal.toLocaleString()} VOTES · ROTATES EVERY 24 HOURS</small></div>
-        <button type="button" onClick={focusFeaturedHero}>{tx("VOTE IN TODAY'S DEBATE")} <b>→</b></button>
+        <button className="is-featured-pulse" type="button" onClick={focusFeaturedHero}>{tx("VOTE IN TODAY'S DEBATE")} <b>→</b></button>
       </section>}
 
       <section className="voting-progress" aria-label="Your voting progress">
@@ -453,9 +476,10 @@ export default function Home({ roleFilter, locale = "en" }: { roleFilter?: HeroR
                           <span className={`hero-avatar ${enhanced ? "is-lord" : ""}`} aria-hidden="true"><img src={enhanced ? lordImage(hero.id) : heroImage(hero.id)} alt="" /></span>
                           <span className="hero-identity"><strong>{localizedHeroName(hero)}</strong><small>{heroTotal.toLocaleString()} {selectedRank.toUpperCase()} VOTES</small><span className="hero-details-link">{tx("VIEW DETAILS")} →</span></span>
                         </a>
-                        <button className={`hero-toggle ${enhanced ? "is-on" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Enhanced descriptions for ${hero.name}`} onClick={() => setEnhancedHeroes((current) => ({ ...current, [hero.id]: !current[hero.id] }))}>
-                          <span className="hero-toggle-track"><span /></span><b>{enhanced ? "⚡ ENHANCED ON" : "ENHANCED OFF"}</b>
+                        <button className={`hero-toggle ${enhanced ? "is-on" : ""} ${showEnhancedDiscovery && (roleDiscoveryHeroIds.has(hero.id) || hero.id === featuredHero.id) ? "is-discoverable" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Enhanced descriptions for ${localizedHeroName(hero)}`} onClick={() => toggleEnhanced(hero.id)}>
+                          <span className="hero-toggle-track"><span /></span><b>{enhanced ? `⚡ ${tx("ENHANCED ON")}` : tx("ENHANCED OFF")}</b>
                         </button>
+                        {showEnhancedDiscovery && (roleDiscoveryHeroIds.has(hero.id) || hero.id === featuredHero.id) && <span className="enhanced-tap-cue">{locale === "es" ? "TOCA PARA VER EL BONUS" : "TAP TO PREVIEW"} <b>⚡</b></span>}
                       </div>
                       <div className="ability-divider"><span>{tx("CHOOSE THE BETTER TEAM-UP")}</span></div>
                       <div className="panel-abilities">
@@ -497,6 +521,16 @@ export default function Home({ roleFilter, locale = "en" }: { roleFilter?: HeroR
           );
         })}
       </section>
+
+      {!roleFilter && <section className="teamups-explainer" aria-labelledby="teamups-explainer-title">
+        <p className="eyebrow">{locale === "es" ? "GUÍA DE TEAM-UPS" : "MARVEL RIVALS TEAMUPS GUIDE"}</p>
+        <h2 id="teamups-explainer-title">{locale === "es" ? "Cómo leer el meta de Team-Ups" : "How Marvel Rivals teamups shape the meta"}</h2>
+        <div>
+          <article><h3>{locale === "es" ? "¿Qué son los Team-Ups de Marvel Rivals?" : "What are Marvel Rivals teamups?"}</h3><p>{locale === "es" ? "Los Team-Ups combinan héroes específicos para desbloquear habilidades o mejoras adicionales. Este directorio compara las dos opciones de cada héroe con votos reales de la comunidad." : "Marvel Rivals teamups pair specific heroes to unlock an extra ability or combat benefit. This directory compares each hero’s two choices using community votes."}</p></article>
+          <article><h3>{locale === "es" ? "¿Cómo funcionan los Team-Ups mejorados?" : "How do Enhanced Team-Ups work?"}</h3><p>{locale === "es" ? "Activa Mostrar efectos mejorados para ver el bono adicional que concede el héroe ancla, junto con su retrato animado." : "Turn on Show Enhanced Effects to reveal the additional bonus granted by the anchor hero, along with animated anchor art."}</p></article>
+          <article><h3>{locale === "es" ? "¿Qué Team-Ups son los más populares por rango?" : "Which Team-Ups are most popular by rank?"}</h3><p>{locale === "es" ? "Usa el selector de rango para comparar las preferencias desde Bronce hasta Uno Sobre Todos, y alterna entre PC y consola para ver cómo cambia el meta." : "Use the rank selector to compare preferences from Bronze through One Above All, then switch between PC and console to see how the community meta changes."}</p></article>
+        </div>
+      </section>}
 
       <aside className="clarity-disclosure">
         <p>{locale === "es" ? "Usamos Microsoft Clarity para comprender cómo utilizas el sitio mediante métricas de comportamiento, mapas de calor y repeticiones de sesión, con el fin de mejorar la experiencia, el rendimiento y la promoción del sitio. Al utilizar este sitio, aceptas que nosotros y Microsoft podamos recopilar y utilizar estos datos." : "We use Microsoft Clarity to understand how you use the site through behavioral metrics, heatmaps, and session replay so we can improve the experience, performance, and promotion of the site. By using this site, you agree that we and Microsoft may collect and use this data."} <a href="/privacy-policy">{locale === "es" ? "Consulta nuestra Política de Privacidad." : "See our Privacy Policy for details."}</a></p>
