@@ -562,8 +562,8 @@
           "slot": "A",
           "name": "Sorcerers Supreme",
           "anchorPartner": "Doctor Strange",
-          "baseDescription": "Chthonian Burst is replaced with Mystic Burst upon activation. Hold down the attack button to unleash a rapid, relentless salvo of magical missiles in the target direction.",
-          "enhancedDescription": "When teaming up with Doctor Strange, Scarlet Witch’s maximum total Chaos Energy pool increases, and Chaos Control generates energy much faster when attacking."
+          "baseDescription": "The ability has an 8s cooldown and 8s duration. When activated, Chthonian Burst is replaced with Mystic Burst, allowing magic missiles to be fired freely with no energy cost.",
+          "enhancedDescription": "Becomes a toggle-type ability. When toggled on, Mystic Burst replaces Chthonian Burst, allowing magic missiles to be fired freely with no energy cost."
         },
         {
           "id": "scarlet-witch-hex-fireworks",
@@ -1216,6 +1216,29 @@
           "anchorPartner": "Blade",
           "baseDescription": "Deploy a Vampiric Field. Allies standing within the field gain Life Steal when attacking enemies.",
           "enhancedDescription": "When teaming up with Blade, allies inside the field receive an additional Continuous Healing effect."
+        }
+      ]
+    },
+    {
+      "id": "the-hood",
+      "name": "The Hood",
+      "role": "Vanguard",
+      "teamUpAbilities": [
+        {
+          "id": "the-hood-chaos-collision",
+          "slot": "A",
+          "name": "Chaos Collision",
+          "anchorPartner": "Scarlet Witch",
+          "baseDescription": "Gain a New Ability. Create an arcane zone that continuously damages enemies and applies stacking Damage and Healing Reduction. Reactivate to teleport to the zone's center.",
+          "enhancedDescription": "When teaming up with Scarlet Witch, after teleporting, unleash a magical shockwave, dealing one-time damage to nearby enemies while launching them towards The Hood."
+        },
+        {
+          "id": "the-hood-new-moons-shadow",
+          "slot": "B",
+          "name": "New Moon's Shadow",
+          "anchorPartner": "Moon Knight",
+          "baseDescription": "Enhances Abyssal Veil into a Lunar Barrier that blocks projectiles. Upon breaking, it detonates, damaging enemies and applying Damage and Healing Reduction. Enemies passing through take damage and are briefly Blinded.",
+          "enhancedDescription": "When teaming up with Moon Knight, the Lunar Barrier has greater shield value, and The Hood's attacks that pass through it gain a bounce effect."
         }
       ]
     },

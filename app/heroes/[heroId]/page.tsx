@@ -3,6 +3,10 @@ import type { Metadata } from "next";
 import heroesJson from "@/src/data/heroes.json";
 import type { HeroesData } from "@/src/types";
 import HeroDetailClient from "./HeroDetailClient";
+import { getVoteRows, groupVoteRows } from "../../vote-data";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const heroData = heroesJson as HeroesData;
 
@@ -15,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ heroId: s
   const hero = heroData.heroes.find((candidate) => candidate.id === heroId);
   if (!hero) return {};
   const [first, second] = hero.teamUpAbilities;
-  const title = `Best ${hero.name} Team-Ups | Marvel Rivals Season 9`;
+  const title = `Best ${hero.name} Team-Ups | Marvel Rivals Season 9.5`;
   const description = `Compare ${hero.name}'s ${first.name} and ${second.name} Team-Ups, rank-by-rank community votes, enhanced effects, and PC versus console results.`;
   const canonical = `/heroes/${hero.id}`;
   return {
@@ -31,6 +35,7 @@ export default async function HeroDetailPage({ params }: { params: Promise<{ her
   const { heroId } = await params;
   const hero = heroData.heroes.find((candidate) => candidate.id === heroId);
   if (!hero) notFound();
+  const initialVotes = groupVoteRows(await getVoteRows());
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -45,6 +50,6 @@ export default async function HeroDetailPage({ params }: { params: Promise<{ her
 
   return <>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
-    <HeroDetailClient hero={hero} />
+    <HeroDetailClient hero={hero} initialVotes={initialVotes} />
   </>;
 }

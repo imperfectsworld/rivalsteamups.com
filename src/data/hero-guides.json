@@ -1,0 +1,566 @@
+{
+  "creators": {
+    "zestyguides": {
+      "name": "ZestyGuides",
+      "logo": "/creators/zestyguides.png",
+      "youtube": "https://www.youtube.com/@ZestyGuides",
+      "twitch": "https://www.twitch.tv/zestyguides",
+      "tiktok": "https://www.tiktok.com/@zestyguides",
+      "instagram": "https://www.instagram.com/zestyguides",
+      "website": "https://www.szassegames.com/",
+      "discord": "https://discord.com/invite/bssxK8s9SE"
+    }
+  },
+  "guides": [
+    {
+      "heroId": "adam-warlock",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=MGzzVFyQ78c&list=PLXQ8PL1w33OI&index=42",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-09T22:01:40-07:00",
+      "durationSeconds": 304,
+      "videoTitle": "Direct Healing or Boosting Allies!? Adam Warlock&#39;s New Teamups"
+    },
+    {
+      "heroId": "angela",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=k4TrXElMKms&list=PLXQ8PL1w33OI&index=22",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-21T18:31:24-07:00",
+      "durationSeconds": 343,
+      "videoTitle": "Attack of the Clones or Radar Dive?! Angela&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "black-panther",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=kWmK-GUnqUY",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-08-06T00:08:20-07:00",
+      "durationSeconds": 331,
+      "videoTitle": "Demon Portals or Elemental Power?! Black Panther&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "black-cat",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=kp3izVm8sF4",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-08-09T20:45:24-07:00",
+      "durationSeconds": 408,
+      "videoTitle": "Defensive Boop or Spider Tracer?! Black Cat&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "black-widow",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=CB_8V-wYd1c&list=PLXQ8PL1w33OI&index=37",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-12T17:26:51-07:00",
+      "durationSeconds": 312,
+      "videoTitle": "Stronger Headshots or Faster Firing?! Widow&#39;s New Teamups"
+    },
+    {
+      "heroId": "blade",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=iXOlUsZ_l7s&list=PLXQ8PL1w33OI&index=1",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-08-02T22:01:12-07:00",
+      "durationSeconds": 326,
+      "videoTitle": "Bouncing Boomerangs or Extra Stacks?! Blade&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "captain-america",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=5T5dr0J5-iU&list=PLXQ8PL1w33OI&index=14",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-25T12:00:39-07:00",
+      "durationSeconds": 309,
+      "videoTitle": "Flying Fist-Bump or Lightning Shield?! Captain America&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "cloak-and-dagger",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=G6p5TYT7z0o",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-08-10T10:06:16-07:00",
+      "durationSeconds": 382,
+      "videoTitle": "Persistent Screens or Ice Block?! Cloak and Dagger&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "cyclops",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=5RAPP9BvzoM&list=PLXQ8PL1w33OI&index=5",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-28T20:30:04-07:00",
+      "durationSeconds": 325,
+      "videoTitle": "Phoenix Burn or Kinetic Jumps?! Cyclops&#39; New Team-Ups"
+    },
+    {
+      "heroId": "daredevil",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=Xt2rjAvIhQg",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-08-03T09:58:57-07:00",
+      "durationSeconds": 302,
+      "videoTitle": "360° Defense or More Chains?! Daredevil&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "deadpool-vanguard",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=nqGFCnp8OmY",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-08-10T15:16:38-07:00",
+      "durationSeconds": 441,
+      "videoTitle": "Power Jump or More Upgrades?! Deadpool&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "deadpool-duelist",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=nqGFCnp8OmY",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-08-10T15:16:38-07:00",
+      "durationSeconds": 441,
+      "videoTitle": "Power Jump or More Upgrades?! Deadpool&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "deadpool-strategist",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=nqGFCnp8OmY",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-08-10T15:16:38-07:00",
+      "durationSeconds": 441,
+      "videoTitle": "Power Jump or More Upgrades?! Deadpool&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "devil-dinosaur",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=JUAE64T9E-E&list=PLXQ8PL1w33OI&index=8",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-27T05:00:29-07:00",
+      "durationSeconds": 328,
+      "videoTitle": "Healing Breath or Shoulder Cannons?! Devil Dinosuar&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "doctor-strange",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=EXZSL2ez3es&list=PLXQ8PL1w33OI&index=7",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-27T11:00:27-07:00",
+      "durationSeconds": 316,
+      "videoTitle": "Green Maelstrom or Blue Maelstrom!? Doctor Strange&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "elsa-bloodstone",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=85DH_88V50k&list=PLXQ8PL1w33OI&index=1",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-08-02T16:57:28-07:00",
+      "durationSeconds": 309,
+      "videoTitle": "Dino Traps or Chattering Bullets?! Elsa Bloodstone&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "emma-frost",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=rDWW-S0Y-PQ&list=PLXQ8PL1w33OI&index=39",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-11T23:01:38-07:00",
+      "durationSeconds": 310,
+      "videoTitle": "Icy Walls or Bonus HP?! Emma&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "gambit",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=hirLtFK5wkI&list=PLXQ8PL1w33OI&index=10",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-26T20:09:10-07:00",
+      "durationSeconds": 300,
+      "videoTitle": "Healing Twirl or Magnetic Bubble!? Gambit&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "groot",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=6EjOv6hqSvM&list=PLXQ8PL1w33OI&index=34",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-12T21:30:06-07:00",
+      "durationSeconds": 306,
+      "videoTitle": "Healing Wall or Protective Bubble!? Groot&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "hawkeye",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=FwMMviFAfSw",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-08-04T22:48:13-07:00",
+      "durationSeconds": 315,
+      "videoTitle": "Healing Slash or Psionic Arrows?! Hawkeye&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "hela",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=zuMRr-_daKs&list=PLXQ8PL1w33OI&index=25",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-19T10:06:21-07:00",
+      "durationSeconds": 320,
+      "videoTitle": "Tether Orb or Free Squids!? Hela&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "hulk",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=x5hA1wRR710&list=PLXQ8PL1w33OI&index=36",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-12T17:49:23-07:00",
+      "durationSeconds": 302,
+      "videoTitle": "Extra Jumps or Faster Punches!? Hulk&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "human-torch",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=S5xCJuIfXKM&list=PLXQ8PL1w33OI&index=2",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-31T18:49:01-07:00",
+      "durationSeconds": 314,
+      "videoTitle": "Fire Storm or Firworks?! Human Torch&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "invisible-woman",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=OdarIAk_3UE&list=PLXQ8PL1w33OI&index=9",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-26T21:19:20-07:00",
+      "durationSeconds": 354,
+      "videoTitle": "Fire Shields or Group Invisibility?! Invisible Woman&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "iron-fist",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=82TseA0pGLM&list=PLXQ8PL1w33OI&index=6",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-28T12:31:00-07:00",
+      "durationSeconds": 298,
+      "videoTitle": "Healing Fists or Stone Uppercut?! Iron Fist&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "iron-man",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=7NuKXwlEtoc&list=PLXQ8PL1w33OI&index=24",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-19T12:14:52-07:00",
+      "durationSeconds": 321,
+      "videoTitle": "Gamma Overdrive or Thunder Beams?! Iron Man&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "jeff-the-land-shark",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=pnXzS-oysq0&list=PLXQ8PL1w33OI&index=29",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-16T19:55:49-07:00",
+      "durationSeconds": 326,
+      "videoTitle": "Venom Tendrils or Unicorn Plushie!? Jeff&#39;s New Teamups"
+    },
+    {
+      "heroId": "jubilee",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=ESM4fIPcn9A",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-08-11T18:55:31-07:00",
+      "durationSeconds": 363,
+      "videoTitle": "Lifesteal or Burning Hellfire?! Jubilee&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "loki",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=Zokv8qTA1ZA&list=PLXQ8PL1w33OI&index=11",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-26T13:30:24-07:00",
+      "durationSeconds": 376,
+      "videoTitle": "Bigger Runes or More Transformations?! Loki&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "luna-snow",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=XXxuUyLxVZc&list=PLXQ8PL1w33OI&index=31",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-14T21:35:46-07:00",
+      "durationSeconds": 305,
+      "videoTitle": "Charm and Cleanse or Linked Healing?! Luna&#39;s New Teamups"
+    },
+    {
+      "heroId": "magik",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=BUIgKFaGy_o",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-08-07T17:22:08-07:00",
+      "durationSeconds": 378,
+      "videoTitle": "Denomic Pentagram or Binding Chains?! Magik&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "magneto",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=bmQAUWMkI-M&list=PLXQ8PL1w33OI&index=41",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-09T22:44:20-07:00",
+      "durationSeconds": 301,
+      "videoTitle": "Chaos Sword or Duplication!? Magneto&#39;s New Teamups"
+    },
+    {
+      "heroId": "mantis",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=eJaWdZ6ouyI&list=PLXQ8PL1w33OI&index=33",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-13T13:39:29-07:00",
+      "durationSeconds": 316,
+      "videoTitle": "Self-Rez or Boosted Healing? Mantis&#39; New Team-Ups!"
+    },
+    {
+      "heroId": "mister-fantastic",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=1ho4-KNNs3M&list=PLXQ8PL1w33OI&index=17",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-23T17:09:11-07:00",
+      "durationSeconds": 348,
+      "videoTitle": "Controlled Inflation or Rocky Punches?! Mister Fantastic&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "moon-knight",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=VbXIrPuJvR4&list=PLXQ8PL1w33OI&index=18",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-22T21:39:51-07:00",
+      "durationSeconds": 301,
+      "videoTitle": "Healing Dash or Ankh Trap!? Moon Knight&#39;s new Team-Ups"
+    },
+    {
+      "heroId": "namor",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=C4AcO5EC9n4&list=PLXQ8PL1w33OI&index=13",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-25T19:56:01-07:00",
+      "durationSeconds": 303,
+      "videoTitle": "Gamma Squid or Crushing Waves!? Namor&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "peni-parker",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=m-xEjwH362s&list=PLXQ8PL1w33OI&index=40",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-09T23:36:51-07:00",
+      "durationSeconds": 302,
+      "videoTitle": "Double Spider-nests or Extra Firepower?! Peni&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "phoenix",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=5QZ_VlSKTcA&list=PLXQ8PL1w33OI&index=21",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-21T19:56:32-07:00",
+      "durationSeconds": 347,
+      "videoTitle": "Pillar of Death or Power Punch?! Phoenix&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "psylocke",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=2wf27zFvXi0&list=PLXQ8PL1w33OI&index=23",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-19T13:45:24-07:00",
+      "durationSeconds": 337,
+      "videoTitle": "Psionic Clones or Shadow Field?! Psylocke&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "punisher",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=rpsv2utp13Q&list=PLXQ8PL1w33OI&index=12",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-26T09:05:58-07:00",
+      "durationSeconds": 340,
+      "videoTitle": "Unlimited Ammo or Piercing Rounds!? The Punisher&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "rocket-raccoon",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=0pKOSD-tCfk&list=PLXQ8PL1w33OI&index=16",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-24T21:00:16-07:00",
+      "durationSeconds": 301,
+      "videoTitle": "Restorative Nuts or Healing Gun?! Rocket Raccoon&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "rogue",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=znP-YBFeW9s&list=PLXQ8PL1w33OI&index=35",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-12T19:26:39-07:00",
+      "durationSeconds": 312,
+      "videoTitle": "Healing Punches or Magnetic Block?! Rogues New Team-Ups"
+    },
+    {
+      "heroId": "scarlet-witch",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=gkoDCdFMQ7Y",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-08-07T21:05:55-07:00",
+      "durationSeconds": 386,
+      "videoTitle": "Mystic Machine Gun or Vulnerability Orb?! Scarlet Witch&#39;s Teamups"
+    },
+    {
+      "heroId": "spider-man",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=wvmtSGteY4w&list=PLXQ8PL1w33OI&index=30",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-15T19:52:41-07:00",
+      "durationSeconds": 303,
+      "videoTitle": "Venom Burst or Cluster Bombs!? Spiderman&#39;s New Teamups"
+    },
+    {
+      "heroId": "squirrel-girl",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=uVjhaQdlRTY&list=PLXQ8PL1w33OI&index=19",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-22T20:34:47-07:00",
+      "durationSeconds": 324,
+      "videoTitle": "Rocket Squirrels or Sticky Nuts?! Squirrel Girl&#39;s New Team-Ups!"
+    },
+    {
+      "heroId": "star-lord",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=Qk4vdwF_gCA&list=PLXQ8PL1w33OI&index=26",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-18T20:42:52-07:00",
+      "durationSeconds": 346,
+      "videoTitle": "Plant Traps or Free Revives?! Starlord&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "storm",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=OM0qC33_4sY&list=PLXQ8PL1w33OI&index=38",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-12T15:51:14-07:00",
+      "durationSeconds": 308,
+      "videoTitle": "Hitscan Basic or Healing Aura? Storm&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "the-hood",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=TzhDyetcynY",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-08-06T04:00:17-07:00",
+      "durationSeconds": 399,
+      "videoTitle": "Chaos Field or Moonlight Barrier?! The Hood&#39;s Teamups"
+    },
+    {
+      "heroId": "the-thing",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=xbYV4IyMxss&list=PLXQ8PL1w33OI&index=27",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-18T13:04:24-07:00",
+      "durationSeconds": 314,
+      "videoTitle": "Flaming Punches or Healing Shields?! Thing&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "thor",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=N_45MO4dkUM&list=PLXQ8PL1w33OI&index=3",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-30T14:45:19-07:00",
+      "durationSeconds": 348,
+      "videoTitle": "Leaping Jump or Revenant Ressurection?! Thor&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "ultron",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=ljlnQa-mLDM&list=PLXQ8PL1w33OI&index=20",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-22T11:04:08-07:00",
+      "durationSeconds": 339,
+      "videoTitle": "Healing Beams or More Drones?! Ultron&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "venom",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=yffTcRymHew&list=PLXQ8PL1w33OI&index=32",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-13T15:38:01-07:00",
+      "durationSeconds": 304,
+      "videoTitle": "Leeching Life or Flaming Tentacles?! Venom&#39;s New Teamups"
+    },
+    {
+      "heroId": "white-fox",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=rZI1y4iU65c&list=PLXQ8PL1w33OI&index=28",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-18T09:59:06-07:00",
+      "durationSeconds": 302,
+      "videoTitle": "Free Awakening or Lucky Healing?! White Fox&#39;s New Teamups"
+    },
+    {
+      "heroId": "winter-soldier",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=Uw5rXa9nqxA&list=PLXQ8PL1w33OI&index=4",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-29T21:00:35-07:00",
+      "durationSeconds": 303,
+      "videoTitle": "Tentacle Punch or Faster Cooldowns?! Winter Soldier&#39;s New Team-Ups"
+    },
+    {
+      "heroId": "wolverine",
+      "creatorId": "zestyguides",
+      "videoUrl": "https://www.youtube.com/watch?v=fSSMYhGQcJw&list=PLXQ8PL1w33OI&index=15",
+      "creatorLabel": "Character Guide Creator",
+      "language": "English and Spanish",
+      "uploadDate": "2026-07-25T10:28:26-07:00",
+      "durationSeconds": 302,
+      "videoTitle": "Charged Claws or Spinning Slash?! Wolverine&#39;s New Team-Ups"
+    }
+  ]
+}
