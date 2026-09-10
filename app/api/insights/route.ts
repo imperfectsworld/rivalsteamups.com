@@ -7,14 +7,14 @@ import { RANKS, type HeroesData, type PlayerRank } from "@/src/types";
 import { getActiveEra, isDeviceBlocked } from "@/db/community-admin";
 
 const heroData = heroesJson as HeroesData;
-const CURRENT_PATCH = "S9 Launch";
+const CURRENT_PATCH = "S10 Launch";
 const blockedTerms = ["fuck", "shit", "bitch", "cunt", "nigger", "faggot", "retard", "kys"];
 let schemaReady: Promise<unknown> | null = null;
 
 function ensureInsightSchema() {
   if (!schemaReady) {
     schemaReady = env.DB.batch([
-      env.DB.prepare("CREATE TABLE IF NOT EXISTS hero_insights (id integer PRIMARY KEY AUTOINCREMENT NOT NULL, hero_id text NOT NULL, voter_id text NOT NULL, display_name text DEFAULT 'Anonymous' NOT NULL, rank text, patch text DEFAULT 'S9 Launch' NOT NULL, body text NOT NULL, created_at integer NOT NULL)"),
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS hero_insights (id integer PRIMARY KEY AUTOINCREMENT NOT NULL, hero_id text NOT NULL, voter_id text NOT NULL, display_name text DEFAULT 'Anonymous' NOT NULL, rank text, patch text DEFAULT '${CURRENT_PATCH}' NOT NULL, body text NOT NULL, created_at integer NOT NULL)`),
       env.DB.prepare("CREATE INDEX IF NOT EXISTS hero_insights_hero_time_idx ON hero_insights (hero_id, created_at)"),
       env.DB.prepare("CREATE TABLE IF NOT EXISTS insight_reactions (id integer PRIMARY KEY AUTOINCREMENT NOT NULL, insight_id integer NOT NULL, voter_id text NOT NULL, value integer DEFAULT 0 NOT NULL, flagged integer DEFAULT 0 NOT NULL, created_at integer NOT NULL)"),
       env.DB.prepare("CREATE UNIQUE INDEX IF NOT EXISTS insight_reactions_insight_voter_unique ON insight_reactions (insight_id, voter_id)"),

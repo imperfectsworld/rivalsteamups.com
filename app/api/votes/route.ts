@@ -13,8 +13,8 @@ type VotePayload = {
   platform?: "PC" | "Console";
 };
 
-const CURRENT_SEASON = "Season 09";
-const CURRENT_PATCH = "S9 Launch";
+const CURRENT_SEASON = "Season 10";
+const CURRENT_PATCH = "S10 Launch";
 const heroData = heroesJson as HeroesData;
 
 async function requestFingerprint(request: Request) {

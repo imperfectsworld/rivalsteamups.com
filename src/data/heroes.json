@@ -248,8 +248,8 @@
           "slot": "B",
           "name": "Iron & Stone",
           "anchorPartner": "The Thing",
-          "baseDescription": "Unleash a powerful uppercut to Launch Up enemies.",
-          "enhancedDescription": "When teaming up The Thing, unleashing the uppercut can be chained directly into a sweeping leg sweep for a follow-up attack."
+          "baseDescription": "Unleash a powerful uppercut to Launch Up enemies, then chain directly into a sweeping leg sweep for a follow-up attack.",
+          "enhancedDescription": "When teaming up with The Thing, the enhanced leg-sweep follow-up deals increased damage."
         }
       ]
     },
@@ -332,8 +332,8 @@
           "slot": "A",
           "name": "Atlas Bond",
           "anchorPartner": "White Fox",
-          "baseDescription": "Unleash a spirit fox forward that Charms enemies while healing any allies in its path. Activating the ability instantly cleanses all negative status effects on Luna Snow.",
-          "enhancedDescription": "When teaming up with White Fox, the spirit fox automatically returns after reaching its maximum distance, and the self-cleanse is retained."
+          "baseDescription": "Unleash a spirit fox forward that Charms enemies while healing any allies in its path.",
+          "enhancedDescription": "When teaming up with White Fox, the spirit fox automatically returns after reaching its maximum distance."
         },
         {
           "id": "luna-snow-duality-dance",
@@ -447,8 +447,8 @@
           "slot": "A",
           "name": "Chilling Charisma",
           "anchorPartner": "Luna Snow",
-          "baseDescription": "Gain a new ability to summon a Frost Tide forward. The wave damages, Pushes Back, and inflicts a Slow on all enemies hit.",
-          "enhancedDescription": "When teaming up with Luna Snow, the Frost Tide gains 1 charge and crashes down upon reaching its maximum range, dealing area damage and Slowing enemies caught near the endpoint."
+          "baseDescription": "Replace Monstro Spawn with Frozen Spawn. Its attacks deal the same damage as Monstro Spawn while applying a Slow effect to enemies they hit.",
+          "enhancedDescription": "When teaming up with Luna Snow, Frozen Spawn attacks retain their damage and Slow enemies on hit."
         },
         {
           "id": "namor-gamma-monstro",
@@ -777,7 +777,7 @@
           "slot": "B",
           "name": "Clobberin’ Research Dept.",
           "anchorPartner": "The Thing",
-          "baseDescription": "In brawler stance, Stretch Punch becomes a charged ability, firing a forward Brawling Punch. Hitting an enemy grants Bonus Health scaling with damage, and a full charge Launches hit enemies.",
+          "baseDescription": "Freely toggle the brawler stance on or off. In brawler stance, Stretch Punch becomes a faster-charging Brawling Punch that deals increased damage without Launching enemies at full charge. Hitting an enemy grants Bonus Health scaling with damage.",
           "enhancedDescription": "When teaming up with The Thing, while in the brawling stance, Distended Grip also becomes a charged ability, slamming down a Distended Hammer. Hitting enemies grants Bonus Health based on damage, and Launches enemies at full charge."
         }
       ]
@@ -938,7 +938,7 @@
           "slot": "B",
           "name": "Bleed For Battle",
           "anchorPartner": "Captain America",
-          "baseDescription": "For every set amount of damage taken, Blade builds a stack of Bloodline Awakening.",
+          "baseDescription": "For every set amount of damage taken, Blade builds a stack of Bloodline Awakening. Selecting this Team-Up also increases the maximum number of Bloodline Awakening stacks.",
           "enhancedDescription": "When teaming up with Captain America, taking critical damage instantly triggers the Bloodline Awakening state, gaining bonus stacks while raising the overall stack cap."
         }
       ]
@@ -999,7 +999,7 @@
           "slot": "A",
           "name": "Favorable Odds",
           "anchorPartner": "Magneto",
-          "baseDescription": "Throw two magnetic playing cards forward. Upon hitting the environment or a character, the two cards magnetically repel and unfurl, spinning in place for a duration. They heal allies they hit, while damaging and Launching enemies.",
+          "baseDescription": "Throw two magnetic playing cards forward. Upon hitting the environment or a character, the cards explode and Launch enemies once, then magnetically repel and spin in place for a duration. The active field heals allies and damages enemies without repeatedly Launching them.",
           "enhancedDescription": "When teaming up with Magneto, after the duration ends, the magnetic poles of the two cards reverse. They violently slam back together and explode, providing an extra burst of healing to allies and damage to enemies."
         },
         {
@@ -1137,7 +1137,7 @@
           "slot": "A",
           "name": "Feline Alliance",
           "anchorPartner": "Black Panther",
-          "baseDescription": "Taking damage accumulates Vibranium Energy. Upon reaching a specific threshold, Black Cat can unleash a violent explosion, damaging and Knocking back surrounding enemies while gaining a brief Speed Boost and Bonus Health.",
+          "baseDescription": "Taking damage accumulates Vibranium Energy. Upon reaching a specific threshold, Black Cat can unleash a violent explosion, damaging and Knocking back surrounding enemies while gaining a brief Speed Boost and Bonus Health. Hitting enemies with the ability also restores Fortune, up to a capped amount.",
           "enhancedDescription": "When teaming up with Black Panther, this explosion is no longer restricted by the energy threshold and can be triggered at any time."
         },
         {
@@ -1262,6 +1262,29 @@
           "anchorPartner": "Psylocke",
           "baseDescription": "Activating Fox Form Awakening no longer consumes Spirit Tail energy, and grants the maximum possible duration immediately upon use.",
           "enhancedDescription": "When teaming up with Psylocke, the cooldown for Fox Form Awakening is drastically reduced."
+        }
+      ]
+    },
+    {
+      "id": "gorr",
+      "name": "Gorr the God Butcher",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "gorr-ragnarok",
+          "slot": "A",
+          "name": "Ragnarök",
+          "anchorPartner": "Hela",
+          "baseDescription": "Gain a new ability to morph the All-Black into a scythe and execute a sweeping strike, damaging and briefly Grounding nearby enemies. The weapon remains in scythe form for a short duration.",
+          "enhancedDescription": "When teaming up with Hela, the scythe's attack range is expanded. Each hit scatters symbiote fragments, granting Bonus Health to Gorr and nearby allies."
+        },
+        {
+          "id": "gorr-hive-mind",
+          "slot": "B",
+          "name": "Hive Mind",
+          "anchorPartner": "Venom",
+          "baseDescription": "Gain a new ability to fire a Symbiote Claw forward, dealing piercing damage to enemies in its path. Upon reaching maximum distance, it retracts, Launching caught enemies toward Gorr.",
+          "enhancedDescription": "When teaming up with Venom, Black Berserkers receive a slight Damage Boost and apply a Slow effect to enemies they strike."
         }
       ]
     }

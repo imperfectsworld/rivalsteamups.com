@@ -7,7 +7,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://rivalsteamups.com"),
-  title: "Marvel Rivals Teamups — Vote for the Best Team-Ups | Season 9.5",
+  title: "Marvel Rivals Teamups — Vote for the Best Team-Ups | Season 10",
   description: "Compare every Marvel Rivals teamup, filter community votes by rank and platform, and discover which anchor combinations players prefer.",
   alternates: { canonical: "/", languages: { en: "/", es: "/es", "x-default": "/" } },
   robots: { index: true, follow: true },
@@ -20,14 +20,14 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" }],
   },
   openGraph: {
-    title: "Marvel Rivals Teamups — Vote for the Best Team-Ups | Season 9.5",
+    title: "Marvel Rivals Teamups — Vote for the Best Team-Ups | Season 10",
     description: "Compare Marvel Rivals Team-Ups, community votes by rank and platform, and Enhanced anchor effects.",
     type: "website",
     images: [{ url: "/og-rivalsteamups-v3.png", width: 1672, height: 943, alt: "Rivals Team-Up community meta" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Marvel Rivals Teamups — Vote for the Best Team-Ups | Season 9.5",
+    title: "Marvel Rivals Teamups — Vote for the Best Team-Ups | Season 10",
     description: "Compare Marvel Rivals Team-Ups, vote for your favorites, and explore results by rank and platform.",
     images: ["/og-rivalsteamups-v3.png"],
   },

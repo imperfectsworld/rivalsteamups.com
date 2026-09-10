@@ -342,12 +342,12 @@
           "slot": "B",
           "name": "Iron & Stone",
           "anchorPartner": "The Thing",
-          "baseDescription": "Unleash a powerful uppercut to Launch Up enemies.",
-          "enhancedDescription": "When teaming up The Thing, unleashing the uppercut can be chained directly into a sweeping leg sweep for a follow-up attack.",
+          "baseDescription": "Unleash a powerful uppercut to Launch Up enemies, then chain directly into a sweeping leg sweep for a follow-up attack.",
+          "enhancedDescription": "When teaming up with The Thing, the enhanced leg-sweep follow-up deals increased damage.",
           "nameEs": "Hierro y piedra",
           "anchorPartnerEs": "La Mole",
-          "baseDescriptionEs": "Desata un poderoso gancho para lanzar enemigos.",
-          "enhancedDescriptionEs": "Al formar equipo con The Thing, desatar el gancho puede encadenarse directamente a un barrido de pierna para un ataque de seguimiento."
+          "baseDescriptionEs": "Desata un poderoso gancho que lanza a los enemigos y después encadénalo directamente con un barrido de pierna.",
+          "enhancedDescriptionEs": "Al formar equipo con La Mole, el barrido de pierna mejorado inflige más daño."
         }
       ],
       "nameEs": "Puño de Hierro"
@@ -458,12 +458,12 @@
           "slot": "A",
           "name": "Atlas Bond",
           "anchorPartner": "White Fox",
-          "baseDescription": "Unleash a spirit fox forward that Charms enemies while healing any allies in its path. Activating the ability instantly cleanses all negative status effects on Luna Snow.",
-          "enhancedDescription": "When teaming up with White Fox, the spirit fox automatically returns after reaching its maximum distance, and the self-cleanse is retained.",
+          "baseDescription": "Unleash a spirit fox forward that Charms enemies while healing any allies in its path.",
+          "enhancedDescription": "When teaming up with White Fox, the spirit fox automatically returns after reaching its maximum distance.",
           "nameEs": "Enlace Atlas",
           "anchorPartnerEs": "White Fox",
-          "baseDescriptionEs": "Libera un espíritu zorro que encanta a los enemigos mientras cura a los aliados en su camino. Activar la habilidad limpia instantáneamente todos los efectos de estado negativos en Luna Snow.",
-          "enhancedDescriptionEs": "Al formar equipo con White Fox, el espíritu del zorro regresa automáticamente después de alcanzar su distancia máxima y se retiene la autolimpieza."
+          "baseDescriptionEs": "Libera un espíritu zorro que encanta a los enemigos mientras cura a los aliados en su camino.",
+          "enhancedDescriptionEs": "Al formar equipo con White Fox, el espíritu zorro regresa automáticamente después de alcanzar su distancia máxima."
         },
         {
           "id": "luna-snow-duality-dance",
@@ -618,12 +618,12 @@
           "slot": "A",
           "name": "Chilling Charisma",
           "anchorPartner": "Luna Snow",
-          "baseDescription": "Gain a new ability to summon a Frost Tide forward. The wave damages, Pushes Back, and inflicts a Slow on all enemies hit.",
-          "enhancedDescription": "When teaming up with Luna Snow, the Frost Tide gains 1 charge and crashes down upon reaching its maximum range, dealing area damage and Slowing enemies caught near the endpoint.",
+          "baseDescription": "Replace Monstro Spawn with Frozen Spawn. Its attacks deal the same damage as Monstro Spawn while applying a Slow effect to enemies they hit.",
+          "enhancedDescription": "When teaming up with Luna Snow, Frozen Spawn attacks retain their damage and Slow enemies on hit.",
           "nameEs": "Carisma escalofriante",
           "anchorPartnerEs": "Luna Snow",
-          "baseDescriptionEs": "Obtén una nueva habilidad para invocar una Marea Helada hacia adelante. La ola daña, empuja hacia atrás e inflige una ralentización a todos los enemigos golpeados.",
-          "enhancedDescriptionEs": "Al formar equipo con Luna Snow, Frost Tide gana 1 carga y se estrella al alcanzar su alcance máximo, causando daño de área y ralentizando a los enemigos atrapados cerca del punto final."
+          "baseDescriptionEs": "Reemplaza Monstro Spawn por Frozen Spawn. Sus ataques infligen el mismo daño que Monstro Spawn y aplican Ralentización a los enemigos alcanzados.",
+          "enhancedDescriptionEs": "Al formar equipo con Luna Snow, los ataques de Frozen Spawn conservan su daño y Ralentizan a los enemigos al impactar."
         },
         {
           "id": "namor-gamma-monstro",
@@ -1078,11 +1078,11 @@
           "slot": "B",
           "name": "Clobberin’ Research Dept.",
           "anchorPartner": "The Thing",
-          "baseDescription": "In brawler stance, Stretch Punch becomes a charged ability, firing a forward Brawling Punch. Hitting an enemy grants Bonus Health scaling with damage, and a full charge Launches hit enemies.",
+          "baseDescription": "Freely toggle the brawler stance on or off. In brawler stance, Stretch Punch becomes a faster-charging Brawling Punch that deals increased damage without Launching enemies at full charge. Hitting an enemy grants Bonus Health scaling with damage.",
           "enhancedDescription": "When teaming up with The Thing, while in the brawling stance, Distended Grip also becomes a charged ability, slamming down a Distended Hammer. Hitting enemies grants Bonus Health based on damage, and Launches enemies at full charge.",
           "nameEs": "Departamento de Investigación Clobberin'.",
           "anchorPartnerEs": "La Mole",
-          "baseDescriptionEs": "En posición de luchador, Stretch Punch se convierte en una habilidad cargada que dispara un Brawling Punch hacia adelante. Golpear a un enemigo otorga salud adicional que aumenta con el daño y una carga completa lanza enemigos golpeados.",
+          "baseDescriptionEs": "Activa o desactiva libremente la postura de luchador. En esta postura, Stretch Punch se convierte en un Brawling Punch que carga más rápido e inflige más daño, pero ya no lanza enemigos con la carga completa. Golpear a un enemigo otorga Salud Adicional proporcional al daño.",
           "enhancedDescriptionEs": "Al formar equipo con The Thing, mientras estás en posición de pelea, Distended Grip también se convierte en una habilidad cargada, golpeando un Distended Hammer. Golpear a los enemigos otorga salud adicional según el daño y lanza a los enemigos con la carga completa."
         }
       ],
@@ -1302,11 +1302,11 @@
           "slot": "B",
           "name": "Bleed For Battle",
           "anchorPartner": "Captain America",
-          "baseDescription": "For every set amount of damage taken, Blade builds a stack of Bloodline Awakening.",
+          "baseDescription": "For every set amount of damage taken, Blade builds a stack of Bloodline Awakening. Selecting this Team-Up also increases the maximum number of Bloodline Awakening stacks.",
           "enhancedDescription": "When teaming up with Captain America, taking critical damage instantly triggers the Bloodline Awakening state, gaining bonus stacks while raising the overall stack cap.",
           "nameEs": "Sangrar para la batalla",
           "anchorPartnerEs": "Capitán América",
-          "baseDescriptionEs": "Por cada cantidad determinada de daño recibido, Blade genera una acumulación de Bloodline Awakening.",
+          "baseDescriptionEs": "Por cada cantidad determinada de daño recibido, Blade genera una acumulación de Bloodline Awakening. Seleccionar este Team-Up también aumenta el número máximo de acumulaciones.",
           "enhancedDescriptionEs": "Al formar equipo con el Capitán América, recibir daño crítico activa instantáneamente el estado Bloodline Awakening, obteniendo acumulaciones de bonificación mientras aumenta el límite de acumulación general."
         }
       ],
@@ -1386,11 +1386,11 @@
           "slot": "A",
           "name": "Favorable Odds",
           "anchorPartner": "Magneto",
-          "baseDescription": "Throw two magnetic playing cards forward. Upon hitting the environment or a character, the two cards magnetically repel and unfurl, spinning in place for a duration. They heal allies they hit, while damaging and Launching enemies.",
+          "baseDescription": "Throw two magnetic playing cards forward. Upon hitting the environment or a character, the cards explode and Launch enemies once, then magnetically repel and spin in place for a duration. The active field heals allies and damages enemies without repeatedly Launching them.",
           "enhancedDescription": "When teaming up with Magneto, after the duration ends, the magnetic poles of the two cards reverse. They violently slam back together and explode, providing an extra burst of healing to allies and damage to enemies.",
           "nameEs": "Probabilidades favorables",
           "anchorPartnerEs": "Magneto",
-          "baseDescriptionEs": "Lanza dos naipes magnéticos hacia adelante. Al golpear el entorno o un personaje, las dos cartas se repelen y se despliegan magnéticamente, girando en su lugar durante un tiempo. Curan a los aliados que golpean, mientras dañan y lanzan a los enemigos.",
+          "baseDescriptionEs": "Lanza dos naipes magnéticos hacia delante. Al golpear el entorno o un personaje, explotan y lanzan a los enemigos una sola vez; después se repelen magnéticamente y giran durante un tiempo. El campo activo cura a los aliados y daña a los enemigos sin lanzarlos repetidamente.",
           "enhancedDescriptionEs": "Al formar equipo con Magneto, una vez finalizada la duración, los polos magnéticos de las dos cartas se invierten. Se golpean violentamente y explotan, proporcionando una explosión adicional de curación a los aliados y daño a los enemigos."
         },
         {
@@ -1578,11 +1578,11 @@
           "slot": "A",
           "name": "Feline Alliance",
           "anchorPartner": "Black Panther",
-          "baseDescription": "Taking damage accumulates Vibranium Energy. Upon reaching a specific threshold, Black Cat can unleash a violent explosion, damaging and Knocking back surrounding enemies while gaining a brief Speed Boost and Bonus Health.",
+          "baseDescription": "Taking damage accumulates Vibranium Energy. Upon reaching a specific threshold, Black Cat can unleash a violent explosion, damaging and Knocking back surrounding enemies while gaining a brief Speed Boost and Bonus Health. Hitting enemies with the ability also restores Fortune, up to a capped amount.",
           "enhancedDescription": "When teaming up with Black Panther, this explosion is no longer restricted by the energy threshold and can be triggered at any time.",
           "nameEs": "Alianza Felina",
           "anchorPartnerEs": "Pantera Negra",
-          "baseDescriptionEs": "Recibir daño acumula energía de Vibranium. Al alcanzar un umbral específico, Black Cat puede desatar una explosión violenta, dañando y derribando a los enemigos circundantes mientras obtiene un breve aumento de velocidad y salud adicional.",
+          "baseDescriptionEs": "Recibir daño acumula energía de Vibranium. Al alcanzar un umbral específico, Black Cat puede desatar una explosión que daña y derriba a los enemigos cercanos mientras obtiene un breve aumento de velocidad y Salud Adicional. Golpear enemigos con la habilidad también restaura Fortuna, hasta un límite.",
           "enhancedDescriptionEs": "Al formar equipo con Black Panther, esta explosión ya no está restringida por el umbral de energía y puede activarse en cualquier momento."
         },
         {
@@ -1759,6 +1759,38 @@
         }
       ],
       "nameEs": "White Fox"
+    },
+    {
+      "id": "gorr",
+      "name": "Gorr the God Butcher",
+      "role": "Duelist",
+      "teamUpAbilities": [
+        {
+          "id": "gorr-ragnarok",
+          "slot": "A",
+          "name": "Ragnarök",
+          "anchorPartner": "Hela",
+          "baseDescription": "Gain a new ability to morph the All-Black into a scythe and execute a sweeping strike, damaging and briefly Grounding nearby enemies. The weapon remains in scythe form for a short duration.",
+          "enhancedDescription": "When teaming up with Hela, the scythe's attack range is expanded. Each hit scatters symbiote fragments, granting Bonus Health to Gorr and nearby allies.",
+          "nameEs": "Ragnarök",
+          "anchorPartnerEs": "Hela",
+          "baseDescriptionEs": "Obtiene una nueva habilidad que transforma la All-Black en una guadaña y ejecuta un golpe amplio que daña y deja brevemente en el suelo a los enemigos cercanos. El arma permanece en forma de guadaña durante un breve período.",
+          "enhancedDescriptionEs": "Al formar equipo con Hela, aumenta el alcance de ataque de la guadaña. Cada impacto dispersa fragmentos simbiontes que otorgan Salud Adicional a Gorr y a los aliados cercanos."
+        },
+        {
+          "id": "gorr-hive-mind",
+          "slot": "B",
+          "name": "Hive Mind",
+          "anchorPartner": "Venom",
+          "baseDescription": "Gain a new ability to fire a Symbiote Claw forward, dealing piercing damage to enemies in its path. Upon reaching maximum distance, it retracts, Launching caught enemies toward Gorr.",
+          "enhancedDescription": "When teaming up with Venom, Black Berserkers receive a slight Damage Boost and apply a Slow effect to enemies they strike.",
+          "nameEs": "Mente Colmena",
+          "anchorPartnerEs": "Venom",
+          "baseDescriptionEs": "Obtiene una nueva habilidad que dispara una Garra Simbionte hacia delante e inflige daño penetrante a los enemigos en su trayectoria. Al alcanzar la distancia máxima, se retrae y lanza hacia Gorr a los enemigos atrapados.",
+          "enhancedDescriptionEs": "Al formar equipo con Venom, los Berserkers Negros reciben un ligero Aumento de Daño y aplican Ralentización a los enemigos que golpean."
+        }
+      ],
+      "nameEs": "Gorr, el Carnicero de Dioses"
     }
   ]
 }

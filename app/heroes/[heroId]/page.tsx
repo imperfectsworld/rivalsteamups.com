@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ heroId: s
   const hero = heroData.heroes.find((candidate) => candidate.id === heroId);
   if (!hero) return {};
   const [first, second] = hero.teamUpAbilities;
-  const title = `Best ${hero.name} Team-Ups | Marvel Rivals Season 9.5`;
+  const title = `Best ${hero.name} Team-Ups | Marvel Rivals Season 10`;
   const description = `Compare ${hero.name}'s ${first.name} and ${second.name} Team-Ups, rank-by-rank community votes, enhanced effects, and PC versus console results.`;
   const canonical = `/heroes/${hero.id}`;
   return {

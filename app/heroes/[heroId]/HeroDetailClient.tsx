@@ -50,6 +50,7 @@ const rankColors: Record<DetailRank, string> = {
 };
 const enhancedPreferenceKey = "rivals-enhanced-heroes";
 const insightNamePreferenceKey = "rivals-insight-display-name";
+const votedHeroesStorageKey = "rivals-voted-heroes-s10-launch";
 
 function youtubeVideoId(videoUrl: string) {
   try {
@@ -97,7 +98,7 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
   const guideTitle = locale === "es" ? `¿CUÁL ES EL MEJOR TEAM-UP DE ${guideHeroName}?` : `WHICH ${guideHeroName} TEAM-UP IS BEST?`;
   const guideDescription = locale === "es"
     ? `${guideHeroName} tiene dos opciones de Team-Up en la Temporada 9.5 de Marvel Rivals: ${guideAbilities[0].name} con ${guideAbilities[0].anchorPartner} y ${guideAbilities[1].name} con ${guideAbilities[1].anchorPartner}. Ambas ofrecen ventajas diferentes, pero ¿cuál Team-Up de ${guideHeroName} es mejor? Este video destacado compara sus fortalezas, debilidades y mejores situaciones de uso.`
-    : `${guideHeroName} gets two Team-Up options in Marvel Rivals Season 9.5: ${guideAbilities[0].name} with ${guideAbilities[0].anchorPartner} and ${guideAbilities[1].name} with ${guideAbilities[1].anchorPartner}. Both offer different advantages, but which ${guideHeroName} Team-Up is better? This featured video compares their strengths, weaknesses, and best use cases.`;
+    : `${guideHeroName} gets two Team-Up options in Marvel Rivals Season 10: ${guideAbilities[0].name} with ${guideAbilities[0].anchorPartner} and ${guideAbilities[1].name} with ${guideAbilities[1].anchorPartner}. Both offer different advantages, but which ${guideHeroName} Team-Up is better? This featured video compares their strengths, weaknesses, and best use cases.`;
   const guideVideoId = featuredGuide ? youtubeVideoId(featuredGuide.videoUrl) : "";
   const guideVideoTitle = featuredGuide?.videoTitle ? decodeHtmlEntities(featuredGuide.videoTitle) : guideTitle;
   const guideStructuredData = featuredGuide && featuredCreator && guideVideoId ? {
@@ -233,9 +234,9 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
       if (!response.ok) throw new Error(data?.error || "Vote could not be saved.");
       choosePlatform(votePlatform);
       localStorage.setItem("rivals-vote-rank", voteRank);
-      const votedHeroes = JSON.parse(localStorage.getItem("rivals-voted-heroes") || "[]") as unknown;
+      const votedHeroes = JSON.parse(localStorage.getItem(votedHeroesStorageKey) || "[]") as unknown;
       const next = Array.isArray(votedHeroes) ? [...new Set([...votedHeroes.filter((id): id is string => typeof id === "string"), hero.id])] : [hero.id];
-      localStorage.setItem("rivals-voted-heroes", JSON.stringify(next));
+      localStorage.setItem(votedHeroesStorageKey, JSON.stringify(next));
       setVoteStatus("Vote counted!");
       setVoteCelebrating(true);
       await loadVotes();
@@ -302,10 +303,10 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
 
       <section className="detail-hero">
         <div className="detail-copy">
-          <p className="eyebrow">{tx("SEASON 09.5 · HERO INTELLIGENCE")}</p>
+          <p className="eyebrow">{tx("SEASON 10 · HERO INTELLIGENCE")}</p>
           <div className="detail-role"><img src={`/roles/${hero.role.toLowerCase()}.webp`} alt="" />{hero.role}</div>
           <h1><img className="mobile-detail-hero-icon" src={`/heroes/${hero.id}.webp`} alt="" />{localizedHeroName(hero)}</h1>
-          <p>{locale === "es" ? `Compara el Team-Up ${localizedAbility(hero.teamUpAbilities[0]).name} de ${localizedHeroName(hero)} con ${localizedAbility(hero.teamUpAbilities[1]).name}. Consulta las preferencias por rango y plataforma, los dos aliados ancla y todos los efectos mejorados de la Temporada 9.5.` : <>Compare {hero.name}&apos;s {hero.teamUpAbilities[0].name} Team-Up with {hero.teamUpAbilities[1].name}. Explore community preference by competitive rank and platform, review both anchor partners, and preview every Enhanced effect for Season 9.5.</>}</p>
+          <p>{locale === "es" ? `Compara el Team-Up ${localizedAbility(hero.teamUpAbilities[0]).name} de ${localizedHeroName(hero)} con ${localizedAbility(hero.teamUpAbilities[1]).name}. Consulta las preferencias por rango y plataforma, los dos aliados ancla y todos los efectos mejorados de la Temporada 10.` : <>Compare {hero.name}&apos;s {hero.teamUpAbilities[0].name} Team-Up with {hero.teamUpAbilities[1].name}. Explore community preference by competitive rank and platform, review both anchor partners, and preview every Enhanced effect for Season 10.</>}</p>
           <div className="detail-summary-grid">
             <div><span>{tx("TOTAL VOTES")}</span><strong>{totalVotes.toLocaleString()}</strong></div>
             <div><span>{tx("COMMUNITY LEADER")}</span><strong>{!totalVotes ? (locale === "es" ? "Sin líder aún" : "No leader yet") : isTied ? (locale === "es" ? "Empate" : "Tied") : leader.name}</strong><small>{!totalVotes ? (locale === "es" ? "Esperando votos" : "Awaiting votes") : isTied ? (locale === "es" ? "Preferencia dividida por igual" : "Preference split evenly") : `${leaderPercent}% ${locale === "es" ? "de preferencia" : "preference"}`}</small></div>
@@ -326,7 +327,7 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
 
       <section className="detail-content">
         <div className="platform-toggle detail-platform-toggle" role="group" aria-label="Gaming platform"><span>{tx("PLATFORM DATA")}</span><button className={platform === "PC" ? "is-active" : ""} type="button" onClick={() => choosePlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} type="button" onClick={() => choosePlatform("Console")}>{locale === "es" ? "CONSOLA" : "CONSOLE"}</button></div>
-        <div className="detail-section-heading teamup-heading"><div><span className="content-source-label">{locale === "es" ? "DATOS DE LA COMUNIDAD" : "COMMUNITY VOTING DATA"}</span><h2>{tx("Team-Up totals")}</h2></div><div className="detail-teamup-tools"><p>{locale === "es" ? `Mostrando ${selectedRank === "All Ranks" ? "todos los rangos" : selectedRank}.` : `Showing ${selectedRank === "All Ranks" ? "all ranks" : selectedRank}.`}</p><div className="enhanced-cue-wrap"><button className={`hero-toggle ${enhanced ? "is-on" : ""} ${showEnhancedDiscovery ? "is-discoverable" : ""}`} type="button" role="switch" aria-checked={enhanced} onClick={toggleEnhanced}><span className="hero-toggle-track"><span /></span><b>{enhanced ? `⚡ ${tx("ENHANCED ON")}` : tx("ENHANCED OFF")}</b></button>{showEnhancedDiscovery && <span className="enhanced-tap-cue">{locale === "es" ? "TOCA PARA VER EL BONUS" : "TAP TO PREVIEW"} <b>⚡</b></span>}</div></div></div>
+        <div className="detail-section-heading teamup-heading"><div><h2>{tx("Team-Up totals")}</h2></div><div className="detail-teamup-tools"><p>{locale === "es" ? `Mostrando ${selectedRank === "All Ranks" ? "todos los rangos" : selectedRank}.` : `Showing ${selectedRank === "All Ranks" ? "all ranks" : selectedRank}.`}</p><div className="enhanced-cue-wrap"><button className={`hero-toggle ${enhanced ? "is-on" : ""} ${showEnhancedDiscovery ? "is-discoverable" : ""}`} type="button" role="switch" aria-checked={enhanced} onClick={toggleEnhanced}><span className="hero-toggle-track"><span /></span><b>{enhanced ? `⚡ ${tx("ENHANCED ON")}` : tx("ENHANCED OFF")}</b></button>{showEnhancedDiscovery && <span className="enhanced-tap-cue">{locale === "es" ? "TOCA PARA VER EL BONUS" : "TAP TO PREVIEW"} <b>⚡</b></span>}</div></div></div>
         <aside className="results-methodology-note" aria-label={locale === "es" ? "Cómo interpretar estos resultados" : "How to read these results"}>
           <strong>{locale === "es" ? "CÓMO LEER ESTOS RESULTADOS" : "HOW TO READ THESE RESULTS"}</strong>
           <p>{locale === "es" ? "Los resultados provienen de votos de visitantes filtrados por plataforma y rango competitivo. Las muestras pequeñas se identifican como señales tempranas y no deben tratarse como clasificaciones definitivas." : "Results come from visitor votes filtered by platform and competitive rank. Small samples are identified as early signals and should not be treated as definitive rankings."} <a href={path("/about")}>{locale === "es" ? "Metodología completa →" : "Full methodology →"}</a></p>
@@ -374,7 +375,7 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
             <p className="eyebrow">{locale === "es" ? "VIDEO DE UN CREADOR COLABORADOR" : "PARTNER CREATOR VIDEO"}</p>
             <h2 id="featured-guide-title">{guideVideoTitle}</h2>
             <p>{guideDescription}</p>
-            <div className="guide-tags"><span>SEASON 9.5</span><span>{hero.role.toUpperCase()}</span></div>
+            <div className="guide-tags"><span>SEASON 10</span><span>{hero.role.toUpperCase()}</span></div>
             <div className="guide-creator">
               <img src={featuredCreator.logo} alt={`${featuredCreator.name} logo`} />
               <span><small>{featuredGuide.creatorLabel.toUpperCase()}</small><strong>{featuredCreator.name}</strong></span>
@@ -417,7 +418,7 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
         </aside>
 
         <section className="insights-section" id="hero-insights">
-          <div className="detail-section-heading"><div><span className="content-source-label">{locale === "es" ? "CONTENIDO APORTADO POR JUGADORES" : "PLAYER-SUBMITTED CONTENT"}</span><h2>{tx("Community insights")}</h2></div><p>{locale === "es" ? "Contexto por rango de los jugadores detrás de los votos." : "Ranked context from players behind the votes."}</p></div>
+          <div className="detail-section-heading"><div><h2>{tx("Community insights")}</h2></div><p>{locale === "es" ? "Contexto por rango de los jugadores detrás de los votos." : "Ranked context from players behind the votes."}</p></div>
           <div className="insight-composer">
             <div><label>DISPLAY NAME <input value={insightName} maxLength={32} placeholder="Anonymous" onChange={(event) => setInsightName(event.target.value)} /></label><label>YOUR RANK <select value={insightRank} onChange={(event) => setInsightRank(event.target.value as PlayerRank | "")}><option value="">Not selected</option>{RANKS.map((rank) => <option value={rank} key={rank}>{rank}</option>)}</select></label></div>
             <label>YOUR INSIGHT <textarea value={insightBody} maxLength={800} placeholder="Why do you prefer one Team-Up? Share useful matchup, composition, or rank-specific context…" onChange={(event) => setInsightBody(event.target.value)} /></label>
@@ -434,7 +435,7 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
         </section>
 
         <section className="teamup-analysis" aria-labelledby="teamup-analysis-title">
-          <div className="detail-section-heading"><div><span className="content-source-label">{locale === "es" ? "ANÁLISIS EDITORIAL DE RIVALS TEAM-UPS" : "RIVALS TEAM-UPS EDITORIAL"}</span><h2 id="teamup-analysis-title">{locale === "es" ? "Análisis de Team-Ups" : "Team-Up analysis"}</h2></div><p>{locale === "es" ? "Fortalezas, riesgos y situaciones ideales para cada opción." : "Strengths, tradeoffs, and ideal situations for each option."}</p></div>
+          <div className="detail-section-heading"><div><h2 id="teamup-analysis-title">{locale === "es" ? "Análisis de Team-Ups" : "Team-Up analysis"}</h2></div><p>{locale === "es" ? "Fortalezas, riesgos y situaciones ideales para cada opción." : "Strengths, tradeoffs, and ideal situations for each option."}</p></div>
           <div className="analysis-intro"><p>{teamUpAnalysis.intro}</p></div>
           <div className="analysis-options">
             {localizedAbilities.map((ability, index) => <article key={ability.id}><span>{locale === "es" ? "OPCIÓN" : "OPTION"} {index + 1}</span><h3>{ability.name}</h3><small>{locale === "es" ? "ANCLA" : "ANCHOR"} · {ability.anchorPartner}</small><p>{teamUpAnalysis.options[index]}</p></article>)}
@@ -443,7 +444,7 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
           <aside className="analysis-author"><span className="author-monogram" aria-hidden="true">DR</span><p><strong>{locale === "es" ? "Análisis de DeAngelo Robinson" : "Analysis by DeAngelo Robinson"}</strong><small>{locale === "es" ? "Basado en las mecánicas de las habilidades y los datos de votación de la comunidad." : "Based on ability mechanics and current community voting data."}</small></p><a href={path("/about")}>{locale === "es" ? "ACERCA DEL EDITOR →" : "ABOUT THE EDITOR →"}</a></aside>
         </section>
 
-        <div className="detail-section-heading"><div><span className="content-source-label">{locale === "es" ? "DATOS DE LA COMUNIDAD" : "COMMUNITY VOTING DATA"}</span><h2>{tx("Detailed rank breakdown")}</h2></div><p>{locale === "es" ? "Observa cómo cambian las preferencias al subir de rango competitivo." : "See how preference changes as the competitive tier rises."}</p></div>
+        <div className="detail-section-heading"><div><h2>{tx("Detailed rank breakdown")}</h2></div><p>{locale === "es" ? "Observa cómo cambian las preferencias al subir de rango competitivo." : "See how preference changes as the competitive tier rises."}</p></div>
         <div className="rank-breakdown">
           {rows.map((row) => <article key={row.rank}>
             <div className="breakdown-rank"><img src={rankImages[row.rank]} alt="" /><span><strong>{row.rank}</strong><small>{row.total.toLocaleString()} votes</small></span></div>

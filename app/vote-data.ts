@@ -6,8 +6,8 @@ export type VoteRow = { abilityId: string; rank: string; total: number };
 export type GroupedVotes = Record<string, Record<string, number>>;
 
 export async function getVoteRows({
-  season = "Season 09",
-  patch = "S9 Launch",
+  season = "Season 10",
+  patch = "S10 Launch",
   window = "all",
   platform = "PC",
 }: {

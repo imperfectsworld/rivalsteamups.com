@@ -4,7 +4,7 @@ import heroesJson from "@/src/data/heroes.json";
 import type { HeroesData } from "@/src/types";
 type Platform = "PC" | "Console"; type Window = "all" | "recent"; type VoteRow = { abilityId: string; rank: string; total: number }; type Totals = Record<string, number>;
 const heroes = (heroesJson as HeroesData).heroes;
-const era = { season: "Season 09", patch: "S9 Launch", label: "S9.5 · LAUNCH" } as const;
+const era = { season: "Season 10", patch: "S10 Launch", label: "S10 · LAUNCH" } as const;
 function collapse(rows: VoteRow[]) { return rows.reduce<Totals>((all, row) => ({ ...all, [row.abilityId]: (all[row.abilityId] ?? 0) + row.total }), {}); }
 export default function PatchDashboard() {
   const [platform, setPlatform] = useState<Platform>("PC"); const [window, setWindow] = useState<Window>("all"); const [current, setCurrent] = useState<Totals>({}); const [loading, setLoading] = useState(true);

@@ -17,15 +17,26 @@ const rankFilters = ["All Ranks", ...RANKS] as const;
 type RankFilter = (typeof rankFilters)[number];
 type LiveVotes = Record<string, Record<string, number>>;
 const resultEras = [
+  { id: "s10-launch", season: "Season 10", patch: "S10 Launch", label: "S10 · Launch" },
   { id: "s9-5-launch", season: "Season 09", patch: "S9 Launch", label: "S9.5 · Launch" },
 ] as const;
 type ResultEra = (typeof resultEras)[number];
 type ResultWindow = "all" | "recent";
 type Platform = "PC" | "Console";
 const enhancedPreferenceKey = "rivals-enhanced-heroes";
+const votedHeroesStorageKey = "rivals-voted-heroes-s10-launch";
+const season10UpdatedHeroIds = new Set([
+  "black-cat",
+  "blade",
+  "gambit",
+  "iron-fist",
+  "luna-snow",
+  "mister-fantastic",
+  "namor",
+]);
 // Update this ID whenever a new hero releases. The newest hero remains featured
 // until the next release replaces it.
-const newestHeroId = "the-hood";
+const newestHeroId = "gorr";
 
 const rankImages: Record<PlayerRank, string> = {
   Bronze: "/ranks/bronze.webp",
@@ -139,10 +150,10 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   }, []);
   useEffect(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem("rivals-voted-heroes") || "[]");
+      const saved = JSON.parse(localStorage.getItem(votedHeroesStorageKey) || "[]");
       if (Array.isArray(saved)) setVotedHeroIds(saved.filter((id): id is string => typeof id === "string"));
     } catch {
-      localStorage.removeItem("rivals-voted-heroes");
+      localStorage.removeItem(votedHeroesStorageKey);
     }
   }, []);
 
@@ -198,6 +209,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   }
 
   function openVote(hero: Hero, ability: TeamUpAbility) {
+    if (selectedEra.id !== resultEras[0].id) setSelectedEra(resultEras[0]);
     setPendingVote({ hero, ability });
     setVoteStatus("");
     setVoteCelebrating(false);
@@ -241,7 +253,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
       localStorage.setItem("rivals-vote-rank", voteRank);
       setVotedHeroIds((current) => {
         const next = current.includes(pendingVote.hero.id) ? current : [...current, pendingVote.hero.id];
-        localStorage.setItem("rivals-voted-heroes", JSON.stringify(next));
+        localStorage.setItem(votedHeroesStorageKey, JSON.stringify(next));
         return next;
       });
       setVoteStatus("Vote counted!");
@@ -377,6 +389,10 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
 
   return (
     <main className="app-shell" id="top">
+      <aside className="season-announcement" aria-label={locale === "es" ? "Anuncio de la Temporada 10" : "Season 10 announcement"}>
+        <strong>{locale === "es" ? "TEMPORADA 10 EN VIVO — GORR HA LLEGADO · TEAM-UPS ACTUALIZADOS" : "SEASON 10 IS LIVE — GORR HAS ARRIVED · TEAM-UPS UPDATED"}</strong>
+        <a href={path("/#hero-gorr")}>{locale === "es" ? "VER A GORR" : "VIEW GORR"} <b>→</b></a>
+      </aside>
       <header className="topbar">
         <a className="brand" href={roleFilter ? path("/") : "#top"} aria-label="Rivals Team-Ups home">
           <span className="brand-mark">R</span>
@@ -491,7 +507,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
                       <div className="hero-panel-header">
                         <a className="hero-profile-link" href={path(`/heroes/${hero.id}`)} aria-label={`View ${hero.name} details`}>
                           <span className={`hero-avatar ${enhanced ? "is-lord" : ""}`} aria-hidden="true"><img src={enhanced ? lordImage(hero.id) : heroImage(hero.id)} alt="" /></span>
-                          <span className="hero-identity"><strong>{localizedHeroName(hero)}</strong><span className="hero-details-link">{tx("VIEW DETAILS")} →</span></span>
+                          <span className="hero-identity"><strong>{localizedHeroName(hero)}</strong>{season10UpdatedHeroIds.has(hero.id) && <span className="season-update-badge">S10 UPDATED</span>}<span className="hero-details-link">{tx("VIEW DETAILS")} →</span></span>
                         </a>
                         <button className={`hero-toggle ${enhanced ? "is-on" : ""} ${showEnhancedDiscovery && (roleDiscoveryHeroIds.has(hero.id) || hero.id === featuredHero.id) ? "is-discoverable" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Enhanced descriptions for ${localizedHeroName(hero)}`} onClick={() => toggleEnhanced(hero.id)}>
                           <span className="hero-toggle-track"><span /></span><b>{enhanced ? `⚡ ${tx("ENHANCED ON")}` : tx("ENHANCED OFF")}</b>
