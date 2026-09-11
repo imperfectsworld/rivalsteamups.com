@@ -24,7 +24,7 @@ const es: Record<string, string> = {
   "POST INSIGHT": "PUBLICAR OPINIÓN", "VOTE LOCKED IN": "VOTO CONFIRMADO", "Vote counted": "Voto registrado",
   "VOTE RECORDED": "VOTO REGISTRADO", "ONE LAST STEP": "UN ÚLTIMO PASO", "What rank are you?": "¿Cuál es tu rango?",
   "YOUR PLATFORM": "TU PLATAFORMA", "RECORD MY VOTE": "REGISTRAR MI VOTO", "CLOSE": "CERRAR", "ADD MY INSIGHT": "AÑADIR MI OPINIÓN",
-  "S10 · Launch":"S10 · Lanzamiento", "S9.5 · Launch":"S9.5 · Lanzamiento", "COMMUNITY META":"META DE LA COMUNIDAD",
+  "S10 · Cumulative":"S10 · Acumulado", "S9.5 · Launch":"S9.5 · Lanzamiento", "COMMUNITY META":"META DE LA COMUNIDAD",
 };
 
 export function translate(locale: SiteLocale, value: string) { return locale === "es" ? (es[value] ?? value) : value; }

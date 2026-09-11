@@ -17,7 +17,7 @@ const rankFilters = ["All Ranks", ...RANKS] as const;
 type RankFilter = (typeof rankFilters)[number];
 type LiveVotes = Record<string, Record<string, number>>;
 const resultEras = [
-  { id: "s10-launch", season: "Season 10", patch: "S10 Launch", label: "S10 · Launch" },
+  { id: "s10-launch", season: "Season 10", patch: "S10 Launch", label: "S10 · Cumulative" },
   { id: "s9-5-launch", season: "Season 09", patch: "S9 Launch", label: "S9.5 · Launch" },
 ] as const;
 type ResultEra = (typeof resultEras)[number];
