@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import heroesJson from "@/src/data/heroes.json";
 import heroesEsJson from "@/src/data/heroes-es.json";
 import { RANKS, type Hero, type HeroRole, type HeroesData, type PlayerRank, type TeamUpAbility } from "@/src/types";
@@ -18,13 +18,18 @@ type RankFilter = (typeof rankFilters)[number];
 type LiveVotes = Record<string, Record<string, number>>;
 const resultEras = [
   { id: "s10-launch", season: "Season 10", patch: "S10 Launch", label: "S10 · Cumulative" },
-  { id: "s9-5-launch", season: "Season 09", patch: "S9 Launch", label: "S9.5 · Launch" },
+  { id: "s9-5-launch", season: "Season 09", patch: "S9 Launch", label: "ARCHIVE · S9/S9.5" },
 ] as const;
 type ResultEra = (typeof resultEras)[number];
 type ResultWindow = "all" | "recent";
 type Platform = "PC" | "Console";
 const enhancedPreferenceKey = "rivals-enhanced-heroes";
 const votedHeroesStorageKey = "rivals-voted-heroes-s10-launch";
+const favoriteHeroesStorageKey = "rivals-favorite-heroes";
+const quickVoteStorageKey = "rivals-quick-vote";
+const visitSnapshotStorageKey = "rivals-s10-visit-snapshot";
+type VoteComparisons = { pc: LiveVotes; console: LiveVotes; recentPc: LiveVotes; recentConsole: LiveVotes };
+type VisitChanges = { voteIncrease: number; topHeroId?: string; topHeroVotes: number; leaderChanges: string[]; newInsights: number; firstVisit: boolean };
 const season10UpdatedHeroIds = new Set([
   "black-cat",
   "blade",
@@ -119,6 +124,30 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   const [collapsedRoles, setCollapsedRoles] = useState<Record<HeroRole, boolean>>({ Vanguard: false, Duelist: false, Strategist: false });
   const [platform, setPlatform] = useState<Platform>("PC");
   const [showEnhancedDiscovery, setShowEnhancedDiscovery] = useState(false);
+  const [favoriteHeroIds, setFavoriteHeroIds] = useState<string[]>([]);
+  const [favoritePicker, setFavoritePicker] = useState("");
+  const [quickVoteEnabled, setQuickVoteEnabled] = useState(false);
+  const [quickVoteMessage, setQuickVoteMessage] = useState("");
+  const [comparisons, setComparisons] = useState<VoteComparisons | null>(null);
+  const [visitChanges, setVisitChanges] = useState<VisitChanges | null>(null);
+  const visitCaptured = useRef(false);
+
+  const groupRows = useCallback((rows: Array<{ abilityId: string; rank: string; total: number }>) => {
+    const grouped: LiveVotes = {};
+    for (const vote of rows) {
+      grouped[vote.rank] ??= {};
+      grouped[vote.rank][vote.abilityId] = vote.total;
+    }
+    return grouped;
+  }, []);
+
+  const fetchVoteMatrix = useCallback(async (targetPlatform: Platform, window: ResultWindow) => {
+    const params = new URLSearchParams({ season: "Season 10", patch: "S10 Launch", window, platform: targetPlatform });
+    const response = await fetch(`/api/votes?${params}`, { cache: "no-store" });
+    if (!response.ok) return {};
+    const data = await response.json() as { votes: Array<{ abilityId: string; rank: string; total: number }> };
+    return groupRows(data.votes);
+  }, [groupRows]);
 
   const loadVotes = useCallback(async () => {
     try {
@@ -126,18 +155,21 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
       const response = await fetch(`/api/votes?${params}`, { cache: "no-store" });
       if (!response.ok) return;
       const data = (await response.json()) as { votes: Array<{ abilityId: string; rank: string; total: number }> };
-      const grouped: LiveVotes = {};
-      for (const vote of data.votes) {
-        grouped[vote.rank] ??= {};
-        grouped[vote.rank][vote.abilityId] = vote.total;
-      }
-      setLiveVotes(grouped);
+      setLiveVotes(groupRows(data.votes));
     } catch {
       // The seeded rank matrix remains available during local previews without D1.
     }
-  }, [selectedEra, resultWindow, platform]);
+  }, [selectedEra, resultWindow, platform, groupRows]);
 
   useEffect(() => { void loadVotes(); }, [loadVotes]);
+  useEffect(() => {
+    Promise.all([
+      fetchVoteMatrix("PC", "all"),
+      fetchVoteMatrix("Console", "all"),
+      fetchVoteMatrix("PC", "recent"),
+      fetchVoteMatrix("Console", "recent"),
+    ]).then(([pc, console, recentPc, recentConsole]) => setComparisons({ pc, console, recentPc, recentConsole })).catch(() => undefined);
+  }, [fetchVoteMatrix]);
   useEffect(() => { const saved = localStorage.getItem("rivals-platform"); if (saved === "Console") setPlatform("Console"); }, []);
   useEffect(() => {
     try {
@@ -147,6 +179,44 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
       localStorage.removeItem(enhancedPreferenceKey);
     }
     setShowEnhancedDiscovery(true);
+  }, []);
+  useEffect(() => {
+    if (!comparisons || visitCaptured.current) return;
+    visitCaptured.current = true;
+    type Snapshot = { at: number; votes: Record<string, number>; leaders: Record<string, string> };
+    let previous: Snapshot | null = null;
+    try { previous = JSON.parse(localStorage.getItem(visitSnapshotStorageKey) || "null") as Snapshot | null; } catch { previous = null; }
+    const votes: Record<string, number> = {};
+    const leaders: Record<string, string> = {};
+    const heroIncreases = heroData.heroes.map((hero) => {
+      const counts = hero.teamUpAbilities.map((ability) => {
+        const total = matrixCount(comparisons.pc, ability.id) + matrixCount(comparisons.console, ability.id);
+        votes[ability.id] = total;
+        return total;
+      });
+      leaders[hero.id] = hero.teamUpAbilities[counts[1] > counts[0] ? 1 : 0].id;
+      const oldTotal = hero.teamUpAbilities.reduce((sum, ability) => sum + (previous?.votes?.[ability.id] ?? votes[ability.id]), 0);
+      return { heroId: hero.id, increase: Math.max(0, counts[0] + counts[1] - oldTotal) };
+    }).sort((a, b) => b.increase - a.increase);
+    const leaderChanges = previous ? heroData.heroes.filter((hero) => previous?.leaders?.[hero.id] && previous.leaders[hero.id] !== leaders[hero.id]).map((hero) => hero.id) : [];
+    const voteIncrease = heroIncreases.reduce((sum, row) => sum + row.increase, 0);
+    const finish = (newInsights: number) => {
+      setVisitChanges({ voteIncrease, topHeroId: heroIncreases[0]?.heroId, topHeroVotes: heroIncreases[0]?.increase ?? 0, leaderChanges, newInsights, firstVisit: !previous });
+      localStorage.setItem(visitSnapshotStorageKey, JSON.stringify({ at: Date.now(), votes, leaders }));
+    };
+    if (!previous?.at) { finish(0); return; }
+    fetch(`/api/insights?summary=1&since=${previous.at}`, { cache: "no-store" })
+      .then(async (response) => response.ok ? await response.json() as { total: number } : { total: 0 })
+      .then((data) => finish(data.total)).catch(() => finish(0));
+  }, [comparisons]);
+  useEffect(() => {
+    try {
+      const favorites = JSON.parse(localStorage.getItem(favoriteHeroesStorageKey) || "[]") as unknown;
+      if (Array.isArray(favorites)) setFavoriteHeroIds(favorites.filter((id): id is string => typeof id === "string").slice(0, 5));
+      setQuickVoteEnabled(localStorage.getItem(quickVoteStorageKey) === "true");
+    } catch {
+      localStorage.removeItem(favoriteHeroesStorageKey);
+    }
   }, []);
   useEffect(() => {
     try {
@@ -194,8 +264,12 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   }, [query, directoryHeroes]);
 
   function liveCount(abilityId: string, filter: RankFilter) {
-    if (filter !== "All Ranks") return liveVotes[filter]?.[abilityId] ?? 0;
-    return RANKS.reduce((sum, rank) => sum + (liveVotes[rank]?.[abilityId] ?? 0), 0);
+    return matrixCount(liveVotes, abilityId, filter);
+  }
+
+  function matrixCount(matrix: LiveVotes, abilityId: string, filter: RankFilter = "All Ranks") {
+    if (filter !== "All Ranks") return matrix[filter]?.[abilityId] ?? 0;
+    return RANKS.reduce((sum, rank) => sum + (matrix[rank]?.[abilityId] ?? 0), 0);
   }
 
   function abilityCount(hero: Hero, ability: TeamUpAbility) {
@@ -208,6 +282,67 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
     document.getElementById(`hero-${hero.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
+  function focusHero(hero: Hero) {
+    setCollapsedRoles((current) => ({ ...current, [hero.role]: false }));
+    window.setTimeout(() => document.getElementById(`hero-${hero.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
+  }
+
+  function toggleFavorite(heroId: string) {
+    setFavoriteHeroIds((current) => {
+      const next = current.includes(heroId) ? current.filter((id) => id !== heroId) : current.length < 5 ? [...current, heroId] : current;
+      localStorage.setItem(favoriteHeroesStorageKey, JSON.stringify(next));
+      return next;
+    });
+  }
+
+  function addFavorite() {
+    if (!favoritePicker || favoriteHeroIds.includes(favoritePicker) || favoriteHeroIds.length >= 5) return;
+    toggleFavorite(favoritePicker);
+    setFavoritePicker("");
+  }
+
+  function toggleQuickVote() {
+    const savedRank = localStorage.getItem("rivals-vote-rank");
+    const savedPlatform = localStorage.getItem("rivals-platform");
+    if (!RANKS.includes(savedRank as PlayerRank) || (savedPlatform !== "PC" && savedPlatform !== "Console")) {
+      setQuickVoteMessage(locale === "es" ? "Vota una vez para guardar tu rango y plataforma." : "Cast one standard vote first to save your rank and platform.");
+      return;
+    }
+    const next = !quickVoteEnabled;
+    setQuickVoteEnabled(next);
+    localStorage.setItem(quickVoteStorageKey, String(next));
+    setQuickVoteMessage(next ? (locale === "es" ? `Activo · ${savedRank} · ${savedPlatform}` : `On · ${savedRank} · ${savedPlatform}`) : "");
+  }
+
+  function heroTrend(hero: Hero) {
+    const empty = { leaderName: localizedAbility(hero.teamUpAbilities[0]).name, leaderPercent: 0, delta: 0, platformGap: 0, dividedRank: "—", sample: 0 };
+    if (!comparisons) return empty;
+    const all = platform === "PC" ? comparisons.pc : comparisons.console;
+    const recent = platform === "PC" ? comparisons.recentPc : comparisons.recentConsole;
+    const allCounts = hero.teamUpAbilities.map((ability) => matrixCount(all, ability.id, selectedRank));
+    const sample = allCounts[0] + allCounts[1];
+    const leaderIndex = allCounts[1] > allCounts[0] ? 1 : 0;
+    const leader = hero.teamUpAbilities[leaderIndex];
+    const leaderPercent = sample ? Math.round(allCounts[leaderIndex] / sample * 100) : 0;
+    const recentCounts = hero.teamUpAbilities.map((ability) => matrixCount(recent, ability.id, selectedRank));
+    const recentTotal = recentCounts[0] + recentCounts[1];
+    const recentPercent = recentTotal ? Math.round(recentCounts[leaderIndex] / recentTotal * 100) : leaderPercent;
+    const pcCounts = hero.teamUpAbilities.map((ability) => matrixCount(comparisons.pc, ability.id, selectedRank));
+    const consoleCounts = hero.teamUpAbilities.map((ability) => matrixCount(comparisons.console, ability.id, selectedRank));
+    const pcTotal = pcCounts[0] + pcCounts[1], consoleTotal = consoleCounts[0] + consoleCounts[1];
+    const pcPercent = pcTotal ? Math.round(pcCounts[leaderIndex] / pcTotal * 100) : 0;
+    const consolePercent = consoleTotal ? Math.round(consoleCounts[leaderIndex] / consoleTotal * 100) : 0;
+    let dividedRank = "—", smallestMargin = Infinity;
+    for (const rank of RANKS) {
+      const a = matrixCount(all, hero.teamUpAbilities[0].id, rank), b = matrixCount(all, hero.teamUpAbilities[1].id, rank);
+      if (a + b > 1) {
+        const margin = Math.abs(a - b) / (a + b);
+        if (margin < smallestMargin) { smallestMargin = margin; dividedRank = rank; }
+      }
+    }
+    return { leaderName: localizedAbility(leader).name, leaderPercent, delta: recentPercent - leaderPercent, platformGap: pcTotal && consoleTotal ? Math.abs(pcPercent - consolePercent) : 0, dividedRank, sample };
+  }
+
   function openVote(hero: Hero, ability: TeamUpAbility) {
     if (selectedEra.id !== resultEras[0].id) setSelectedEra(resultEras[0]);
     setPendingVote({ hero, ability });
@@ -218,10 +353,13 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
     const savedPlatform = localStorage.getItem("rivals-platform");
     setVoteRank(selectedRank === "All Ranks" ? (RANKS.includes(savedRank as PlayerRank) ? savedRank as PlayerRank : "") : selectedRank);
     setVotePlatform(savedPlatform === "PC" || savedPlatform === "Console" ? savedPlatform : platform);
+    if (quickVoteEnabled && RANKS.includes(savedRank as PlayerRank) && (savedPlatform === "PC" || savedPlatform === "Console")) {
+      void submitVote({ hero, ability }, savedRank as PlayerRank, savedPlatform);
+    }
   }
 
-  async function submitVote() {
-    if (!pendingVote || !voteRank || !votePlatform) {
+  async function submitVote(vote = pendingVote, rank = voteRank, targetPlatform = votePlatform) {
+    if (!vote || !rank || !targetPlatform) {
       setVoteStatus("Choose your competitive rank and platform to continue.");
       return;
     }
@@ -239,20 +377,22 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           voterId,
-          heroId: pendingVote.hero.id,
-          abilityId: pendingVote.ability.id,
-          rank: voteRank,
-          platform: votePlatform,
+          heroId: vote.hero.id,
+          abilityId: vote.ability.id,
+          rank,
+          platform: targetPlatform,
         }),
       });
       if (!response.ok) {
         const result = (await response.json().catch(() => null)) as { error?: string } | null;
         throw new Error(result?.error || "Vote could not be saved");
       }
-      choosePlatform(votePlatform);
-      localStorage.setItem("rivals-vote-rank", voteRank);
+      choosePlatform(targetPlatform);
+      localStorage.setItem("rivals-vote-rank", rank);
+      setVoteRank(rank);
+      setVotePlatform(targetPlatform);
       setVotedHeroIds((current) => {
-        const next = current.includes(pendingVote.hero.id) ? current : [...current, pendingVote.hero.id];
+        const next = current.includes(vote.hero.id) ? current : [...current, vote.hero.id];
         localStorage.setItem(votedHeroesStorageKey, JSON.stringify(next));
         return next;
       });
@@ -262,6 +402,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
         setVoteCelebrating(false);
         setVoteStatus("Vote recorded. Thank you!");
       }, 950);
+      await loadVotes();
     } catch (error) {
       setVoteStatus(error instanceof Error ? error.message : "Vote could not be saved. Please try again.");
     }
@@ -381,10 +522,21 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   const featuredTotal = featuredVotesA + featuredVotesB;
   const featuredPercentA = featuredTotal ? Math.round(featuredVotesA / featuredTotal * 100) : 50;
   const featuredPercentB = 100 - featuredPercentA;
+  const favoriteHeroes = favoriteHeroIds.map((id) => heroData.heroes.find((hero) => hero.id === id)).filter((hero): hero is Hero => Boolean(hero));
+  const favoriteOptions = directoryHeroes.filter((hero) => !favoriteHeroIds.includes(hero.id));
+  const nextUnfinishedHero = directoryHeroes.find((hero) => !votedHeroIds.includes(hero.id));
+  const trendRows = comparisons ? directoryHeroes.map((hero) => ({ hero, ...heroTrend(hero) })) : [];
+  const biggestMover = trendRows.slice().sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta))[0];
+  const biggestPlatformSplit = trendRows.slice().sort((a, b) => b.platformGap - a.platformGap)[0];
+  const closestRace = trendRows.filter((row) => row.sample > 0).sort((a, b) => Math.abs(a.leaderPercent - 50) - Math.abs(b.leaderPercent - 50))[0];
+  const milestone = completedHeroes === directoryHeroes.length
+    ? (locale === "es" ? "DIRECTORIO COMPLETADO" : "DIRECTORY COMPLETE")
+    : completedHeroes >= 50 ? (locale === "es" ? "50 HÉROES VALORADOS" : "50 HEROES RATED")
+    : completedHeroes >= 25 ? (locale === "es" ? "MITAD DEL META CREADO" : "HALFWAY THROUGH THE META")
+    : completedHeroes >= 10 ? (locale === "es" ? "10 HÉROES VALORADOS" : "10 HEROES RATED") : "";
 
   function focusFeaturedHero() {
-    setCollapsedRoles((current) => ({ ...current, [featuredHero.role]: false }));
-    window.setTimeout(() => document.getElementById(`hero-${featuredHero.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
+    focusHero(featuredHero);
   }
 
   return (
@@ -413,8 +565,9 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
       <section className="hero-intro hero-intro-simple">
         <div>
           <p className="eyebrow">{tx("A MARVEL RIVALS COMMUNITY TOOL")}</p>
-          <h1>{roleFilter ? <>{tx(roleFilter).toUpperCase()}<br /><span>{tx("META")}</span></> : <>{tx("CREATE THE")}<br /><span>{tx("META")}</span></>}</h1>
+          <h1>{roleFilter ? <>{tx(roleFilter).toUpperCase()}<br /><span>{tx("META")}</span></> : <>{locale === "es" ? "ENCUENTRA TU" : "FIND YOUR"}<br /><span>{locale === "es" ? "TEAM-UP" : "TEAM-UP"}</span></>}</h1>
           <p className="intro-copy">{locale === "es" ? (roleFilter ? `Compara todos los Team-Ups de ${tx(roleFilter).toLowerCase()}, filtra los resultados por rango y plataforma, consulta los efectos mejorados y vota por tus habilidades favoritas.` : "Compara todos los Team-Ups de Marvel Rivals, filtra los votos de la comunidad por rango y plataforma, y descubre qué combinaciones de héroe ancla prefieren los jugadores.") : (roleFilter ? `Compare every ${roleFilter} Team-Up, filter results by competitive rank and platform, preview Enhanced effects, and vote for the abilities you trust.` : "Compare every Marvel Rivals teamup, filter community votes by rank and platform, and discover which anchor combinations players prefer.")}</p>
+          {!roleFilter && <div className="intro-actions"><button type="button" onClick={() => { document.getElementById("directory-controls")?.scrollIntoView({ behavior: "smooth" }); window.setTimeout(() => document.getElementById("hero-search")?.focus(), 450); }}>{locale === "es" ? "BUSCAR MI HÉROE" : "FIND MY HERO"} <b>⌕</b></button><button type="button" onClick={focusFeaturedHero}>{locale === "es" ? "VOTAR POR GORR" : "VOTE ON GORR"} <b>→</b></button><a href="#weekly-changes">{locale === "es" ? "VER CAMBIOS" : "SEE WHAT CHANGED"} <b>↓</b></a></div>}
         </div>
         <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
           <img className="rank-insight-icon" src={selectedRank === "All Ranks" ? "/rivals-icon.ico" : rankImages[selectedRank]} alt="" />
@@ -422,6 +575,27 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
           <p>{locale === "es" ? `Mostrando ${resultWindow === "recent" ? "los últimos 30 días" : "resultados históricos"} de ${tx(selectedEra.label)}, ${selectedRank === "All Ranks" ? "para toda la comunidad competitiva" : `de jugadores de rango ${tx(selectedRank)}`}.` : <>Showing {resultWindow === "recent" ? "the last 30 days" : "all-time results"} for {selectedEra.label}, from {selectedRank === "All Ranks" ? "the full ranked community" : `${selectedRank} players`}.</>}</p>
         </div>
       </section>
+
+      {!roleFilter && visitChanges && <section className="return-brief" aria-labelledby="return-brief-title">
+        <div><p className="eyebrow">{locale === "es" ? "DESDE TU ÚLTIMA VISITA" : "SINCE YOUR LAST VISIT"}</p><h2 id="return-brief-title">{visitChanges.firstVisit ? (locale === "es" ? "SEGUIMIENTO ACTIVADO" : "CHANGE TRACKING IS ON") : visitChanges.voteIncrease ? `+${visitChanges.voteIncrease.toLocaleString()} ${locale === "es" ? "VOTOS NUEVOS" : "NEW VOTES"}` : (locale === "es" ? "ESTÁS AL DÍA" : "YOU'RE CAUGHT UP")}</h2></div>
+        <div className="return-brief-events">
+          {visitChanges.firstVisit ? <p>{locale === "es" ? "Guardamos una referencia en este dispositivo. La próxima vez verás exactamente cómo cambió el meta." : "A baseline is now saved on this device. Next time, you’ll see exactly how the meta moved."}</p> : <>
+            {visitChanges.topHeroId && visitChanges.topHeroVotes > 0 && <button type="button" onClick={() => { const hero = heroData.heroes.find((item) => item.id === visitChanges.topHeroId); if (hero) focusHero(hero); }}><strong>+{visitChanges.topHeroVotes}</strong><span>{localizedHeroName(heroData.heroes.find((hero) => hero.id === visitChanges.topHeroId)!) } {locale === "es" ? "votos" : "votes"}</span></button>}
+            <span><strong>{visitChanges.leaderChanges.length}</strong>{locale === "es" ? " cambios de líder" : " leader changes"}</span><span><strong>{visitChanges.newInsights}</strong>{locale === "es" ? " opiniones nuevas" : " new insights"}</span>
+          </>}
+        </div>
+      </section>}
+
+      {!roleFilter && <section className="my-heroes" aria-labelledby="my-heroes-title">
+        <header><div><p className="eyebrow">{locale === "es" ? "META PERSONAL" : "YOUR PERSONAL META"}</p><h2 id="my-heroes-title">{locale === "es" ? "MIS HÉROES" : "MY HEROES"} <small>{favoriteHeroIds.length}/5</small></h2></div><div className="favorite-picker"><select aria-label={locale === "es" ? "Selecciona un héroe favorito" : "Select a favorite hero"} value={favoritePicker} onChange={(event) => setFavoritePicker(event.target.value)} disabled={favoriteHeroIds.length >= 5}><option value="">{locale === "es" ? "ELIGE UN HÉROE…" : "CHOOSE A HERO…"}</option>{favoriteOptions.map((hero) => <option value={hero.id} key={hero.id}>{localizedHeroName(hero)}</option>)}</select><button type="button" onClick={addFavorite} disabled={!favoritePicker || favoriteHeroIds.length >= 5}>+ {locale === "es" ? "SEGUIR" : "FOLLOW"}</button></div></header>
+        {favoriteHeroes.length ? <div className="favorite-hero-grid">{favoriteHeroes.map((hero) => { const trend = heroTrend(hero); return <article key={hero.id}><button className="favorite-remove" type="button" onClick={() => toggleFavorite(hero.id)} aria-label={`Stop following ${hero.name}`}>×</button><button className="favorite-open" type="button" onClick={() => focusHero(hero)}><img src={heroImage(hero.id)} alt=""/><span><strong>{localizedHeroName(hero)}</strong><small>{trend.leaderName} · {trend.leaderPercent ? `${trend.leaderPercent}%` : (locale === "es" ? "sin votos" : "awaiting votes")}</small></span><b className={trend.delta > 0 ? "trend-up" : trend.delta < 0 ? "trend-down" : ""}>{trend.delta > 0 ? "+" : ""}{trend.delta} pts</b></button></article>})}</div> : <p className="my-heroes-empty">{locale === "es" ? "Sigue de 3 a 5 personajes para ver sus líderes y movimientos apenas regreses." : "Follow 3–5 mains to see their leaders and recent movement as soon as you return."}</p>}
+      </section>}
+
+      {!roleFilter && comparisons && <section className="weekly-changes" id="weekly-changes" aria-labelledby="weekly-changes-title"><header><div><p className="eyebrow">{locale === "es" ? "INTELIGENCIA DEL META" : "META MOVEMENT"}</p><h2 id="weekly-changes-title">{locale === "es" ? "QUÉ ESTÁ CAMBIANDO" : "WHAT'S CHANGING"}</h2></div><a href={path("/patches")}>{locale === "es" ? "INFORME COMPLETO" : "FULL SHIFT REPORT"} →</a></header><div>
+        {biggestMover && <button type="button" onClick={() => focusHero(biggestMover.hero)}><span>{locale === "es" ? "MAYOR MOVIMIENTO · 30 DÍAS" : "BIGGEST 30-DAY MOVE"}</span><strong>{localizedHeroName(biggestMover.hero)}</strong><p>{biggestMover.leaderName} <b className={biggestMover.delta >= 0 ? "trend-up" : "trend-down"}>{biggestMover.delta > 0 ? "+" : ""}{biggestMover.delta} pts</b></p></button>}
+        {biggestPlatformSplit && <button type="button" onClick={() => focusHero(biggestPlatformSplit.hero)}><span>{locale === "es" ? "PC VS CONSOLA" : "PC VS CONSOLE"}</span><strong>{localizedHeroName(biggestPlatformSplit.hero)}</strong><p>{biggestPlatformSplit.platformGap} {locale === "es" ? "puntos de diferencia" : "point preference gap"}</p></button>}
+        {closestRace && <button type="button" onClick={() => focusHero(closestRace.hero)}><span>{locale === "es" ? "VOTACIÓN MÁS CERRADA" : "CLOSEST COMMUNITY RACE"}</span><strong>{localizedHeroName(closestRace.hero)}</strong><p>{closestRace.leaderName} · {closestRace.leaderPercent}%</p></button>}
+      </div></section>}
 
       {!roleFilter && <section className="daily-debate" aria-labelledby="daily-debate-title">
         <div className="daily-debate-hero"><img src={heroImage(featuredHero.id)} alt=""/><span><small>{locale === "es" ? "HÉROE MÁS RECIENTE" : "NEWEST HERO RELEASE"}</small><strong>{localizedHeroName(featuredHero)}</strong></span></div>
@@ -431,12 +605,12 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
       </section>}
 
       <section className="voting-progress" aria-label="Your voting progress">
-        <div><span>{tx("YOUR VOTING PROGRESS")}</span><strong>{completedHeroes} / {directoryHeroes.length} {tx("HEROES")}</strong></div>
+        <div><span>{tx("YOUR VOTING PROGRESS")}</span><strong>{completedHeroes} / {directoryHeroes.length} {tx("HEROES")}</strong>{milestone && <small className="progress-milestone">✓ {milestone}</small>}</div>
         <div className="progress-track" aria-hidden="true"><i style={{ width: `${progressPercent}%` }} /></div>
-        <p>{locale === "es" ? (completedHeroes === directoryHeroes.length ? "Directorio completado. Regresa cuando terminen los tiempos de espera o llegue el próximo parche." : `Faltan ${directoryHeroes.length - completedHeroes} héroes para ayudar a definir el meta de la comunidad en este dispositivo.`) : (completedHeroes === directoryHeroes.length ? "Directory complete. Return after cooldowns or the next patch." : `${directoryHeroes.length - completedHeroes} heroes left to shape the community meta on this device.`)}</p>
+        <div className="progress-actions">{nextUnfinishedHero && <button type="button" onClick={() => focusHero(nextUnfinishedHero)}>{locale === "es" ? "VOTAR POR EL SIGUIENTE" : "VOTE ON NEXT UNFINISHED HERO"} <b>→</b></button>}<button className={quickVoteEnabled ? "is-active" : ""} type="button" onClick={toggleQuickVote}>{locale === "es" ? "VOTO RÁPIDO" : "QUICK VOTE"} · {quickVoteEnabled ? "ON" : "OFF"}</button>{quickVoteMessage && <small>{quickVoteMessage}</small>}</div>
       </section>
 
-      <section className="control-deck" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label="Directory controls">
+      <section className="control-deck" id="directory-controls" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label="Directory controls">
         <div className="platform-toggle" role="group" aria-label="Gaming platform"><span>{tx("PLATFORM DATA")}</span><button className={platform === "PC" ? "is-active" : ""} type="button" onClick={() => choosePlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} type="button" onClick={() => choosePlatform("Console")}>{locale === "es" ? "CONSOLA" : "CONSOLE"}</button></div>
         <div className="history-controls">
           <div><span>{tx("PATCH & SEASON HISTORY")}</span>{resultEras.map((era) => <button className={selectedEra.id === era.id ? "is-active" : ""} type="button" onClick={() => setSelectedEra(era)} key={era.id}>{tx(era.label)}</button>)}</div>
@@ -502,6 +676,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
                   const enhanced = Boolean(enhancedHeroes[hero.id]);
                   const counts = hero.teamUpAbilities.map((ability) => abilityCount(hero, ability));
                   const heroTotal = counts[0] + counts[1];
+                  const trend = heroTrend(hero);
                   return (
                     <article className={`hero-panel ${enhanced ? "hero-enhanced" : ""}`} id={`hero-${hero.id}`} key={hero.id}>
                       <div className="hero-panel-header">
@@ -509,6 +684,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
                           <span className={`hero-avatar ${enhanced ? "is-lord" : ""}`} aria-hidden="true"><img src={enhanced ? lordImage(hero.id) : heroImage(hero.id)} alt="" /></span>
                           <span className="hero-identity"><strong>{localizedHeroName(hero)}</strong>{season10UpdatedHeroIds.has(hero.id) && <span className="season-update-badge">S10 UPDATED</span>}<span className="hero-details-link">{tx("VIEW DETAILS")} →</span></span>
                         </a>
+                        <button className={`favorite-toggle ${favoriteHeroIds.includes(hero.id) ? "is-active" : ""}`} type="button" aria-pressed={favoriteHeroIds.includes(hero.id)} onClick={() => toggleFavorite(hero.id)} disabled={!favoriteHeroIds.includes(hero.id) && favoriteHeroIds.length >= 5} aria-label={`${favoriteHeroIds.includes(hero.id) ? "Stop following" : "Follow"} ${localizedHeroName(hero)}`}>{favoriteHeroIds.includes(hero.id) ? "★ MAIN" : "☆ FOLLOW"}</button>
                         <button className={`hero-toggle ${enhanced ? "is-on" : ""} ${showEnhancedDiscovery && (roleDiscoveryHeroIds.has(hero.id) || hero.id === featuredHero.id) ? "is-discoverable" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Enhanced descriptions for ${localizedHeroName(hero)}`} onClick={() => toggleEnhanced(hero.id)}>
                           <span className="hero-toggle-track"><span /></span><b>{enhanced ? `⚡ ${tx("ENHANCED ON")}` : tx("ENHANCED OFF")}</b>
                         </button>
@@ -546,6 +722,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
                           );
                         })}
                       </div>
+                      <div className="hero-trend-strip" aria-label={`${localizedHeroName(hero)} trend summary`}><span><small>30D VS S10</small><strong className={trend.delta > 0 ? "trend-up" : trend.delta < 0 ? "trend-down" : ""}>{trend.delta > 0 ? "+" : ""}{trend.delta} pts</strong></span><span><small>PC ↔ CONSOLE</small><strong>{trend.platformGap} pts</strong></span><span><small>{locale === "es" ? "RANGO MÁS DIVIDIDO" : "MOST DIVIDED RANK"}</small><strong>{tx(trend.dividedRank)}</strong></span><span><small>{locale === "es" ? "MUESTRA S10" : "S10 SAMPLE"}</small><strong>{trend.sample.toLocaleString()}</strong></span></div>
                     </article>
                   );
                 })}

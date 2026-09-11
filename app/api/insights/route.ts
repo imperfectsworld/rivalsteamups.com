@@ -1,4 +1,4 @@
-import { and, desc, eq, gte, inArray } from "drizzle-orm";
+import { and, count, desc, eq, gte, inArray } from "drizzle-orm";
 import { env } from "cloudflare:workers";
 import { getDb } from "@/db";
 import { heroInsights, insightReactions } from "@/db/schema";
@@ -37,6 +37,16 @@ export async function GET(request: Request) {
   try {
     await ensureInsightSchema();
     const url = new URL(request.url);
+    if (url.searchParams.get("summary") === "1") {
+      const sinceValue = Number(url.searchParams.get("since") || 0);
+      const since = Number.isFinite(sinceValue) && sinceValue > 0 ? new Date(sinceValue) : new Date(0);
+      const rows = await getDb()
+        .select({ heroId: heroInsights.heroId, total: count() })
+        .from(heroInsights)
+        .where(gte(heroInsights.createdAt, since))
+        .groupBy(heroInsights.heroId);
+      return Response.json({ total: rows.reduce((sum, row) => sum + row.total, 0), byHero: Object.fromEntries(rows.map((row) => [row.heroId, row.total])) });
+    }
     const heroId = url.searchParams.get("heroId")?.trim();
     if (!heroId || !validHero(heroId)) return Response.json({ error: "Valid hero required", insights: [] }, { status: 400 });
     const db = getDb();

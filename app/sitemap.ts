@@ -6,14 +6,15 @@ const heroes = (heroesJson as HeroesData).heroes;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://rivalsteamups.com";
+  const season10Updated = new Date("2026-09-10T00:00:00-04:00");
   return [
-    { url: base, changeFrequency: "daily", priority: 1 },
-    { url: `${base}/es`, changeFrequency: "daily", priority: 0.9 },
-    ...heroes.map((hero) => ({ url: `${base}/heroes/${hero.id}`, changeFrequency: "daily" as const, priority: 0.9 })),
-    ...heroes.map((hero) => ({ url: `${base}/es/heroes/${hero.id}`, changeFrequency: "daily" as const, priority: 0.8 })),
-    ...["vanguards", "duelists", "strategists"].map((role) => ({ url: `${base}/roles/${role}`, changeFrequency: "weekly" as const, priority: 0.8 })),
-    ...["vanguards", "duelists", "strategists"].map((role) => ({ url: `${base}/es/roles/${role}`, changeFrequency: "weekly" as const, priority: 0.7 })),
-    { url: `${base}/patches`, changeFrequency: "weekly", priority: 0.7 },
+    { url: base, lastModified: season10Updated, changeFrequency: "daily", priority: 1 },
+    { url: `${base}/es`, lastModified: season10Updated, changeFrequency: "daily", priority: 0.9 },
+    ...heroes.map((hero) => ({ url: `${base}/heroes/${hero.id}`, lastModified: season10Updated, changeFrequency: "daily" as const, priority: 0.9 })),
+    ...heroes.map((hero) => ({ url: `${base}/es/heroes/${hero.id}`, lastModified: season10Updated, changeFrequency: "daily" as const, priority: 0.8 })),
+    ...["vanguards", "duelists", "strategists"].map((role) => ({ url: `${base}/roles/${role}`, lastModified: season10Updated, changeFrequency: "weekly" as const, priority: 0.8 })),
+    ...["vanguards", "duelists", "strategists"].map((role) => ({ url: `${base}/es/roles/${role}`, lastModified: season10Updated, changeFrequency: "weekly" as const, priority: 0.7 })),
+    { url: `${base}/patches`, lastModified: season10Updated, changeFrequency: "weekly", priority: 0.7 },
     { url: `${base}/about`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${base}/es/about`, changeFrequency: "monthly", priority: 0.5 },
     { url: `${base}/contact`, changeFrequency: "yearly", priority: 0.4 },

@@ -97,7 +97,7 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
   const guideHeroName = localizedHeroName(hero);
   const guideTitle = locale === "es" ? `¿CUÁL ES EL MEJOR TEAM-UP DE ${guideHeroName}?` : `WHICH ${guideHeroName} TEAM-UP IS BEST?`;
   const guideDescription = locale === "es"
-    ? `${guideHeroName} tiene dos opciones de Team-Up en la Temporada 9.5 de Marvel Rivals: ${guideAbilities[0].name} con ${guideAbilities[0].anchorPartner} y ${guideAbilities[1].name} con ${guideAbilities[1].anchorPartner}. Ambas ofrecen ventajas diferentes, pero ¿cuál Team-Up de ${guideHeroName} es mejor? Este video destacado compara sus fortalezas, debilidades y mejores situaciones de uso.`
+    ? `${guideHeroName} tiene dos opciones de Team-Up en la Temporada 10 de Marvel Rivals: ${guideAbilities[0].name} con ${guideAbilities[0].anchorPartner} y ${guideAbilities[1].name} con ${guideAbilities[1].anchorPartner}. Ambas ofrecen ventajas diferentes, pero ¿cuál Team-Up de ${guideHeroName} es mejor? Este video destacado compara sus fortalezas, debilidades y mejores situaciones de uso.`
     : `${guideHeroName} gets two Team-Up options in Marvel Rivals Season 10: ${guideAbilities[0].name} with ${guideAbilities[0].anchorPartner} and ${guideAbilities[1].name} with ${guideAbilities[1].anchorPartner}. Both offer different advantages, but which ${guideHeroName} Team-Up is better? This featured video compares their strengths, weaknesses, and best use cases.`;
   const guideVideoId = featuredGuide ? youtubeVideoId(featuredGuide.videoUrl) : "";
   const guideVideoTitle = featuredGuide?.videoTitle ? decodeHtmlEntities(featuredGuide.videoTitle) : guideTitle;

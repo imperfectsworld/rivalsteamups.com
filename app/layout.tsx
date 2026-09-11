@@ -37,10 +37,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const websiteData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Rivals Team-Up Meta",
+    name: "Marvel Rivals Team-Ups — Season 10",
     alternateName: "RivalsTeamups.com",
     url: "https://rivalsteamups.com",
-    description: "Marvel Rivals Team-Up community voting, rank breakdowns, platform comparisons, and player insights.",
+    description: "Season 10 Marvel Rivals Team-Up community voting featuring Gorr, rank breakdowns, platform comparisons, trends, and player insights.",
+    dateModified: "2026-09-10",
   };
   return (
     <html lang="en">
