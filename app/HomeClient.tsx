@@ -602,6 +602,12 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
         {favoriteHeroes.length ? <div className="favorite-hero-grid">{favoriteHeroes.map((hero) => { const trend = heroTrend(hero); return <article key={hero.id}><button className="favorite-remove" type="button" onClick={() => toggleFavorite(hero.id)} aria-label={`Stop following ${hero.name}`}>×</button><button className="favorite-open" type="button" onClick={() => focusHero(hero)}><img src={heroImage(hero.id)} alt=""/><span><strong>{localizedHeroName(hero)}</strong><small>{trend.leaderName} · {trend.leaderPercent ? `${trend.leaderPercent}%` : (locale === "es" ? "sin votos" : "awaiting votes")}</small></span><b className={trend.delta > 0 ? "trend-up" : trend.delta < 0 ? "trend-down" : ""}>{trend.delta > 0 ? "+" : ""}{trend.delta} pts</b></button></article>})}</div> : <p className="my-heroes-empty">{locale === "es" ? "Sigue de 3 a 5 personajes para ver sus líderes y movimientos apenas regreses." : "Follow 3–5 mains to see their leaders and recent movement as soon as you return."}</p>}
       </section>
 
+      <section className="meta-quick-vote" aria-label={locale === "es" ? "Configuración de voto rápido" : "Quick vote settings"}>
+        <div><span>{locale === "es" ? "VOTACIÓN RÁPIDA" : "FAST VOTING"}</span><strong>{locale === "es" ? "REUTILIZA TU RANGO Y PLATAFORMA" : "REUSE YOUR SAVED RANK & PLATFORM"}</strong></div>
+        <button className={quickVoteEnabled ? "is-active" : ""} type="button" onClick={toggleQuickVote}>{locale === "es" ? "VOTO RÁPIDO" : "QUICK VOTE"} · {quickVoteEnabled ? "ON" : "OFF"}</button>
+        {quickVoteMessage && <small>{quickVoteMessage}</small>}
+      </section>
+
       {comparisons && <section className="weekly-changes" id="weekly-changes" aria-labelledby="weekly-changes-title"><header><div><p className="eyebrow">{locale === "es" ? "INTELIGENCIA DEL META" : "META MOVEMENT"}</p><h2 id="weekly-changes-title">{locale === "es" ? "QUÉ ESTÁ CAMBIANDO" : "WHAT'S CHANGING"}</h2></div><a href={path("/patches")}>{locale === "es" ? "INFORME COMPLETO" : "FULL SHIFT REPORT"} →</a></header><div>
         {biggestMover && <button type="button" onClick={() => focusHero(biggestMover.hero)}><span>{locale === "es" ? "MAYOR MOVIMIENTO · 30 DÍAS" : "BIGGEST 30-DAY MOVE"}</span><strong>{localizedHeroName(biggestMover.hero)}</strong><p>{biggestMover.leaderName} <b className={biggestMover.delta >= 0 ? "trend-up" : "trend-down"}>{biggestMover.delta > 0 ? "+" : ""}{biggestMover.delta} pts</b></p></button>}
         {biggestPlatformSplit && <button type="button" onClick={() => focusHero(biggestPlatformSplit.hero)}><span>{locale === "es" ? "PC VS CONSOLA" : "PC VS CONSOLE"}</span><strong>{localizedHeroName(biggestPlatformSplit.hero)}</strong><p>{biggestPlatformSplit.platformGap} {locale === "es" ? "puntos de diferencia" : "point preference gap"}</p></button>}
@@ -616,13 +622,12 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
         <button className="is-featured-pulse" type="button" onClick={focusFeaturedHero}>{locale === "es" ? "VOTAR POR EL HÉROE MÁS RECIENTE" : "VOTE FOR THE NEWEST HERO"} <b>→</b></button>
       </section>}
 
-      <section className="voting-progress" aria-label="Your voting progress">
-        <div><span>{tx("YOUR VOTING PROGRESS")}</span><strong>{completedHeroes} / {directoryHeroes.length} {tx("HEROES")}</strong>{milestone && <small className="progress-milestone">✓ {milestone}</small>}</div>
-        <div className="progress-track" aria-hidden="true"><i style={{ width: `${progressPercent}%` }} /></div>
-        <div className="progress-actions">{nextUnfinishedHero && <button type="button" onClick={() => focusHero(nextUnfinishedHero)}>{locale === "es" ? "VOTAR POR EL SIGUIENTE" : "VOTE ON NEXT UNFINISHED HERO"} <b>→</b></button>}<button className={quickVoteEnabled ? "is-active" : ""} type="button" onClick={toggleQuickVote}>{locale === "es" ? "VOTO RÁPIDO" : "QUICK VOTE"} · {quickVoteEnabled ? "ON" : "OFF"}</button>{quickVoteMessage && <small>{quickVoteMessage}</small>}</div>
-      </section>
-
       <section className="control-deck" id="directory-controls" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label="Directory controls">
+        <div className="directory-progress" aria-label={locale === "es" ? "Tu progreso de votación" : "Your voting progress"}>
+          <div><span>{locale === "es" ? "PROGRESO" : "VOTING PROGRESS"}</span><strong>{completedHeroes} / {directoryHeroes.length} {locale === "es" ? "VOTADOS" : "VOTED"}</strong>{milestone && <small className="progress-milestone">✓ {milestone}</small>}</div>
+          <div className="progress-track" aria-hidden="true"><i style={{ width: `${progressPercent}%` }} /></div>
+          {nextUnfinishedHero && <button type="button" onClick={() => focusHero(nextUnfinishedHero)}>{locale === "es" ? "VOTAR SIGUIENTE" : "VOTE NEXT HERO"} <b>→</b></button>}
+        </div>
         <div className="hero-search">
           <label htmlFor="hero-search">{tx("SEARCH HERO")}</label>
           <div className="search-input-wrap">
