@@ -689,19 +689,18 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
                   const counts = hero.teamUpAbilities.map((ability) => abilityCount(hero, ability));
                   const heroTotal = counts[0] + counts[1];
                   const trend = heroTrend(hero);
-                  const hasEnhancedCue = showEnhancedDiscovery && (roleDiscoveryHeroIds.has(hero.id) || hero.id === featuredHero.id);
                   return (
                     <article className={`hero-panel ${enhanced ? "hero-enhanced" : ""}`} id={`hero-${hero.id}`} key={hero.id}>
-                      <div className={`hero-panel-header ${hasEnhancedCue ? "has-enhanced-cue" : ""}`}>
+                      <div className="hero-panel-header">
                         <a className="hero-avatar-link" href={path(`/heroes/${hero.id}`)} aria-label={`View ${hero.name} details`}><span className={`hero-avatar ${enhanced ? "is-lord" : ""}`} aria-hidden="true"><img src={enhanced ? lordImage(hero.id) : heroImage(hero.id)} alt="" /></span></a>
                         <div className="hero-identity">
                           <strong>{localizedHeroName(hero)}</strong>{season10UpdatedHeroIds.has(hero.id) && <span className="season-update-badge">S10 UPDATED</span>}
                         </div>
-                        <button className={`hero-toggle ${enhanced ? "is-on" : ""} ${hasEnhancedCue ? "is-discoverable" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Enhanced descriptions for ${localizedHeroName(hero)}`} onClick={() => toggleEnhanced(hero.id)}>
+                        <button className={`hero-toggle ${enhanced ? "is-on" : ""} ${showEnhancedDiscovery && (roleDiscoveryHeroIds.has(hero.id) || hero.id === featuredHero.id) ? "is-discoverable" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Enhanced descriptions for ${localizedHeroName(hero)}`} onClick={() => toggleEnhanced(hero.id)}>
                           <span className="hero-toggle-track"><span /></span><b>{enhanced ? `⚡ ${tx("ENHANCED ON")}` : tx("ENHANCED OFF")}</b>
                         </button>
-                        <div className="hero-identity-actions"><a className="hero-details-link" href={path(`/heroes/${hero.id}`)}>{tx("DETAILS")} <b>→</b></a><button className={`favorite-toggle ${favoriteHeroIds.includes(hero.id) ? "is-active" : ""}`} type="button" aria-pressed={favoriteHeroIds.includes(hero.id)} onClick={() => toggleFavorite(hero.id)} disabled={!favoriteHeroIds.includes(hero.id) && favoriteHeroIds.length >= 5} aria-label={`${favoriteHeroIds.includes(hero.id) ? "Stop following" : "Follow"} ${localizedHeroName(hero)}`}>{favoriteHeroIds.includes(hero.id) ? "★ MAIN" : "☆ FOLLOW"}</button></div>
-                        {hasEnhancedCue && <span className="enhanced-tap-cue">{locale === "es" ? "TOCA PARA VER EL BONUS" : "TAP TO PREVIEW"} <b>⚡</b></span>}
+                        <div className="hero-identity-actions"><a className="hero-details-link" href={path(`/heroes/${hero.id}`)}><span className="hero-details-default">{tx("DETAILS")} <b>→</b></span><span className="hero-details-mobile">+ {tx("DETAILS")}</span></a><button className={`favorite-toggle ${favoriteHeroIds.includes(hero.id) ? "is-active" : ""}`} type="button" aria-pressed={favoriteHeroIds.includes(hero.id)} onClick={() => toggleFavorite(hero.id)} disabled={!favoriteHeroIds.includes(hero.id) && favoriteHeroIds.length >= 5} aria-label={`${favoriteHeroIds.includes(hero.id) ? "Stop following" : "Follow"} ${localizedHeroName(hero)}`}>{favoriteHeroIds.includes(hero.id) ? "★ MAIN" : "☆ FOLLOW"}</button></div>
+                        {showEnhancedDiscovery && (roleDiscoveryHeroIds.has(hero.id) || hero.id === featuredHero.id) && <span className="enhanced-tap-cue">{locale === "es" ? "TOCA PARA VER EL BONUS" : "TAP TO PREVIEW"} <b>⚡</b></span>}
                       </div>
                       <div className="ability-divider"><span>{tx("CHOOSE THE BETTER TEAM-UP")}</span></div>
                       <div className="panel-abilities">
