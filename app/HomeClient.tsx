@@ -16,11 +16,6 @@ const roles: HeroRole[] = ["Vanguard", "Duelist", "Strategist"];
 const rankFilters = ["All Ranks", ...RANKS] as const;
 type RankFilter = (typeof rankFilters)[number];
 type LiveVotes = Record<string, Record<string, number>>;
-const resultEras = [
-  { id: "s10-launch", season: "Season 10", patch: "S10 Launch", label: "S10 · Cumulative" },
-  { id: "s9-5-launch", season: "Season 09", patch: "S9 Launch", label: "ARCHIVE · S9/S9.5" },
-] as const;
-type ResultEra = (typeof resultEras)[number];
 type ResultWindow = "all" | "recent";
 type Platform = "PC" | "Console";
 const enhancedPreferenceKey = "rivals-enhanced-heroes";
@@ -118,7 +113,6 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   const [voteCelebrating, setVoteCelebrating] = useState(false);
   const [shareStatus, setShareStatus] = useState("");
   const [votedHeroIds, setVotedHeroIds] = useState<string[]>([]);
-  const [selectedEra, setSelectedEra] = useState<ResultEra>(resultEras[0]);
   const [resultWindow, setResultWindow] = useState<ResultWindow>("all");
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [collapsedRoles, setCollapsedRoles] = useState<Record<HeroRole, boolean>>({ Vanguard: false, Duelist: false, Strategist: false });
@@ -151,7 +145,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
 
   const loadVotes = useCallback(async () => {
     try {
-      const params = new URLSearchParams({ season: selectedEra.season, patch: selectedEra.patch, window: resultWindow, platform });
+      const params = new URLSearchParams({ season: "Season 10", patch: "S10 Launch", window: resultWindow, platform });
       const response = await fetch(`/api/votes?${params}`, { cache: "no-store" });
       if (!response.ok) return;
       const data = (await response.json()) as { votes: Array<{ abilityId: string; rank: string; total: number }> };
@@ -159,7 +153,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
     } catch {
       // The seeded rank matrix remains available during local previews without D1.
     }
-  }, [selectedEra, resultWindow, platform, groupRows]);
+  }, [resultWindow, platform, groupRows]);
 
   useEffect(() => { void loadVotes(); }, [loadVotes]);
   useEffect(() => {
@@ -344,7 +338,6 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   }
 
   function openVote(hero: Hero, ability: TeamUpAbility) {
-    if (selectedEra.id !== resultEras[0].id) setSelectedEra(resultEras[0]);
     setPendingVote({ hero, ability });
     setVoteStatus("");
     setVoteCelebrating(false);
@@ -570,9 +563,11 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
           {!roleFilter && <div className="intro-actions"><button type="button" onClick={() => { document.getElementById("directory-controls")?.scrollIntoView({ behavior: "smooth" }); window.setTimeout(() => document.getElementById("hero-search")?.focus(), 450); }}>{locale === "es" ? "BUSCAR MI HÉROE" : "FIND MY HERO"} <b>⌕</b></button><button type="button" onClick={focusFeaturedHero}>{locale === "es" ? "VOTAR POR GORR" : "VOTE ON GORR"} <b>→</b></button><button type="button" onClick={() => { const drawer = document.querySelector("details.retention-drawer") as HTMLDetailsElement | null; if (drawer) { drawer.open = true; drawer.scrollIntoView({ behavior: "smooth" }); } }}>{locale === "es" ? "VER CAMBIOS" : "SEE WHAT CHANGED"} <b>↓</b></button></div>}
         </div>
         <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
+          <div className="rank-insight-platforms" role="group" aria-label="Gaming platform"><button className={platform === "PC" ? "is-active" : ""} type="button" onClick={() => choosePlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} type="button" onClick={() => choosePlatform("Console")}>{locale === "es" ? "CONSOLA" : "CONSOLE"}</button></div>
           <img className="rank-insight-icon" src={selectedRank === "All Ranks" ? "/rivals-icon.ico" : rankImages[selectedRank]} alt="" />
-          <div><span>{tx("LIVE RANK INSIGHT")}</span><strong>{tx(selectedRank)}</strong></div>
-          <p>{locale === "es" ? `Mostrando ${resultWindow === "recent" ? "los últimos 30 días" : "resultados históricos"} de ${tx(selectedEra.label)}, ${selectedRank === "All Ranks" ? "para toda la comunidad competitiva" : `de jugadores de rango ${tx(selectedRank)}`}.` : <>Showing {resultWindow === "recent" ? "the last 30 days" : "all-time results"} for {selectedEra.label}, from {selectedRank === "All Ranks" ? "the full ranked community" : `${selectedRank} players`}.</>}</p>
+          <div className="rank-insight-title"><span>{tx("LIVE RANK INSIGHT")}</span><strong>{tx(selectedRank)}</strong></div>
+          <p>{locale === "es" ? `Resultados ${resultWindow === "recent" ? "de los últimos 30 días" : "acumulados"} de Temporada 10 para ${selectedRank === "All Ranks" ? "toda la comunidad competitiva" : `jugadores de rango ${tx(selectedRank)}`} en ${platform}.` : <>Showing {resultWindow === "recent" ? "the last 30 days" : "cumulative Season 10 results"} for {selectedRank === "All Ranks" ? "the full ranked community" : `${selectedRank} players`} on {platform}.</>}</p>
+          <div className="rank-insight-footer"><span>S10 · {locale === "es" ? "ACUMULADO" : "CUMULATIVE"}</span><div role="group" aria-label={locale === "es" ? "Ventana de resultados" : "Result window"}><button className={resultWindow === "all" ? "is-active" : ""} type="button" onClick={() => setResultWindow("all")}>{tx("ALL-TIME")}</button><button className={resultWindow === "recent" ? "is-active" : ""} type="button" onClick={() => setResultWindow("recent")}>{tx("LAST 30 DAYS")}</button></div></div>
         </div>
       </section>
 
@@ -614,11 +609,6 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
       </section>
 
       <section className="control-deck" id="directory-controls" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label="Directory controls">
-        <div className="platform-toggle" role="group" aria-label="Gaming platform"><span>{tx("PLATFORM DATA")}</span><button className={platform === "PC" ? "is-active" : ""} type="button" onClick={() => choosePlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} type="button" onClick={() => choosePlatform("Console")}>{locale === "es" ? "CONSOLA" : "CONSOLE"}</button></div>
-        <div className="history-controls">
-          <div><span>{tx("PATCH & SEASON HISTORY")}</span>{resultEras.map((era) => <button className={selectedEra.id === era.id ? "is-active" : ""} type="button" onClick={() => setSelectedEra(era)} key={era.id}>{tx(era.label)}</button>)}</div>
-          <div><span>{tx("RESULT WINDOW")}</span><button className={resultWindow === "all" ? "is-active" : ""} type="button" onClick={() => setResultWindow("all")}>{tx("ALL-TIME")}</button><button className={resultWindow === "recent" ? "is-active" : ""} type="button" onClick={() => setResultWindow("recent")}>{tx("LAST 30 DAYS")}</button></div>
-        </div>
         <div className="hero-search">
           <label htmlFor="hero-search">{tx("SEARCH HERO")}</label>
           <div className="search-input-wrap">
