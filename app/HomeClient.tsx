@@ -124,6 +124,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   const [quickVoteMessage, setQuickVoteMessage] = useState("");
   const [comparisons, setComparisons] = useState<VoteComparisons | null>(null);
   const [visitChanges, setVisitChanges] = useState<VisitChanges | null>(null);
+  const [retentionOpen, setRetentionOpen] = useState(false);
   const visitCaptured = useRef(false);
 
   const groupRows = useCallback((rows: Array<{ abilityId: string; rank: string; total: number }>) => {
@@ -293,6 +294,15 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
     if (!favoritePicker || favoriteHeroIds.includes(favoritePicker) || favoriteHeroIds.length >= 5) return;
     toggleFavorite(favoritePicker);
     setFavoritePicker("");
+  }
+
+  function toggleRetentionDrawer() {
+    const drawer = document.getElementById("meta-dashboard") as HTMLDetailsElement | null;
+    if (!drawer) return;
+    const willOpen = !drawer.open;
+    drawer.open = willOpen;
+    setRetentionOpen(willOpen);
+    if (willOpen) drawer.scrollIntoView({ behavior: "smooth" });
   }
 
   function toggleQuickVote() {
@@ -560,7 +570,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
           <p className="eyebrow">{tx("A MARVEL RIVALS COMMUNITY TOOL")}</p>
           <h1>{roleFilter ? <>{tx(roleFilter).toUpperCase()}<br /><span>{tx("META")}</span></> : <>{locale === "es" ? "ENCUENTRA TU" : "FIND YOUR"}<br /><span>{locale === "es" ? "TEAM-UP" : "TEAM-UP"}</span></>}</h1>
           <p className="intro-copy">{locale === "es" ? (roleFilter ? `Compara todos los Team-Ups de ${tx(roleFilter).toLowerCase()}, filtra los resultados por rango y plataforma, consulta los efectos mejorados y vota por tus habilidades favoritas.` : "Compara todos los Team-Ups de Marvel Rivals, filtra los votos de la comunidad por rango y plataforma, y descubre qué combinaciones de héroe ancla prefieren los jugadores.") : (roleFilter ? `Compare every ${roleFilter} Team-Up, filter results by competitive rank and platform, preview Enhanced effects, and vote for the abilities you trust.` : "Compare every Marvel Rivals teamup, filter community votes by rank and platform, and discover which anchor combinations players prefer.")}</p>
-          {!roleFilter && <div className="intro-actions"><button type="button" onClick={() => { document.getElementById("directory-controls")?.scrollIntoView({ behavior: "smooth" }); window.setTimeout(() => document.getElementById("hero-search")?.focus(), 450); }}>{locale === "es" ? "BUSCAR MI HÉROE" : "FIND MY HERO"} <b>⌕</b></button><button type="button" onClick={() => { const drawer = document.querySelector("details.retention-drawer") as HTMLDetailsElement | null; if (drawer) { drawer.open = true; drawer.scrollIntoView({ behavior: "smooth" }); } }}>{locale === "es" ? "VER CAMBIOS" : "SEE WHAT CHANGED"} <b>↓</b></button></div>}
+          {!roleFilter && <div className="intro-actions"><button type="button" onClick={() => { document.getElementById("directory-controls")?.scrollIntoView({ behavior: "smooth" }); window.setTimeout(() => document.getElementById("hero-search")?.focus(), 450); }}>{locale === "es" ? "BUSCAR MI HÉROE" : "FIND MY HERO"} <b>⌕</b></button><button type="button" aria-controls="meta-dashboard" aria-expanded={retentionOpen} onClick={toggleRetentionDrawer}>{retentionOpen ? (locale === "es" ? "OCULTAR CAMBIOS" : "HIDE CHANGES") : (locale === "es" ? "VER CAMBIOS" : "SEE WHAT CHANGED")} <b>{retentionOpen ? "↑" : "↓"}</b></button></div>}
         </div>
         <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
           <div className="rank-insight-topline">
@@ -575,7 +585,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
         </div>
       </section>
 
-      {!roleFilter && <details className="retention-drawer">
+      {!roleFilter && <details className="retention-drawer" id="meta-dashboard" onToggle={(event) => setRetentionOpen(event.currentTarget.open)}>
         <summary><span><small>{locale === "es" ? "TU PANEL PERSONAL" : "YOUR META DASHBOARD"}</small><strong>{visitChanges?.firstVisit ? (locale === "es" ? "SEGUIMIENTO ACTIVADO" : "TRACKING IS ON") : visitChanges?.voteIncrease ? `+${visitChanges.voteIncrease.toLocaleString()} ${locale === "es" ? "VOTOS DESDE TU VISITA" : "VOTES SINCE YOUR VISIT"}` : favoriteHeroIds.length ? `${favoriteHeroIds.length}/5 ${locale === "es" ? "HÉROES SEGUIDOS" : "MAINS FOLLOWED"}` : (locale === "es" ? "SIGUE TUS HÉROES Y CAMBIOS" : "FOLLOW YOUR MAINS & META CHANGES")}</strong></span><b><i>{locale === "es" ? "ABRIR" : "OPEN"}</i><em>{locale === "es" ? "CERRAR" : "CLOSE"}</em> ↓</b></summary>
       {visitChanges && <section className="return-brief" aria-labelledby="return-brief-title">
         <div><p className="eyebrow">{locale === "es" ? "DESDE TU ÚLTIMA VISITA" : "SINCE YOUR LAST VISIT"}</p><h2 id="return-brief-title">{visitChanges.firstVisit ? (locale === "es" ? "SEGUIMIENTO ACTIVADO" : "CHANGE TRACKING IS ON") : visitChanges.voteIncrease ? `+${visitChanges.voteIncrease.toLocaleString()} ${locale === "es" ? "VOTOS NUEVOS" : "NEW VOTES"}` : (locale === "es" ? "ESTÁS AL DÍA" : "YOU'RE CAUGHT UP")}</h2></div>
