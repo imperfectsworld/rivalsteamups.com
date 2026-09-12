@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "vinext dev",
     "build": "vinext build",
-    "deploy": "vinext deploy",
+    "deploy": "node scripts/deploy.mjs",
     "db:migrate:local": "wrangler d1 migrations apply rivals-teamups-prod --local",
     "db:migrate:remote": "wrangler d1 migrations apply rivals-teamups-prod --remote",
     "start": "vinext start",
