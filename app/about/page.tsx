@@ -8,8 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  return <LegalPage eyebrow="ABOUT THE PROJECT" title="About & Methodology" updatedLabel="Last reviewed September 10, 2026">
+  return <LegalPage eyebrow="ABOUT THE PROJECT" title="About & Methodology" updatedLabel="Last reviewed September 17, 2026">
     <p>Rivals Team-Ups is an independent Marvel Rivals community project created and maintained by DeAngelo Robinson. It was built to help players compare competing Team-Up abilities, see how preferences change across ranks and platforms, and add their own experience to the discussion. The project is not affiliated with Marvel or NetEase Games.</p>
+    <h2>What this project adds</h2>
+    <p>The site is not a mirror of a game wiki. Its original service is a structured voting dataset that compares two Team-Up choices for every eligible hero, separates PC and console responses, breaks preferences down by competitive rank, records recent movement, and publishes player-written context alongside the totals. The Shift Report converts those submissions into close-race, consensus, and platform-difference signals that are recalculated as the community votes.</p>
     <h2>How community voting works</h2>
     <p>Each hero presents two Team-Up options. A visitor chooses one option and identifies their competitive rank and platform. Results can then be filtered by PC or console, competitive rank, and the available result window. A random device identifier is used to enforce one vote per hero within a 24-hour period. The site does not require an account or collect a voter&apos;s real name.</p>
     <h2>How to interpret the results</h2>
@@ -17,8 +19,11 @@ export default function AboutPage() {
     <p>Season 10 uses a cumulative community sample. Its opening totals include the ballots collected during Seasons 9 and 9.5, and every new Season 10 ballot is added to that baseline. Historical Season 9.5 results remain available separately for comparison; the 30-day filter isolates recent momentum.</p>
     <h2>Ability information and editorial analysis</h2>
     <p>Ability names and effect descriptions summarize in-game Team-Up information. Editorial analysis is published separately and considers the hero&apos;s role, the effect&apos;s practical conditions, composition requirements, positioning, and the current community sample. Community verdicts describe the vote data available at that moment and should not be treated as universal recommendations.</p>
+    <h2>Editorial standards</h2>
+    <p>Original analysis is labeled and attributed to the editor. In-game ability information is identified separately so readers can distinguish source material from commentary. Every data-led conclusion should show the relevant sample size, and views below 10 votes are labeled as early signals. The site does not present community preferences as official pick rates, win rates, or developer balance statistics.</p>
+    <p>Embedded creator videos are selected because they discuss the same hero and Team-Up decision shown on the page. They supplement the site&apos;s own voting, analysis, and rank breakdowns; they do not replace them. No creator pays to receive a favorable Team-Up verdict.</p>
     <h2>Updates, corrections, and transparency</h2>
-    <p>Hero and Team-Up information is reviewed when seasons and balance patches change. Community totals update as votes are recorded, while editorial copy is revised when mechanics or conclusions materially change. If you find inaccurate or outdated information, email <a href="mailto:NeckBeardDev@gmail.com">NeckBeardDev@gmail.com</a>. Corrections, partnership questions, and constructive feedback are welcome.</p>
+    <p>Hero and Team-Up information is reviewed when seasons and balance patches change. Community totals update as votes are recorded, while editorial copy is revised when mechanics or conclusions materially change. The latest full review was completed for the Season 10 launch on September 17, 2026. If you find inaccurate or outdated information, email <a href="mailto:NeckBeardDev@gmail.com">NeckBeardDev@gmail.com</a>. Corrections, partnership questions, and constructive feedback are welcome.</p>
     <h2>Publisher</h2>
     <p>DeAngelo Robinson is the developer and editor of Rivals Team-Ups. You can learn more about his work on <a href="https://www.linkedin.com/in/deangelo-robinson/" target="_blank" rel="noreferrer">LinkedIn</a> or follow site updates on <a href="https://x.com/NeckBeardDev" target="_blank" rel="noreferrer">X</a>.</p>
   </LegalPage>;

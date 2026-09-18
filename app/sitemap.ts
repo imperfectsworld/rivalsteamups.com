@@ -6,7 +6,7 @@ const heroes = (heroesJson as HeroesData).heroes;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://rivalsteamups.com";
-  const season10Updated = new Date("2026-09-10T00:00:00-04:00");
+  const season10Updated = new Date("2026-09-17T00:00:00-04:00");
   return [
     { url: base, lastModified: season10Updated, changeFrequency: "daily", priority: 1 },
     { url: `${base}/es`, lastModified: season10Updated, changeFrequency: "daily", priority: 0.9 },

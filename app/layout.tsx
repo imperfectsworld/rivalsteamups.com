@@ -41,7 +41,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     alternateName: "RivalsTeamups.com",
     url: "https://rivalsteamups.com",
     description: "Season 10 Marvel Rivals Team-Up community voting featuring Gorr, rank breakdowns, platform comparisons, trends, and player insights.",
-    dateModified: "2026-09-10",
+    dateModified: "2026-09-17",
   };
   return (
     <html lang="en">
