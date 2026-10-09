@@ -4034,14 +4034,14 @@ body{background:var(--s105-bg);color:var(--s105-text)}
 
 
 /* Directory rhythm and role-control polish */
-.directory{width:calc(100% - 32px);max-width:none;padding-top:12px}
+.directory{padding-top:12px}
 .role-section{margin-top:24px;padding-top:0;scroll-margin-top:96px}
 .directory>.role-section:first-child{margin-top:0}
 .role-toggle-indicator{padding:6px 7px 6px 13px;border:1px solid rgba(var(--role-rgb),.52)!important;border-radius:999px;background:rgba(5,10,16,.5)}
 .role-toggle-indicator>b{width:30px;height:30px;border-radius:50%}
 
 @media(min-width:981px){
-  .hero-panels{grid-template-columns:repeat(auto-fit,minmax(360px,1fr))}
+  .hero-panels{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 
 @media(max-width:760px){
