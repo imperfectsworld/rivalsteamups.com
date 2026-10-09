@@ -11,7 +11,7 @@ type Totals = Record<string, number>;
 type ResultRow = ReturnType<typeof buildRows>[number];
 
 const heroes = (heroesJson as HeroesData).heroes;
-const era = { season: "Season 10", patch: "S10 Launch", label: "S10 · CUMULATIVE" } as const;
+const era = { season: "Season 10", patch: "S10 Launch", label: "S10.5 · CUMULATIVE" } as const;
 
 function collapse(rows: VoteRow[]) {
   return rows.reduce<Totals>((all, row) => ({ ...all, [row.abilityId]: (all[row.abilityId] ?? 0) + row.total }), {});
@@ -79,8 +79,8 @@ export default function PatchDashboard({ initialPcVotes, initialConsoleVotes }: 
   }).filter((row) => row.gap >= 0).sort((a, b) => b.gap - a.gap)[0];
 
   return <main className="legal-shell patch-shell">
-    <header className="topbar detail-topbar"><a className="brand" href="/"><span className="brand-mark">R</span><span><strong>RIVALS</strong><small>TEAM-UP</small></span></a><nav className="role-nav"><a href="/roles/vanguards">Vanguards</a><a href="/roles/duelists">Duelists</a><a href="/roles/strategists">Strategists</a></nav><a className="detail-back" href="/">← DIRECTORY</a></header>
-    <section className="patch-hero"><p className="eyebrow">LIVE PATCH INTELLIGENCE</p><h1>TEAM-UP<br/><span>SHIFT REPORT</span></h1><p>Track the community meta without mixing votes from different balance eras. Compare current leaders, identify contested Team-Ups, and see when preferences move after an update.</p><small>REVIEWED SEPTEMBER 17, 2026 · EDITED BY DEANGELO ROBINSON</small></section>
+    <header className="topbar detail-topbar"><a className="brand" href="/"><span className="brand-mark">R</span><span><strong>RIVALS</strong><small>TEAM-UP</small></span></a><nav className="role-nav"><a href="/roles/vanguards">Vanguards</a><a href="/roles/duelists">Duelists</a><a href="/roles/strategists">Strategists</a><a className="nav-donate" href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">Donate</a></nav><a className="detail-back" href="/">DIRECTORY</a></header>
+    <section className="patch-hero"><p className="eyebrow">SEASON 10.5 RESULTS</p><h1>LIVE VOTE<br/><span>REPORT</span></h1><p>Explore the cumulative Season 10.5 community sample, compare current Team-Up leaders, and see the live vote total for each hero.</p><small>REVIEWED OCTOBER 8, 2026 · EDITED BY DEANGELO ROBINSON</small></section>
     <section className="patch-controls"><div><span>PLATFORM</span><button className={platform === "PC" ? "is-active" : ""} onClick={() => setPlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} onClick={() => setPlatform("Console")}>CONSOLE</button></div><div><span>RESULT WINDOW</span><button className={window === "all" ? "is-active" : ""} onClick={() => setWindow("all")}>ALL-TIME</button><button className={window === "recent" ? "is-active" : ""} onClick={() => setWindow("recent")}>LAST 30 DAYS</button></div></section>
     <section className="patch-stat-grid"><article><span>RECORDED VOTES</span><strong>{totalVotes.toLocaleString()}</strong><p>{era.label} · {platform}</p></article><article><span>ACTIVE HERO RACES</span><strong>{active.length}</strong><p>Heroes with recorded votes</p></article><article><span>CLOSE RACES</span><strong>{closeRaces}</strong><p>Leader at 55% or less</p></article><article><span>DECISIVE LEADERS</span><strong>{decisive}</strong><p>Leader at 65% or more</p></article></section>
 

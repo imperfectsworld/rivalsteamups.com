@@ -17,14 +17,14 @@ const es: Record<string, string> = {
   "ENHANCED ON": "MEJORA ACTIVADA", "VOTE FOR": "VOTA POR", "TEAM-UP": "TEAM-UP", "CONTACT": "CONTACTO",
   "PATCHES": "PARCHES", "LEGAL": "AVISO LEGAL", "PRIVACY": "PRIVACIDAD", "TERMS": "TÉRMINOS", "COOKIES": "COOKIES",
   "BACK TO TOP": "VOLVER ARRIBA", "BACK TO DIRECTORY": "VOLVER AL DIRECTORIO", "DIRECTORY": "DIRECTORIO",
-  "SEASON 10 · HERO INTELLIGENCE": "TEMPORADA 10 · ANÁLISIS DEL HÉROE", "TOTAL VOTES": "VOTOS TOTALES",
+  "SEASON 10 · HERO INTELLIGENCE": "TEMPORADA 10 · ANÁLISIS DEL HÉROE", "SEASON 10.5 · HERO WATCH PAGE": "TEMPORADA 10.5 · PÁGINA DE VIDEO", "TOTAL VOTES": "VOTOS TOTALES",
   "COMMUNITY LEADER": "LÍDER DE LA COMUNIDAD", "LEAD MARGIN": "VENTAJA", "Team-Up totals": "Totales de Team-Up",
   "Detailed rank breakdown": "Desglose detallado por rango", "Community insights": "Opiniones de la comunidad",
   "EXPLORE THE ROSTER": "EXPLORA EL PLANTEL", "DISPLAY NAME": "NOMBRE", "YOUR RANK": "TU RANGO", "YOUR INSIGHT": "TU OPINIÓN",
   "POST INSIGHT": "PUBLICAR OPINIÓN", "VOTE LOCKED IN": "VOTO CONFIRMADO", "Vote counted": "Voto registrado",
   "VOTE RECORDED": "VOTO REGISTRADO", "ONE LAST STEP": "UN ÚLTIMO PASO", "What rank are you?": "¿Cuál es tu rango?",
   "YOUR PLATFORM": "TU PLATAFORMA", "RECORD MY VOTE": "REGISTRAR MI VOTO", "CLOSE": "CERRAR", "ADD MY INSIGHT": "AÑADIR MI OPINIÓN",
-  "S10 · Cumulative":"S10 · Acumulado", "S9.5 · Launch":"S9.5 · Lanzamiento", "ARCHIVE · S9/S9.5":"ARCHIVO · S9/S9.5", "COMMUNITY META":"META DE LA COMUNIDAD",
+  "S10 · Cumulative":"S10 · Acumulado", "S10.5 · Cumulative":"S10.5 · Acumulado", "S9.5 · Launch":"S9.5 · Lanzamiento", "ARCHIVE · S9/S9.5":"ARCHIVO · S9/S9.5", "COMMUNITY META":"META DE LA COMUNIDAD",
 };
 
 export function translate(locale: SiteLocale, value: string) { return locale === "es" ? (es[value] ?? value) : value; }

@@ -6,7 +6,7 @@ import heroesEsJson from "@/src/data/heroes-es.json";
 import heroGuidesJson from "@/src/data/hero-guides.json";
 import { RANKS, type Hero, type HeroesData, type PlayerRank, type TeamUpAbility } from "@/src/types";
 import { localePath, translate, type SiteLocale } from "@/src/i18n";
-import { buildTeamUpAnalysis, MIN_VERDICT_VOTES } from "@/src/teamup-analysis";
+import { MIN_VERDICT_VOTES } from "@/src/teamup-analysis";
 
 type LiveVotes = Record<string, Record<string, number>>;
 type DetailRank = "All Ranks" | PlayerRank;
@@ -97,8 +97,8 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
   const guideHeroName = localizedHeroName(hero);
   const guideTitle = locale === "es" ? `¿CUÁL ES EL MEJOR TEAM-UP DE ${guideHeroName}?` : `WHICH ${guideHeroName} TEAM-UP IS BEST?`;
   const guideDescription = locale === "es"
-    ? `${guideHeroName} tiene dos opciones de Team-Up en la Temporada 10 de Marvel Rivals: ${guideAbilities[0].name} con ${guideAbilities[0].anchorPartner} y ${guideAbilities[1].name} con ${guideAbilities[1].anchorPartner}. Ambas ofrecen ventajas diferentes, pero ¿cuál Team-Up de ${guideHeroName} es mejor? Este video destacado compara sus fortalezas, debilidades y mejores situaciones de uso.`
-    : `${guideHeroName} gets two Team-Up options in Marvel Rivals Season 10: ${guideAbilities[0].name} with ${guideAbilities[0].anchorPartner} and ${guideAbilities[1].name} with ${guideAbilities[1].anchorPartner}. Both offer different advantages, but which ${guideHeroName} Team-Up is better? This featured video compares their strengths, weaknesses, and best use cases.`;
+    ? `${guideHeroName} tiene dos opciones de Team-Up en la Temporada 10.5 de Marvel Rivals: ${guideAbilities[0].name} con ${guideAbilities[0].anchorPartner} y ${guideAbilities[1].name} con ${guideAbilities[1].anchorPartner}. Mira el video, compara los resultados de la comunidad y vota por la opción que prefieres.`
+    : `${guideHeroName} has two Team-Up options in Marvel Rivals Season 10.5: ${guideAbilities[0].name} with ${guideAbilities[0].anchorPartner} and ${guideAbilities[1].name} with ${guideAbilities[1].anchorPartner}. Watch the featured guide, compare the live community results, and vote for the option you prefer.`;
   const guideVideoId = featuredGuide ? youtubeVideoId(featuredGuide.videoUrl) : "";
   const guideVideoTitle = featuredGuide?.videoTitle ? decodeHtmlEntities(featuredGuide.videoTitle) : guideTitle;
   const guideStructuredData = featuredGuide && featuredCreator && guideVideoId ? {
@@ -139,7 +139,7 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
   const [voteStatus, setVoteStatus] = useState("");
   const [voteCelebrating, setVoteCelebrating] = useState(false);
   const [showEnhancedDiscovery, setShowEnhancedDiscovery] = useState(false);
-  const [guidePlaying, setGuidePlaying] = useState(false);
+  const [guideSoundOn, setGuideSoundOn] = useState(false);
 
   const loadVotes = useCallback(async () => {
     try {
@@ -284,8 +284,6 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
   const leaderPercent = totalVotes ? Math.round((totals[leaderIndex] / totalVotes) * 100) : 0;
   const hasMeaningfulSample = totalVotes >= MIN_VERDICT_VOTES;
   const hasCommunityLeader = hasMeaningfulSample && !isTied;
-  const localizedAbilities = hero.teamUpAbilities.map(localizedAbility) as [TeamUpAbility, TeamUpAbility];
-  const teamUpAnalysis = buildTeamUpAnalysis({ hero, heroName: localizedHeroName(hero), abilities: localizedAbilities, totals, locale });
   const rolePeers = heroData.heroes.filter((candidate) => candidate.role === hero.role && candidate.id !== hero.id);
   const roleAnchor = `${hero.role.toLowerCase()}s`;
   const featuredInsight = insights[0];
@@ -297,16 +295,45 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
           <span className="brand-mark">R</span>
           <span><strong>RIVALS</strong><small>TEAM-UPS</small></span>
         </a>
-        <a href={`${path("/")}#hero-${hero.id}`} className="detail-back">← {tx("BACK TO DIRECTORY")}</a>
+        <a href={`${path("/")}#hero-${hero.id}`} className="detail-back">{tx("BACK TO DIRECTORY")}</a>
+        <a className="nav-donate" href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a>
         <a className="language-switch" href={locale === "es" ? `/heroes/${hero.id}` : `/es/heroes/${hero.id}`} hrefLang={locale === "es" ? "en" : "es"}>{locale === "es" ? "EN" : "ES"}</a>
       </header>
 
+      {featuredGuide && featuredCreator && guideVideoId && <section className="featured-guide-preview watch-page-hero" aria-labelledby="featured-guide-title">
+        {guideStructuredData && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(guideStructuredData).replace(/</g, "\\u003c") }} />}
+        <div className="featured-guide-art">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${guideVideoId}?autoplay=1&mute=${guideSoundOn ? "0" : "1"}&playsinline=1&rel=0`}
+            title={`${guideHeroName} Team-Up video by ${featuredCreator.name}`}
+            loading="eager"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+          {!guideSoundOn && <button className="guide-sound-button" type="button" onClick={() => setGuideSoundOn(true)} aria-label={`${locale === "es" ? "Activar el sonido del video de" : "Turn on sound for"} ${guideHeroName}`}>
+            <span aria-hidden="true">🔇</span><strong>{locale === "es" ? "VIDEO EN SILENCIO" : "VIDEO IS MUTED"}</strong><small>{locale === "es" ? "Toca para activar el sonido" : "Tap to turn on sound"}</small>
+          </button>}
+        </div>
+        <div className="featured-guide-copy">
+          <p className="eyebrow">{locale === "es" ? "VIDEO DESTACADO" : "FEATURED WATCH"}</p>
+          <h1 id="featured-guide-title">{guideVideoTitle}</h1>
+          <p>{guideDescription}</p>
+          <div className="guide-tags"><span>SEASON 10.5</span><span>{hero.role.toUpperCase()}</span><span>{totalVotes.toLocaleString()} {locale === "es" ? "VOTOS" : "VOTES"}</span></div>
+          <div className="guide-creator">
+            <img src={featuredCreator.logo} alt={`${featuredCreator.name} logo`} />
+            <span><small>{featuredGuide.creatorLabel.toUpperCase()}</small><strong>{featuredCreator.name}</strong></span>
+            <a href={featuredGuide.videoUrl} target="_blank" rel="noreferrer">{locale === "es" ? "VER EN YOUTUBE" : "WATCH ON YOUTUBE"}</a>
+          </div>
+        </div>
+      </section>}
+
       <section className="detail-hero">
         <div className="detail-copy">
-          <p className="eyebrow">{tx("SEASON 10 · HERO INTELLIGENCE")}</p>
+          <p className="eyebrow">{locale === "es" ? "TEMPORADA 10.5 · PÁGINA DE VIDEO" : "SEASON 10.5 · HERO WATCH PAGE"}</p>
           <div className="detail-role"><img src={`/roles/${hero.role.toLowerCase()}.webp`} alt="" />{hero.role}</div>
           <h1><img className="mobile-detail-hero-icon" src={`/heroes/${hero.id}.webp`} alt="" />{localizedHeroName(hero)}</h1>
-          <p>{locale === "es" ? `Compara el Team-Up ${localizedAbility(hero.teamUpAbilities[0]).name} de ${localizedHeroName(hero)} con ${localizedAbility(hero.teamUpAbilities[1]).name}. Consulta las preferencias por rango y plataforma, los dos aliados ancla y todos los efectos mejorados de la Temporada 10.` : <>Compare {hero.name}&apos;s {hero.teamUpAbilities[0].name} Team-Up with {hero.teamUpAbilities[1].name}. Explore community preference by competitive rank and platform, review both anchor partners, and preview every Enhanced effect for Season 10.</>}</p>
+          <p>{locale === "es" ? `Mira la guía de ${localizedHeroName(hero)}, compara ${localizedAbility(hero.teamUpAbilities[0]).name} con ${localizedAbility(hero.teamUpAbilities[1]).name} y vota con la comunidad de la Temporada 10.5.` : <>Watch the {hero.name} guide, compare {hero.teamUpAbilities[0].name} with {hero.teamUpAbilities[1].name}, and vote with the Season 10.5 community.</>}</p>
           <div className="detail-summary-grid">
             <div><span>{tx("TOTAL VOTES")}</span><strong>{totalVotes.toLocaleString()}</strong></div>
             <div><span>{tx("COMMUNITY LEADER")}</span><strong>{!totalVotes ? (locale === "es" ? "Sin líder aún" : "No leader yet") : isTied ? (locale === "es" ? "Empate" : "Tied") : leader.name}</strong><small>{!totalVotes ? (locale === "es" ? "Esperando votos" : "Awaiting votes") : isTied ? (locale === "es" ? "Preferencia dividida por igual" : "Preference split evenly") : `${leaderPercent}% ${locale === "es" ? "de preferencia" : "preference"}`}</small></div>
@@ -349,47 +376,6 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
         </div>
         {totalVotes < MIN_VERDICT_VOTES && <p className="sample-size-notice" role="status"><strong>{totalVotes === 0 ? (locale === "es" ? "AÚN NO HAY RESULTADO" : "NO RESULT YET") : (locale === "es" ? "SEÑAL TEMPRANA" : "EARLY SIGNAL")}</strong><span>{totalVotes === 0 ? (locale === "es" ? "Esta vista no tiene votos. No mostramos un 50/50 artificial." : "This view has no votes, so an artificial 50/50 result is not shown.") : (locale === "es" ? `Solo hay ${totalVotes} votos en esta vista. La preferencia puede cambiar rápidamente.` : `Only ${totalVotes} votes are in this view. The preference can still change quickly.`)}</span></p>}
 
-        {featuredGuide && featuredCreator && guideVideoId && <section className="featured-guide-preview" aria-labelledby="featured-guide-title">
-          {guideStructuredData && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(guideStructuredData).replace(/</g, "\\u003c") }} />}
-          <div className="featured-guide-art">
-            <iframe
-              src={`https://www.youtube-nocookie.com/embed/${guideVideoId}?${guidePlaying ? "autoplay=1&" : ""}rel=0`}
-              title={`${guideHeroName} Team-Up video by ${featuredCreator.name}`}
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            />
-            {!guidePlaying && <button type="button" onClick={() => setGuidePlaying(true)} aria-label={`${locale === "es" ? "Reproducir video sobre" : "Play video about"} ${guideHeroName}`}>
-              <img
-                src={`https://i.ytimg.com/vi/${guideVideoId}/maxresdefault.jpg`}
-                alt={`${guideHeroName} Team-Up video by ${featuredCreator.name}`}
-                onError={(event) => {
-                  if (event.currentTarget.src.includes("maxresdefault")) event.currentTarget.src = `https://i.ytimg.com/vi/${guideVideoId}/hqdefault.jpg`;
-                }}
-              />
-              <span className="guide-play" aria-hidden="true"><i /></span>
-            </button>}
-          </div>
-          <div className="featured-guide-copy">
-            <p className="eyebrow">{locale === "es" ? "VIDEO DE UN CREADOR COLABORADOR" : "PARTNER CREATOR VIDEO"}</p>
-            <h2 id="featured-guide-title">{guideVideoTitle}</h2>
-            <p>{guideDescription}</p>
-            <div className="guide-tags"><span>SEASON 10</span><span>{hero.role.toUpperCase()}</span></div>
-            <div className="guide-creator">
-              <img src={featuredCreator.logo} alt={`${featuredCreator.name} logo`} />
-              <span><small>{featuredGuide.creatorLabel.toUpperCase()}</small><strong>{featuredCreator.name}</strong></span>
-              <a href={featuredGuide.videoUrl} target="_blank" rel="noreferrer">{locale === "es" ? "VER VIDEO ↗" : "WATCH VIDEO ↗"}</a>
-            </div>
-            <nav className="guide-socials" aria-label={`${featuredCreator.name} social links`}>
-              <a href={featuredCreator.youtube} target="_blank" rel="noreferrer"><img src="/creators/social/youtube.png" alt="" />YouTube</a>
-              <a href={featuredCreator.twitch} target="_blank" rel="noreferrer"><img src="/creators/social/twitch.png" alt="" />Twitch</a>
-              <a href={featuredCreator.tiktok} target="_blank" rel="noreferrer"><img src="/creators/social/tiktok.png" alt="" />TikTok</a>
-              <a href={featuredCreator.instagram} target="_blank" rel="noreferrer"><img src="/creators/social/instagram.png" alt="" />Instagram</a>
-              <a href={featuredCreator.discord} target="_blank" rel="noreferrer"><img src="/creators/social/discord.png" alt="" />Discord</a>
-            </nav>
-          </div>
-        </section>}
 
         <aside className="role-discovery" aria-labelledby="role-discovery-title">
           <div className="role-discovery-heading">
@@ -434,15 +420,6 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
           </div>
         </section>
 
-        <section className="teamup-analysis" aria-labelledby="teamup-analysis-title">
-          <div className="detail-section-heading"><div><h2 id="teamup-analysis-title">{locale === "es" ? "Análisis de Team-Ups" : "Team-Up analysis"}</h2></div><p>{locale === "es" ? "Fortalezas, riesgos y situaciones ideales para cada opción." : "Strengths, tradeoffs, and ideal situations for each option."}</p></div>
-          <div className="analysis-intro"><p>{teamUpAnalysis.intro}</p></div>
-          <div className="analysis-options">
-            {localizedAbilities.map((ability, index) => <article key={ability.id}><span>{locale === "es" ? "OPCIÓN" : "OPTION"} {index + 1}</span><h3>{ability.name}</h3><small>{locale === "es" ? "ANCLA" : "ANCHOR"} · {ability.anchorPartner}</small><p>{teamUpAnalysis.options[index]}</p></article>)}
-          </div>
-          <aside className={`analysis-verdict ${totalVotes < MIN_VERDICT_VOTES ? "is-provisional" : ""}`}><strong>{locale === "es" ? "VEREDICTO ACTUAL" : "CURRENT VERDICT"}</strong><p>{teamUpAnalysis.verdict}</p></aside>
-          <aside className="analysis-author"><span className="author-monogram" aria-hidden="true">DR</span><p><strong>{locale === "es" ? "Análisis de DeAngelo Robinson" : "Analysis by DeAngelo Robinson"}</strong><small>{locale === "es" ? "Basado en las mecánicas de las habilidades y los datos de votación de la comunidad." : "Based on ability mechanics and current community voting data."}</small></p><a href={path("/about")}>{locale === "es" ? "ACERCA DEL EDITOR →" : "ABOUT THE EDITOR →"}</a></aside>
-        </section>
 
         <div className="detail-section-heading"><div><h2>{tx("Detailed rank breakdown")}</h2></div><p>{locale === "es" ? "Observa cómo cambian las preferencias al subir de rango competitivo." : "See how preference changes as the competitive tier rises."}</p></div>
         <div className="rank-breakdown">
@@ -455,7 +432,7 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
         </div>
 
       </section>
-      <footer className="detail-legal-footer"><span>RIVALS TEAM-UPS // {platform.toUpperCase()} COMMUNITY META</span><nav className="legal-links"><a href={path("/about")}>{locale === "es" ? "ACERCA DE Y METODOLOGÍA" : "ABOUT & METHODOLOGY"}</a><a href="/contact">CONTACT</a><a href="/legal-notice">LEGAL NOTICE</a><a href="/privacy-policy">PRIVACY</a><a href="/terms-of-use">TERMS</a><a href="/cookie-policy">COOKIES</a></nav><a href="/">DIRECTORY ↑</a></footer>
+      <footer className="detail-legal-footer"><span>RIVALS TEAM-UPS // SEASON 10.5 // {platform.toUpperCase()}</span><nav className="legal-links"><a href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a><a href="mailto:neckbearddev@gmail.com?subject=Rivals%20Team-Ups%20Feature%20Request">{locale === "es" ? "SOLICITAR FUNCIÓN" : "REQUEST FEATURE"}</a><a href={path("/about")}>{locale === "es" ? "ACERCA DE" : "ABOUT"}</a><a href="/contact">CONTACT</a><a href="/privacy-policy">PRIVACY</a></nav><a href="/">DIRECTORY</a></footer>
       {pendingAbility && <div className="vote-modal-backdrop" role="presentation" onMouseDown={() => setPendingAbility(null)}>
         <section className="vote-modal" role="dialog" aria-modal="true" aria-labelledby="detail-vote-title" onMouseDown={(event) => event.stopPropagation()}>
           <button className="modal-close" type="button" onClick={() => setPendingAbility(null)} aria-label="Close vote dialog">×</button>

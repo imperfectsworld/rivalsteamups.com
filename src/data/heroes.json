@@ -1214,7 +1214,7 @@
           "slot": "B",
           "name": "Vampiric Kin",
           "anchorPartner": "Blade",
-          "baseDescription": "Deploy a Vampiric Field. Allies standing within the field gain Life Steal when attacking enemies.",
+          "baseDescription": "Continuously provide healing to surrounding allies during the duration of Vampiric Kin.",
           "enhancedDescription": "When teaming up with Blade, allies inside the field receive an additional Continuous Healing effect."
         }
       ]

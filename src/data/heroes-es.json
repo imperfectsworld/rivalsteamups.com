@@ -1686,11 +1686,11 @@
           "slot": "B",
           "name": "Vampiric Kin",
           "anchorPartner": "Blade",
-          "baseDescription": "Deploy a Vampiric Field. Allies standing within the field gain Life Steal when attacking enemies.",
+          "baseDescription": "Continuously provide healing to surrounding allies during the duration of Vampiric Kin.",
           "enhancedDescription": "When teaming up with Blade, allies inside the field receive an additional Continuous Healing effect.",
           "nameEs": "Parientes vampíricos",
           "anchorPartnerEs": "Blade",
-          "baseDescriptionEs": "Implementa un campo vampírico. Los aliados que se encuentran dentro del campo obtienen Robo de vida al atacar a los enemigos.",
+          "baseDescriptionEs": "Proporciona curación continua a los aliados cercanos durante la duración de Parientes vampíricos.",
           "enhancedDescriptionEs": "Al formar equipo con Blade, los aliados dentro del campo reciben un efecto de curación continua adicional."
         }
       ],

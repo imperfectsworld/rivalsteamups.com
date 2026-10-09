@@ -25,15 +25,7 @@ const quickVoteStorageKey = "rivals-quick-vote";
 const visitSnapshotStorageKey = "rivals-s10-visit-snapshot";
 type VoteComparisons = { pc: LiveVotes; console: LiveVotes; recentPc: LiveVotes; recentConsole: LiveVotes };
 type VisitChanges = { voteIncrease: number; topHeroId?: string; topHeroVotes: number; leaderChanges: string[]; newInsights: number; firstVisit: boolean };
-const season10UpdatedHeroIds = new Set([
-  "black-cat",
-  "blade",
-  "gambit",
-  "iron-fist",
-  "luna-snow",
-  "mister-fantastic",
-  "namor",
-]);
+const season105UpdatedHeroIds = new Set(["jubilee"]);
 // Update this ID whenever a new hero releases. The newest hero remains featured
 // until the next release replaces it.
 const newestHeroId = "gorr";
@@ -119,12 +111,10 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   const [platform, setPlatform] = useState<Platform>("PC");
   const [showEnhancedDiscovery, setShowEnhancedDiscovery] = useState(false);
   const [favoriteHeroIds, setFavoriteHeroIds] = useState<string[]>([]);
-  const [favoritePicker, setFavoritePicker] = useState("");
   const [quickVoteEnabled, setQuickVoteEnabled] = useState(false);
   const [quickVoteMessage, setQuickVoteMessage] = useState("");
   const [comparisons, setComparisons] = useState<VoteComparisons | null>(null);
   const [visitChanges, setVisitChanges] = useState<VisitChanges | null>(null);
-  const [retentionOpen, setRetentionOpen] = useState(false);
   const visitCaptured = useRef(false);
 
   const groupRows = useCallback((rows: Array<{ abilityId: string; rank: string; total: number }>) => {
@@ -290,20 +280,6 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
     });
   }
 
-  function addFavorite() {
-    if (!favoritePicker || favoriteHeroIds.includes(favoritePicker) || favoriteHeroIds.length >= 5) return;
-    toggleFavorite(favoritePicker);
-    setFavoritePicker("");
-  }
-
-  function toggleRetentionDrawer() {
-    const drawer = document.getElementById("meta-dashboard") as HTMLDetailsElement | null;
-    if (!drawer) return;
-    const willOpen = !drawer.open;
-    drawer.open = willOpen;
-    setRetentionOpen(willOpen);
-    if (willOpen) drawer.scrollIntoView({ behavior: "smooth" });
-  }
 
   function toggleQuickVote() {
     const savedRank = localStorage.getItem("rivals-vote-rank");
@@ -525,13 +501,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   const featuredTotal = featuredVotesA + featuredVotesB;
   const featuredPercentA = featuredTotal ? Math.round(featuredVotesA / featuredTotal * 100) : 50;
   const featuredPercentB = 100 - featuredPercentA;
-  const favoriteHeroes = favoriteHeroIds.map((id) => heroData.heroes.find((hero) => hero.id === id)).filter((hero): hero is Hero => Boolean(hero));
-  const favoriteOptions = directoryHeroes.filter((hero) => !favoriteHeroIds.includes(hero.id));
   const nextUnfinishedHero = directoryHeroes.find((hero) => !votedHeroIds.includes(hero.id));
-  const trendRows = comparisons ? directoryHeroes.map((hero) => ({ hero, ...heroTrend(hero) })) : [];
-  const biggestMover = trendRows.slice().sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta))[0];
-  const biggestPlatformSplit = trendRows.slice().sort((a, b) => b.platformGap - a.platformGap)[0];
-  const closestRace = trendRows.filter((row) => row.sample > 0).sort((a, b) => Math.abs(a.leaderPercent - 50) - Math.abs(b.leaderPercent - 50))[0];
   const milestone = completedHeroes === directoryHeroes.length
     ? (locale === "es" ? "DIRECTORIO COMPLETADO" : "DIRECTORY COMPLETE")
     : completedHeroes >= 50 ? (locale === "es" ? "50 HÉROES VALORADOS" : "50 HEROES RATED")
@@ -544,9 +514,9 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
 
   return (
     <main className="app-shell" id="top">
-      <aside className="season-announcement" aria-label={locale === "es" ? "Anuncio de la Temporada 10" : "Season 10 announcement"}>
-        <strong>{locale === "es" ? "TEMPORADA 10 EN VIVO — GORR HA LLEGADO · TEAM-UPS ACTUALIZADOS" : "SEASON 10 IS LIVE — GORR HAS ARRIVED · TEAM-UPS UPDATED"}</strong>
-        <a href={path("/#hero-gorr")}>{locale === "es" ? "VER A GORR" : "VIEW GORR"} <b>→</b></a>
+      <aside className="season-announcement" aria-label={locale === "es" ? "Anuncio de la Temporada 10.5" : "Season 10.5 announcement"}>
+        <strong>{locale === "es" ? "TEMPORADA 10.5 · VOTACIÓN COMUNITARIA ACTUALIZADA" : "SEASON 10.5 · COMMUNITY VOTING UPDATED"}</strong>
+        <a href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "MANTÉN EL SITIO SIN ANUNCIOS ❤️" : "KEEP THE SITE AD-FREE ❤️"}</a>
       </aside>
       <header className="topbar">
         <a className="brand" href={roleFilter ? path("/") : "#top"} aria-label="Rivals Team-Ups home">
@@ -554,7 +524,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
           <span><strong>RIVALS</strong><small>TEAM-UPS</small></span>
         </a>
         <nav className="role-nav" aria-label="Hero roles">
-          <a href={roleFilter ? path("/roles/vanguards") : "#vanguards"}>{tx("Vanguards")}</a><a href={roleFilter ? path("/roles/duelists") : "#duelists"}>{tx("Duelists")}</a><a href={roleFilter ? path("/roles/strategists") : "#strategists"}>{tx("Strategists")}</a>
+          <a href={roleFilter ? path("/roles/vanguards") : "#vanguards"}>{tx("Vanguards")}</a><a href={roleFilter ? path("/roles/duelists") : "#duelists"}>{tx("Duelists")}</a><a href={roleFilter ? path("/roles/strategists") : "#strategists"}>{tx("Strategists")}</a><a className="nav-donate" href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a>
         </nav>
         <a className="language-switch" href={locale === "es" ? "/" : "/es"} hrefLang={locale === "es" ? "en" : "es"}>{locale === "es" ? "EN" : "ES"}</a>
         <div className="header-stats header-rank-only" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label={`${tx(selectedRank)} rank filter selected`}>
@@ -570,11 +540,11 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
           <p className="eyebrow">{tx("A MARVEL RIVALS COMMUNITY TOOL")}</p>
           <h1>{roleFilter ? <>{tx(roleFilter).toUpperCase()}<br /><span>{tx("META")}</span></> : <>{locale === "es" ? "¿QUÉ TEAM-UP" : "WHICH TEAM-UP"}<br /><span>{locale === "es" ? "GANA?" : "WINS?"}</span></>}</h1>
           <p className="intro-copy">{locale === "es" ? (roleFilter ? `Compara todos los Team-Ups de ${tx(roleFilter).toLowerCase()}, filtra los resultados por rango y plataforma, consulta los efectos mejorados y vota por tus habilidades favoritas.` : "Compara todos los Team-Ups de Marvel Rivals, filtra los votos de la comunidad por rango y plataforma, y descubre qué combinaciones de héroe ancla prefieren los jugadores.") : (roleFilter ? `Compare every ${roleFilter} Team-Up, filter results by competitive rank and platform, preview Enhanced effects, and vote for the abilities you trust.` : "Compare every Marvel Rivals teamup, filter community votes by rank and platform, and discover which anchor combinations players prefer.")}</p>
-          {!roleFilter && <div className="intro-actions"><button type="button" onClick={() => { document.getElementById("directory-controls")?.scrollIntoView({ behavior: "smooth" }); window.setTimeout(() => document.getElementById("hero-search")?.focus(), 450); }}>{locale === "es" ? "BUSCAR MI HÉROE" : "FIND MY HERO"} <b>⌕</b></button><button type="button" aria-controls="meta-dashboard" aria-expanded={retentionOpen} onClick={toggleRetentionDrawer}>{retentionOpen ? (locale === "es" ? "OCULTAR CAMBIOS" : "HIDE CHANGES") : (locale === "es" ? "VER CAMBIOS" : "SEE WHAT CHANGED")} <b>{retentionOpen ? "↑" : "↓"}</b></button></div>}
+          {!roleFilter && <div className="intro-actions"><button type="button" onClick={() => { document.getElementById("directory-controls")?.scrollIntoView({ behavior: "smooth" }); window.setTimeout(() => document.getElementById("hero-search")?.focus(), 450); }}>{locale === "es" ? "BUSCAR MI HÉROE" : "FIND MY HERO"} <b>⌕</b></button><a href="mailto:neckbearddev@gmail.com?subject=Rivals%20Team-Ups%20Feature%20Request">{locale === "es" ? "SOLICITAR UNA FUNCIÓN" : "REQUEST A FEATURE"}</a></div>}
         </div>
         <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
           <div className="rank-insight-topline">
-            <div className="rank-insight-kicker"><span>{tx("LIVE RANK INSIGHT")}</span><b>S10 · {locale === "es" ? "ACUMULADO" : "CUMULATIVE"}</b></div>
+            <div className="rank-insight-kicker"><span>{tx("LIVE RANK INSIGHT")}</span><b>S10.5 · {locale === "es" ? "ACUMULADO" : "CUMULATIVE"}</b></div>
             <div className="rank-insight-platforms" role="group" aria-label="Gaming platform"><button className={platform === "PC" ? "is-active" : ""} type="button" onClick={() => choosePlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} type="button" onClick={() => choosePlatform("Console")}>{locale === "es" ? "CONSOLA" : "CONSOLE"}</button></div>
           </div>
           <div className="rank-insight-main">
@@ -585,9 +555,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
         </div>
       </section>
 
-      {!roleFilter && <details className="retention-drawer" id="meta-dashboard" onToggle={(event) => setRetentionOpen(event.currentTarget.open)}>
-        <summary><span><small>{locale === "es" ? "TU PANEL PERSONAL" : "YOUR META DASHBOARD"}</small><strong>{visitChanges?.firstVisit ? (locale === "es" ? "SEGUIMIENTO ACTIVADO" : "TRACKING IS ON") : visitChanges?.voteIncrease ? `+${visitChanges.voteIncrease.toLocaleString()} ${locale === "es" ? "VOTOS DESDE TU VISITA" : "VOTES SINCE YOUR VISIT"}` : favoriteHeroIds.length ? `${favoriteHeroIds.length}/5 ${locale === "es" ? "HÉROES SEGUIDOS" : "MAINS FOLLOWED"}` : (locale === "es" ? "SIGUE TUS HÉROES Y CAMBIOS" : "FOLLOW YOUR MAINS & META CHANGES")}</strong></span><b><i>{locale === "es" ? "ABRIR" : "OPEN"}</i><em>{locale === "es" ? "CERRAR" : "CLOSE"}</em> ↓</b></summary>
-      {visitChanges && <section className="return-brief" aria-labelledby="return-brief-title">
+      {!roleFilter && visitChanges && <section className="return-brief return-brief-compact" aria-labelledby="return-brief-title">
         <div><p className="eyebrow">{locale === "es" ? "DESDE TU ÚLTIMA VISITA" : "SINCE YOUR LAST VISIT"}</p><h2 id="return-brief-title">{visitChanges.firstVisit ? (locale === "es" ? "SEGUIMIENTO ACTIVADO" : "CHANGE TRACKING IS ON") : visitChanges.voteIncrease ? `+${visitChanges.voteIncrease.toLocaleString()} ${locale === "es" ? "VOTOS NUEVOS" : "NEW VOTES"}` : (locale === "es" ? "ESTÁS AL DÍA" : "YOU'RE CAUGHT UP")}</h2></div>
         <div className="return-brief-events">
           {visitChanges.firstVisit ? <p>{locale === "es" ? "Guardamos una referencia en este dispositivo. La próxima vez verás exactamente cómo cambió el meta." : "A baseline is now saved on this device. Next time, you’ll see exactly how the meta moved."}</p> : <>
@@ -597,23 +565,10 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
         </div>
       </section>}
 
-      <section className="my-heroes" aria-labelledby="my-heroes-title">
-        <header><div><p className="eyebrow">{locale === "es" ? "META PERSONAL" : "YOUR PERSONAL META"}</p><h2 id="my-heroes-title">{locale === "es" ? "MIS HÉROES" : "MY HEROES"} <small>{favoriteHeroIds.length}/5</small></h2></div><div className="favorite-picker"><select aria-label={locale === "es" ? "Selecciona un héroe favorito" : "Select a favorite hero"} value={favoritePicker} onChange={(event) => setFavoritePicker(event.target.value)} disabled={favoriteHeroIds.length >= 5}><option value="">{locale === "es" ? "ELIGE UN HÉROE…" : "CHOOSE A HERO…"}</option>{favoriteOptions.map((hero) => <option value={hero.id} key={hero.id}>{localizedHeroName(hero)}</option>)}</select><button type="button" onClick={addFavorite} disabled={!favoritePicker || favoriteHeroIds.length >= 5}>+ {locale === "es" ? "SEGUIR" : "FOLLOW"}</button></div></header>
-        {favoriteHeroes.length ? <div className="favorite-hero-grid">{favoriteHeroes.map((hero) => { const trend = heroTrend(hero); return <article key={hero.id}><button className="favorite-remove" type="button" onClick={() => toggleFavorite(hero.id)} aria-label={`Stop following ${hero.name}`}>×</button><button className="favorite-open" type="button" onClick={() => focusHero(hero)}><img src={heroImage(hero.id)} alt=""/><span><strong>{localizedHeroName(hero)}</strong><small>{trend.leaderName} · {trend.leaderPercent ? `${trend.leaderPercent}%` : (locale === "es" ? "sin votos" : "awaiting votes")}</small></span><b className={trend.delta > 0 ? "trend-up" : trend.delta < 0 ? "trend-down" : ""}>{trend.delta > 0 ? "+" : ""}{trend.delta} pts</b></button></article>})}</div> : <p className="my-heroes-empty">{locale === "es" ? "Sigue de 3 a 5 personajes para ver sus líderes y movimientos apenas regreses." : "Follow 3–5 mains to see their leaders and recent movement as soon as you return."}</p>}
-      </section>
-
-      <section className="meta-quick-vote" aria-label={locale === "es" ? "Configuración de voto rápido" : "Quick vote settings"}>
-        <div><span>{locale === "es" ? "VOTACIÓN RÁPIDA" : "FAST VOTING"}</span><strong>{locale === "es" ? "REUTILIZA TU RANGO Y PLATAFORMA" : "REUSE YOUR SAVED RANK & PLATFORM"}</strong></div>
-        <button className={quickVoteEnabled ? "is-active" : ""} type="button" onClick={toggleQuickVote}>{locale === "es" ? "VOTO RÁPIDO" : "QUICK VOTE"} · {quickVoteEnabled ? "ON" : "OFF"}</button>
-        {quickVoteMessage && <small>{quickVoteMessage}</small>}
-      </section>
-
-      {comparisons && <section className="weekly-changes" id="weekly-changes" aria-labelledby="weekly-changes-title"><header><div><p className="eyebrow">{locale === "es" ? "INTELIGENCIA DEL META" : "META MOVEMENT"}</p><h2 id="weekly-changes-title">{locale === "es" ? "QUÉ ESTÁ CAMBIANDO" : "WHAT'S CHANGING"}</h2></div><a href={path("/patches")}>{locale === "es" ? "INFORME COMPLETO" : "FULL SHIFT REPORT"} →</a></header><div>
-        {biggestMover && <button type="button" onClick={() => focusHero(biggestMover.hero)}><span>{locale === "es" ? "MAYOR MOVIMIENTO · 30 DÍAS" : "BIGGEST 30-DAY MOVE"}</span><strong>{localizedHeroName(biggestMover.hero)}</strong><p>{biggestMover.leaderName} <b className={biggestMover.delta >= 0 ? "trend-up" : "trend-down"}>{biggestMover.delta > 0 ? "+" : ""}{biggestMover.delta} pts</b></p></button>}
-        {biggestPlatformSplit && <button type="button" onClick={() => focusHero(biggestPlatformSplit.hero)}><span>{locale === "es" ? "PC VS CONSOLA" : "PC VS CONSOLE"}</span><strong>{localizedHeroName(biggestPlatformSplit.hero)}</strong><p>{biggestPlatformSplit.platformGap} {locale === "es" ? "puntos de diferencia" : "point preference gap"}</p></button>}
-        {closestRace && <button type="button" onClick={() => focusHero(closestRace.hero)}><span>{locale === "es" ? "VOTACIÓN MÁS CERRADA" : "CLOSEST COMMUNITY RACE"}</span><strong>{localizedHeroName(closestRace.hero)}</strong><p>{closestRace.leaderName} · {closestRace.leaderPercent}%</p></button>}
-      </div></section>}
-      </details>}
+      {!roleFilter && <aside className="support-banner" aria-label={locale === "es" ? "Apoya el sitio" : "Support the site"}>
+        <div><span aria-hidden="true">❤️</span><p><strong>{locale === "es" ? "AYUDA A MANTENER EL SITIO SIN ANUNCIOS" : "HELP KEEP RIVALS TEAM-UPS AD-FREE"}</strong><small>{locale === "es" ? "Tu apoyo mantiene las votaciones y guías disponibles para todos." : "Your support keeps community voting and hero guides available to everyone."}</small></p></div>
+        <nav><a className="support-donate" href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a><a href="mailto:neckbearddev@gmail.com?subject=Rivals%20Team-Ups%20Feature%20Request">{locale === "es" ? "SOLICITAR UNA FUNCIÓN" : "REQUEST A FEATURE"}</a></nav>
+      </aside>}
 
       {!roleFilter && <section className="daily-debate" aria-labelledby="daily-debate-title">
         <div className="daily-debate-hero"><img src={heroImage(featuredHero.id)} alt=""/><span><small>{locale === "es" ? "HÉROE MÁS RECIENTE" : "NEWEST HERO RELEASE"}</small><strong>{localizedHeroName(featuredHero)}</strong></span></div>
@@ -688,13 +643,12 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
                   const enhanced = Boolean(enhancedHeroes[hero.id]);
                   const counts = hero.teamUpAbilities.map((ability) => abilityCount(hero, ability));
                   const heroTotal = counts[0] + counts[1];
-                  const trend = heroTrend(hero);
                   return (
                     <article className={`hero-panel ${enhanced ? "hero-enhanced" : ""}`} id={`hero-${hero.id}`} key={hero.id}>
                       <div className="hero-panel-header">
                         <a className="hero-avatar-link" href={path(`/heroes/${hero.id}`)} aria-label={`View ${hero.name} details`}><span className={`hero-avatar ${enhanced ? "is-lord" : ""}`} aria-hidden="true"><img src={enhanced ? lordImage(hero.id) : heroImage(hero.id)} alt="" /></span></a>
                         <div className="hero-identity">
-                          <strong>{localizedHeroName(hero)}</strong>{season10UpdatedHeroIds.has(hero.id) && <span className="season-update-badge">S10 UPDATED</span>}
+                          <strong>{localizedHeroName(hero)}</strong>{season105UpdatedHeroIds.has(hero.id) && <span className="season-update-badge">S10.5 UPDATED</span>}
                         </div>
                         <button className={`hero-toggle ${enhanced ? "is-on" : ""} ${showEnhancedDiscovery && (roleDiscoveryHeroIds.has(hero.id) || hero.id === featuredHero.id) ? "is-discoverable" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Enhanced descriptions for ${localizedHeroName(hero)}`} onClick={() => toggleEnhanced(hero.id)}>
                           <span className="hero-toggle-track"><span /></span><b>{enhanced ? `⚡ ${tx("ENHANCED ON")}` : tx("ENHANCED OFF")}</b>
@@ -708,7 +662,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
                           const displayAbility = localizedAbility(ability);
                           const count = counts[abilityIndex];
                           const otherCount = counts[abilityIndex === 0 ? 1 : 0];
-                          const percentage = heroTotal ? Math.round((count / heroTotal) * 100) : 50;
+                          const percentage = heroTotal ? Math.round((count / heroTotal) * 100) : 0;
                           return (
                             <article
                               className={`compact-ability ${count > otherCount ? "is-community-choice" : ""} ${enhanced ? "is-enhanced" : ""}`}
@@ -725,7 +679,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
                               }}
                             >
                               {count > otherCount && <span className="community-choice">◎ {tx("COMMUNITY CHOICE")}</span>}
-                              <div className="compact-topline"><span className={`ability-glyph ${enhanced ? "is-lord" : ""}`}><img src={anchorImage(ability.anchorPartner, enhanced)} alt={`${ability.anchorPartner} portrait`} /></span><span className="ability-name">{displayAbility.name}</span><strong className="vote-percent">{percentage}%</strong></div>
+                              <div className="compact-topline"><span className={`ability-glyph ${enhanced ? "is-lord" : ""}`}><img src={anchorImage(ability.anchorPartner, enhanced)} alt={`${ability.anchorPartner} portrait`} /></span><span className="ability-name">{displayAbility.name}</span><strong className="vote-percent">{heroTotal ? `${percentage}%` : "—"}</strong></div>
                               <span className="anchor-chip">{locale === "es" ? "ANCLA" : "ANCHOR"} · {displayAbility.anchorPartner}</span>
                               <p className="compact-description">{displayAbility.baseDescription}</p>
                               {enhanced && <p className="enhanced-addon"><strong>⚡ {locale === "es" ? "MEJORADO:" : "ENHANCED:"}</strong> {displayAbility.enhancedDescription}</p>}
@@ -734,7 +688,6 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
                           );
                         })}
                       </div>
-                      <div className="hero-trend-strip" aria-label={`${localizedHeroName(hero)} trend summary`}><span><small>30D VS S10</small><strong className={trend.delta > 0 ? "trend-up" : trend.delta < 0 ? "trend-down" : ""}>{trend.delta > 0 ? "+" : ""}{trend.delta} pts</strong></span><span><small>PC ↔ CONSOLE</small><strong>{trend.platformGap} pts</strong></span><span><small>{locale === "es" ? "RANGO MÁS DIVIDIDO" : "MOST DIVIDED RANK"}</small><strong>{tx(trend.dividedRank)}</strong></span><span><small>{locale === "es" ? "MUESTRA S10" : "S10 SAMPLE"}</small><strong>{trend.sample.toLocaleString()}</strong></span></div>
                     </article>
                   );
                 })}
@@ -750,21 +703,11 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
         <div>{roleEditorial[roleFilter][locale].paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
       </section>}
 
-      {!roleFilter && <section className="teamups-explainer" aria-labelledby="teamups-explainer-title">
-        <p className="eyebrow">{locale === "es" ? "CÓMO FUNCIONA" : "HOW IT WORKS"}</p>
-        <h2 id="teamups-explainer-title">{locale === "es" ? "Compara, filtra y aporta tu voto" : "Compare, filter, and add your vote"}</h2>
-        <div>
-          <article><span>01</span><h3>{locale === "es" ? "Elige un héroe" : "Choose a hero"}</h3><p>{locale === "es" ? "Abre cualquier héroe para comparar sus dos habilidades, aliados ancla y efectos potenciados." : "Open any hero to compare both abilities, anchor partners, and Enhanced effects."}</p></article>
-          <article><span>02</span><h3>{locale === "es" ? "Filtra la comunidad" : "Filter the community"}</h3><p>{locale === "es" ? "Selecciona rango y plataforma para observar preferencias de grupos comparables de jugadores." : "Select a rank and platform to see preferences from comparable groups of players."}</p></article>
-          <article><span>03</span><h3>{locale === "es" ? "Vota y añade contexto" : "Vote and add context"}</h3><p>{locale === "es" ? "Elige el Team-Up que prefieres y explica cuándo funciona para ayudar a otros jugadores." : "Choose the Team-Up you prefer and explain when it works to help other players."}</p></article>
-        </div>
-        <p className="methodology-link">{locale === "es" ? "Los porcentajes son preferencias de visitantes, no estadísticas oficiales." : "Percentages are visitor preferences, not official game statistics."} <a href={path("/about")}>{locale === "es" ? "Lee la metodología completa →" : "Read the full methodology →"}</a></p>
-      </section>}
 
       <aside className="clarity-disclosure">
         <p>{locale === "es" ? "Usamos Microsoft Clarity para comprender cómo utilizas el sitio mediante métricas de comportamiento, mapas de calor y repeticiones de sesión, con el fin de mejorar la experiencia, el rendimiento y la promoción del sitio. Al utilizar este sitio, aceptas que nosotros y Microsoft podamos recopilar y utilizar estos datos." : "We use Microsoft Clarity to understand how you use the site through behavioral metrics, heatmaps, and session replay so we can improve the experience, performance, and promotion of the site. By using this site, you agree that we and Microsoft may collect and use this data."} <a href="/privacy-policy">{locale === "es" ? "Consulta nuestra Política de Privacidad." : "See our Privacy Policy for details."}</a></p>
       </aside>
-      <footer><span>RIVALS TEAM-UPS // {platform.toUpperCase()} {tx("COMMUNITY META")}</span><nav className="legal-links"><a href={path("/roles/vanguards")}>{tx("Vanguards").toUpperCase()}</a><a href={path("/roles/duelists")}>{tx("Duelists").toUpperCase()}</a><a href={path("/roles/strategists")}>{tx("Strategists").toUpperCase()}</a><a href="/patches">{tx("PATCHES")}</a><a href={path("/about")}>{locale === "es" ? "ACERCA DE Y METODOLOGÍA" : "ABOUT & METHODOLOGY"}</a><a href="/contact">{tx("CONTACT")}</a><a href="/legal-notice">{tx("LEGAL")}</a><a href="/privacy-policy">{tx("PRIVACY")}</a><a href="/terms-of-use">{tx("TERMS")}</a><a href="/cookie-policy">{tx("COOKIES")}</a></nav><a href="#top">{tx("BACK TO TOP")} ↑</a></footer>
+      <footer><span>RIVALS TEAM-UPS // SEASON 10.5 // {platform.toUpperCase()}</span><nav className="legal-links"><a href={path("/roles/vanguards")}>{tx("Vanguards").toUpperCase()}</a><a href={path("/roles/duelists")}>{tx("Duelists").toUpperCase()}</a><a href={path("/roles/strategists")}>{tx("Strategists").toUpperCase()}</a><a href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a><a href="mailto:neckbearddev@gmail.com?subject=Rivals%20Team-Ups%20Feature%20Request">{locale === "es" ? "SOLICITAR FUNCIÓN" : "REQUEST FEATURE"}</a><a href={path("/about")}>{locale === "es" ? "ACERCA DE" : "ABOUT"}</a><a href="/contact">{tx("CONTACT")}</a><a href="/privacy-policy">{tx("PRIVACY")}</a></nav><a href="#top">{tx("BACK TO TOP")}</a></footer>
 
       {pendingVote && (
         <div className="vote-modal-backdrop" role="presentation" onMouseDown={() => setPendingVote(null)}>
