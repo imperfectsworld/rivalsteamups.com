@@ -20,7 +20,6 @@ type ResultWindow = "all" | "recent";
 type Platform = "PC" | "Console";
 const enhancedPreferenceKey = "rivals-enhanced-heroes";
 const votedHeroesStorageKey = "rivals-voted-heroes-s10-launch";
-const favoriteHeroesStorageKey = "rivals-favorite-heroes";
 const quickVoteStorageKey = "rivals-quick-vote";
 const visitSnapshotStorageKey = "rivals-s10-visit-snapshot";
 type VoteComparisons = { pc: LiveVotes; console: LiveVotes; recentPc: LiveVotes; recentConsole: LiveVotes };
@@ -110,7 +109,6 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   const [collapsedRoles, setCollapsedRoles] = useState<Record<HeroRole, boolean>>({ Vanguard: false, Duelist: false, Strategist: false });
   const [platform, setPlatform] = useState<Platform>("PC");
   const [showEnhancedDiscovery, setShowEnhancedDiscovery] = useState(false);
-  const [favoriteHeroIds, setFavoriteHeroIds] = useState<string[]>([]);
   const [quickVoteEnabled, setQuickVoteEnabled] = useState(false);
   const [quickVoteMessage, setQuickVoteMessage] = useState("");
   const [comparisons, setComparisons] = useState<VoteComparisons | null>(null);
@@ -195,13 +193,8 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
       .then((data) => finish(data.total)).catch(() => finish(0));
   }, [comparisons]);
   useEffect(() => {
-    try {
-      const favorites = JSON.parse(localStorage.getItem(favoriteHeroesStorageKey) || "[]") as unknown;
-      if (Array.isArray(favorites)) setFavoriteHeroIds(favorites.filter((id): id is string => typeof id === "string").slice(0, 5));
-      setQuickVoteEnabled(localStorage.getItem(quickVoteStorageKey) === "true");
-    } catch {
-      localStorage.removeItem(favoriteHeroesStorageKey);
-    }
+    localStorage.removeItem("rivals-favorite-heroes");
+    setQuickVoteEnabled(localStorage.getItem(quickVoteStorageKey) === "true");
   }, []);
   useEffect(() => {
     try {
@@ -271,15 +264,6 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
     setCollapsedRoles((current) => ({ ...current, [hero.role]: false }));
     window.setTimeout(() => document.getElementById(`hero-${hero.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
   }
-
-  function toggleFavorite(heroId: string) {
-    setFavoriteHeroIds((current) => {
-      const next = current.includes(heroId) ? current.filter((id) => id !== heroId) : current.length < 5 ? [...current, heroId] : current;
-      localStorage.setItem(favoriteHeroesStorageKey, JSON.stringify(next));
-      return next;
-    });
-  }
-
 
   function toggleQuickVote() {
     const savedRank = localStorage.getItem("rivals-vote-rank");
@@ -653,7 +637,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
                         <button className={`hero-toggle ${enhanced ? "is-on" : ""} ${showEnhancedDiscovery && (roleDiscoveryHeroIds.has(hero.id) || hero.id === featuredHero.id) ? "is-discoverable" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Enhanced descriptions for ${localizedHeroName(hero)}`} onClick={() => toggleEnhanced(hero.id)}>
                           <span className="hero-toggle-track"><span /></span><b>{enhanced ? `⚡ ${tx("ENHANCED ON")}` : tx("ENHANCED OFF")}</b>
                         </button>
-                        <div className="hero-identity-actions"><a className="hero-details-link" href={path(`/heroes/${hero.id}`)}><span className="hero-action-icon" aria-hidden="true">+</span><span className="hero-action-label">{tx("DETAILS")}</span></a><button className={`favorite-toggle ${favoriteHeroIds.includes(hero.id) ? "is-active" : ""}`} type="button" aria-pressed={favoriteHeroIds.includes(hero.id)} onClick={() => toggleFavorite(hero.id)} disabled={!favoriteHeroIds.includes(hero.id) && favoriteHeroIds.length >= 5} aria-label={`${favoriteHeroIds.includes(hero.id) ? "Stop following" : "Follow"} ${localizedHeroName(hero)}`}><span className="hero-action-icon" aria-hidden="true">{favoriteHeroIds.includes(hero.id) ? "★" : "☆"}</span><span className="hero-action-label">{favoriteHeroIds.includes(hero.id) ? "MAIN" : "FOLLOW"}</span></button></div>
+                        <div className="hero-identity-actions"><a className="hero-details-link" href={path(`/heroes/${hero.id}`)}><span className="hero-action-icon" aria-hidden="true">+</span><span className="hero-action-label">{tx("DETAILS")}</span></a></div>
                         {showEnhancedDiscovery && (roleDiscoveryHeroIds.has(hero.id) || hero.id === featuredHero.id) && <span className="enhanced-tap-cue">{locale === "es" ? "TOCA PARA VER EL BONUS" : "TAP TO PREVIEW"} <b>⚡</b></span>}
                       </div>
                       <div className="ability-divider"><span>{tx("CHOOSE THE BETTER TEAM-UP")}</span></div>

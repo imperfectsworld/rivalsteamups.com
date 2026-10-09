@@ -1243,7 +1243,7 @@ button {
   width: min(100%, 190px);
   margin-top: 7px;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 6px;
 }
 
@@ -1255,8 +1255,7 @@ button {
   padding: 0 8px;
 }
 
-.hero-details-link,
-.hero-identity-actions .favorite-toggle {
+.hero-details-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3979,7 +3978,7 @@ body{background:var(--s105-bg);color:var(--s105-text)}
 
 .directory{padding:28px 0 76px}.role-section{margin-top:34px}.role-banner{min-height:78px;padding:18px 20px;border:0;border-radius:16px;background:linear-gradient(110deg,var(--s105-surface-2),var(--s105-surface));box-shadow:none}.role-banner h2{font-size:24px}.role-toggle-indicator{border-left:0!important}
 .hero-panels{margin-top:14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.hero-panel{min-width:0;padding:18px;border:1px solid var(--s105-line);border-radius:18px;background:var(--s105-surface);box-shadow:none}.hero-panel:hover{border-color:#3f5974;transform:translateY(-2px)}
-.hero-panel-header{min-height:76px;padding:0;grid-template-columns:auto minmax(0,1fr) auto}.hero-avatar{width:58px;height:58px}.hero-identity>strong{font-size:17px}.season-update-badge{border-radius:999px}.hero-identity-actions{gap:7px}.hero-details-link,.favorite-toggle{min-height:34px!important;border-color:var(--s105-line)!important;border-radius:9px!important;background:#0b121c!important}.favorite-toggle.is-active{border-color:var(--s105-warm)!important;color:var(--s105-warm)!important}.hero-toggle{border-radius:9px}
+.hero-panel-header{min-height:76px;padding:0;grid-template-columns:auto minmax(0,1fr) auto}.hero-avatar{width:58px;height:58px}.hero-identity>strong{font-size:17px}.season-update-badge{border-radius:999px}.hero-identity-actions{gap:7px}.hero-details-link{min-height:34px!important;border-color:var(--s105-line)!important;border-radius:9px!important;background:#0b121c!important}.hero-toggle{border-radius:9px}
 .ability-divider{margin:14px 0}.panel-abilities{display:grid;grid-template-columns:1fr;gap:10px}.compact-ability{min-height:0;padding:16px;border:1px solid var(--s105-line);border-radius:14px;background:#0b121c}.compact-ability:hover{border-color:var(--s105-cyan)}.compact-ability.is-community-choice{border-color:rgba(82,220,255,.6);background:linear-gradient(140deg,rgba(82,220,255,.1),transparent 45%),#0b121c}.community-choice{border-radius:999px}.compact-topline{gap:10px}.ability-glyph{width:42px;height:42px}.ability-name{font-size:14px}.vote-percent{font-size:22px}.compact-description{margin:13px 0 18px;color:#c2ceda;font-size:12px;line-height:1.55}.card-vote-label{min-height:38px;border-color:var(--s105-line);border-radius:9px}.hero-trend-strip{display:none!important}
 .clarity-disclosure{margin-top:0;border-radius:14px;background:var(--s105-surface)}.app-shell>footer,.detail-legal-footer{border-color:var(--s105-line)!important}
 
@@ -4000,7 +3999,7 @@ body{background:var(--s105-bg);color:var(--s105-text)}
   .return-brief-compact,.support-banner,.daily-debate,.control-deck,.directory,.clarity-disclosure,.app-shell>footer{width:calc(100% - 28px)}
   .return-brief-compact{align-items:flex-start;flex-direction:column;gap:12px}.return-brief-compact .return-brief-events{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.return-brief-compact .return-brief-events p{grid-column:1/-1}.return-brief-compact .return-brief-events>span,.return-brief-compact .return-brief-events>button{padding:10px;border:1px solid var(--s105-line);border-radius:10px;text-align:left}
   .support-banner{align-items:flex-start;flex-direction:column}.support-banner nav{width:100%;display:grid;grid-template-columns:1fr 1fr}.support-banner a{justify-content:center;text-align:center}
-  .daily-debate{grid-template-columns:1fr;gap:14px}.daily-debate-hero{justify-content:flex-start}.daily-debate-score,.daily-debate>button{grid-column:1}.directory-progress{grid-template-columns:1fr auto}.directory-progress .progress-track{display:none}.rank-scale{overflow-x:auto;scroll-snap-type:x mandatory}.rank-scale button{min-width:80px;scroll-snap-align:start}.directory{padding-top:18px}.role-banner{border-radius:14px}.hero-panel{padding:14px;border-radius:16px}.hero-panel-header{grid-template-columns:auto minmax(0,1fr);row-gap:10px}.hero-toggle{grid-column:2;justify-self:end}.hero-identity-actions{grid-column:1/-1;width:100%;display:grid!important;grid-template-columns:1fr 1fr}.hero-details-link,.favorite-toggle{width:100%;justify-content:center}.compact-ability{padding:14px}.compact-description{font-size:12px}
+  .daily-debate{grid-template-columns:1fr;gap:14px}.daily-debate-hero{justify-content:flex-start}.daily-debate-score,.daily-debate>button{grid-column:1}.directory-progress{grid-template-columns:1fr auto}.directory-progress .progress-track{display:none}.rank-scale{overflow-x:auto;scroll-snap-type:x mandatory}.rank-scale button{min-width:80px;scroll-snap-align:start}.directory{padding-top:18px}.role-banner{border-radius:14px}.hero-panel{padding:14px;border-radius:16px}.hero-panel-header{grid-template-columns:auto minmax(0,1fr);row-gap:10px}.hero-toggle{grid-column:2;justify-self:end}.hero-identity-actions{grid-column:1/-1;width:100%;display:grid!important;grid-template-columns:1fr}.hero-details-link{width:100%;justify-content:center}.compact-ability{padding:14px}.compact-description{font-size:12px}
   .watch-page-hero,.detail-hero,.detail-content,.detail-legal-footer{width:calc(100% - 28px)}.watch-page-hero{margin-top:18px;border-radius:16px}.watch-page-hero .featured-guide-copy{padding:20px}.watch-page-hero .featured-guide-copy h1{font-size:30px}.guide-sound-button{right:10px!important;bottom:10px!important;padding:9px 11px!important}.detail-hero{padding:20px}.detail-portrait{display:none}.detail-summary-grid{grid-template-columns:1fr 1fr}.detail-summary-grid>div:last-child{grid-column:1/-1}.detail-rank-selector{overflow-x:auto}.detail-teamups{grid-template-columns:1fr}.detail-section-heading{align-items:flex-start;flex-direction:column}.detail-topbar .nav-donate{display:none}
 }
 
