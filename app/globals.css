@@ -1255,6 +1255,31 @@ button {
   padding: 0 8px;
 }
 
+.hero-details-link,
+.hero-identity-actions .favorite-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  line-height: 1;
+  text-align: center;
+}
+
+.hero-action-icon {
+  width: 12px;
+  height: 12px;
+  display: inline-grid;
+  flex: 0 0 12px;
+  place-items: center;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.hero-action-label {
+  display: block;
+  line-height: 1;
+}
+
 .equipped-count {
   margin-left: auto;
   align-self: flex-start;
