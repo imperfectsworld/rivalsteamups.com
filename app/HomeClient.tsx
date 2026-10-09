@@ -584,12 +584,12 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
           {nextUnfinishedHero && <button type="button" onClick={() => focusHero(nextUnfinishedHero)}>{locale === "es" ? "VOTAR SIGUIENTE" : "VOTE NEXT HERO"} <b>→</b></button>}
         </div>
         <div className="hero-search">
-          <label htmlFor="hero-search">{tx("SEARCH HERO")}</label>
           <div className="search-input-wrap">
             <span aria-hidden="true">⌕</span>
             <input
               id="hero-search"
               type="search"
+              aria-label={tx("SEARCH HERO")}
               value={query}
               placeholder={tx("Search for a hero…")}
               autoComplete="off"
