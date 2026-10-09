@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 :root {
+  --font-rounded: "SF Pro Rounded", ui-rounded, var(--font-rounded-fallback), "Arial Rounded MT Bold", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-geist-sans: var(--font-rounded);
+  --font-geist-mono: var(--font-rounded);
   --ink: #f4f7fb;
   --muted: #8e99aa;
   --panel: #111722;
