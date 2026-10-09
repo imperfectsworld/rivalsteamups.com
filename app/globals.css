@@ -3978,3 +3978,18 @@ body{background:var(--s105-bg);color:var(--s105-text)}
   .daily-debate{grid-template-columns:1fr;gap:14px}.daily-debate-hero{justify-content:flex-start}.daily-debate-score,.daily-debate>button{grid-column:1}.directory-progress{grid-template-columns:1fr auto}.directory-progress .progress-track{display:none}.rank-scale{overflow-x:auto;scroll-snap-type:x mandatory}.rank-scale button{min-width:80px;scroll-snap-align:start}.directory{padding-top:18px}.role-banner{border-radius:14px}.hero-panel{padding:14px;border-radius:16px}.hero-panel-header{grid-template-columns:auto minmax(0,1fr);row-gap:10px}.hero-toggle{grid-column:2;justify-self:end}.hero-identity-actions{grid-column:1/-1;width:100%;display:grid!important;grid-template-columns:1fr 1fr}.hero-details-link,.favorite-toggle{width:100%;justify-content:center}.compact-ability{padding:14px}.compact-description{font-size:12px}
   .watch-page-hero,.detail-hero,.detail-content,.detail-legal-footer{width:calc(100% - 28px)}.watch-page-hero{margin-top:18px;border-radius:16px}.watch-page-hero .featured-guide-copy{padding:20px}.watch-page-hero .featured-guide-copy h1{font-size:30px}.guide-sound-button{right:10px!important;bottom:10px!important;padding:9px 11px!important}.detail-hero{padding:20px}.detail-portrait{display:none}.detail-summary-grid{grid-template-columns:1fr 1fr}.detail-summary-grid>div:last-child{grid-column:1/-1}.detail-rank-selector{overflow-x:auto}.detail-teamups{grid-template-columns:1fr}.detail-section-heading{align-items:flex-start;flex-direction:column}.detail-topbar .nav-donate{display:none}
 }
+
+
+/* Directory rhythm and role-control polish */
+.directory{padding-top:12px}
+.role-section{margin-top:24px}
+.directory>.role-section:first-child{margin-top:0}
+.role-toggle-indicator{padding:6px 7px 6px 13px;border:1px solid rgba(var(--role-rgb),.52)!important;border-radius:999px;background:rgba(5,10,16,.5)}
+.role-toggle-indicator>b{width:30px;height:30px;border-radius:50%}
+
+@media(max-width:760px){
+  .directory{padding-top:8px}
+  .role-section{margin-top:18px}
+  .role-toggle-indicator{padding:5px 6px 5px 10px;border-radius:999px}
+  .role-toggle-indicator>b{width:28px;height:28px;border-radius:50%}
+}
