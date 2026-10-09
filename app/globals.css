@@ -1193,6 +1193,23 @@ button {
   letter-spacing: -.025em;
 }
 
+.hero-name-link {
+  width: fit-content;
+  display: block;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.hero-name-link:hover strong,
+.hero-name-link:focus-visible strong {
+  color: var(--ink);
+}
+
+.hero-name-link:focus-visible {
+  outline: 2px solid var(--role);
+  outline-offset: 3px;
+}
+
 .season-update-badge {
   width: max-content;
   margin-top: 6px;
