@@ -97,6 +97,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   const [selectedRank, setSelectedRank] = useState<RankFilter>("All Ranks");
   const [query, setQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [pendingVote, setPendingVote] = useState<PendingVote | null>(null);
   const [voteRank, setVoteRank] = useState<PlayerRank | "">("");
   const [votePlatform, setVotePlatform] = useState<Platform | "">("");
@@ -220,14 +221,17 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   }
 
   useEffect(() => {
-    let previousY = window.scrollY;
     const onScroll = () => {
-      const currentY = window.scrollY;
-      setShowMobileSearch(currentY > 320 && currentY < previousY - 2);
-      previousY = currentY;
+      const directorySearch = document.getElementById("hero-search");
+      setShowMobileSearch(Boolean(directorySearch && directorySearch.getBoundingClientRect().bottom < 76));
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   const visibleRoles = roleFilter ? [roleFilter] : roles;
@@ -257,6 +261,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   function chooseSuggestion(hero: Hero) {
     setQuery(localizedHeroName(hero));
     setSearchOpen(false);
+    setMobileSearchOpen(false);
     document.getElementById(`hero-${hero.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
@@ -518,6 +523,34 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
       </header>
 
       <a className={`mobile-top-arrow ${showMobileSearch ? "is-visible" : ""}`} href="#top" aria-label="Back to top">↑</a>
+
+      <div className={`mobile-search-dock ${showMobileSearch ? "is-visible" : ""}`} role="search">
+        <div className="mobile-search-input-wrap">
+          <span aria-hidden="true">⌕</span>
+          <input
+            id="mobile-hero-search"
+            type="search"
+            aria-label={tx("SEARCH HERO")}
+            value={query}
+            placeholder={tx("Search for a hero…")}
+            autoComplete="off"
+            onChange={(event) => { setQuery(event.target.value); setMobileSearchOpen(true); }}
+            onFocus={() => setMobileSearchOpen(true)}
+            onBlur={() => setTimeout(() => setMobileSearchOpen(false), 150)}
+          />
+          {query && <button type="button" onClick={() => setQuery("")} aria-label="Clear hero search">×</button>}
+        </div>
+        {mobileSearchOpen && (
+          <div className="mobile-search-suggestions">
+            {suggestions.length ? suggestions.map((hero) => (
+              <button type="button" onMouseDown={() => chooseSuggestion(hero)} key={hero.id}>
+                <span className="suggestion-avatar"><img src={heroImage(hero.id)} alt="" /></span>
+                <strong>{localizedHeroName(hero)}</strong><small><img src={roleImage(hero.role)} alt="" />{tx(hero.role)}</small>
+              </button>
+            )) : <p>No heroes match “{query}”</p>}
+          </div>
+        )}
+      </div>
 
       <section className="hero-intro hero-intro-simple">
         <div>
