@@ -43,5 +43,6 @@ next-env.d.ts
 /work/
 /.vscode/
 /.tmp/
+/tmp/
 /*.tar.gz
 *.tsbuildinfo

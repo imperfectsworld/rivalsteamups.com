@@ -114,7 +114,9 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   const [quickVoteMessage, setQuickVoteMessage] = useState("");
   const [comparisons, setComparisons] = useState<VoteComparisons | null>(null);
   const [visitChanges, setVisitChanges] = useState<VisitChanges | null>(null);
+  const [headerRankMenuOpen, setHeaderRankMenuOpen] = useState(false);
   const visitCaptured = useRef(false);
+  const headerRankMenuRef = useRef<HTMLDivElement>(null);
 
   const groupRows = useCallback((rows: Array<{ abilityId: string; rank: string; total: number }>) => {
     const grouped: LiveVotes = {};
@@ -233,6 +235,22 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
       window.removeEventListener("resize", onScroll);
     };
   }, []);
+
+  useEffect(() => {
+    if (!headerRankMenuOpen) return;
+    const closeOnOutsideClick = (event: PointerEvent) => {
+      if (!headerRankMenuRef.current?.contains(event.target as Node)) setHeaderRankMenuOpen(false);
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setHeaderRankMenuOpen(false);
+    };
+    document.addEventListener("pointerdown", closeOnOutsideClick);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsideClick);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [headerRankMenuOpen]);
 
   const visibleRoles = roleFilter ? [roleFilter] : roles;
   const directoryHeroes = useMemo(() => (roleFilter ? heroData.heroes.filter((hero) => hero.role === roleFilter) : heroData.heroes).slice().sort((a, b) => a.name.localeCompare(b.name)), [roleFilter]);
@@ -515,10 +533,42 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
         <nav className="role-nav" aria-label="Hero roles">
           <a href={roleFilter ? path("/roles/vanguards") : "#vanguards"}>{tx("Vanguards")}</a><a href={roleFilter ? path("/roles/duelists") : "#duelists"}>{tx("Duelists")}</a><a href={roleFilter ? path("/roles/strategists") : "#strategists"}>{tx("Strategists")}</a><a className="nav-donate" href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a>
         </nav>
-        <a className="language-switch" href={locale === "es" ? "/" : "/es"} hrefLang={locale === "es" ? "en" : "es"}>{locale === "es" ? "EN" : "ES"}</a>
-        <div className="header-stats header-rank-only" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label={`${tx(selectedRank)} rank filter selected`}>
-          <img src={selectedRank === "All Ranks" ? "/rivals-icon.ico" : rankImages[selectedRank]} alt="" />
-          <div><span>{tx(selectedRank).toUpperCase()}</span></div>
+        <div className="mobile-nav-actions">
+          <a className="mobile-nav-donate" href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a>
+          <a className="language-switch" href={locale === "es" ? "/" : "/es"} hrefLang={locale === "es" ? "en" : "es"}>{locale === "es" ? "EN" : "ES"}</a>
+        </div>
+        <div className="header-rank-menu" ref={headerRankMenuRef}>
+          <button
+            className="header-stats header-rank-only"
+            style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}
+            type="button"
+            aria-label={`${locale === "es" ? "Cambiar rango" : "Change rank"}. ${tx(selectedRank)} ${locale === "es" ? "seleccionado" : "selected"}.`}
+            aria-expanded={headerRankMenuOpen}
+            aria-controls="header-rank-picker"
+            onClick={() => setHeaderRankMenuOpen((open) => !open)}
+          >
+            <img src={selectedRank === "All Ranks" ? "/rivals-icon.ico" : rankImages[selectedRank]} alt="" />
+            <div><span>{tx(selectedRank).toUpperCase()}</span></div>
+            <b aria-hidden="true">⌄</b>
+          </button>
+          {headerRankMenuOpen && <div className="header-rank-picker" id="header-rank-picker" role="menu" aria-label={locale === "es" ? "Seleccionar rango" : "Select rank"}>
+            <div><span>{locale === "es" ? "CAMBIAR RANGO" : "CHANGE RANK"}</span><strong>{tx(selectedRank)}</strong></div>
+            <nav>
+              {rankFilters.map((rank) => <button
+                className={selectedRank === rank ? "is-active" : ""}
+                style={{ "--rank-option-accent": rankColors[rank] } as CSSProperties}
+                type="button"
+                role="menuitemradio"
+                aria-checked={selectedRank === rank}
+                onClick={() => { setSelectedRank(rank); setHeaderRankMenuOpen(false); }}
+                key={rank}
+              >
+                <img src={rank === "All Ranks" ? "/rivals-icon.ico" : rankImages[rank]} alt="" />
+                <span>{tx(rank)}</span>
+                {selectedRank === rank && <b aria-hidden="true">✓</b>}
+              </button>)}
+            </nav>
+          </div>}
         </div>
       </header>
 

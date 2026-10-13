@@ -297,6 +297,7 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
         </a>
         <a href={`${path("/")}#hero-${hero.id}`} className="detail-back">{tx("BACK TO DIRECTORY")}</a>
         <a className="nav-donate" href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a>
+        <a className="mobile-nav-donate" href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a>
         <a className="language-switch" href={locale === "es" ? `/heroes/${hero.id}` : `/es/heroes/${hero.id}`} hrefLang={locale === "es" ? "en" : "es"}>{locale === "es" ? "EN" : "ES"}</a>
       </header>
 
