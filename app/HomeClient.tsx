@@ -171,8 +171,6 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
         // The cooldown is best-effort when browser storage is unavailable.
       }
     }
-    const dismissTimer = window.setTimeout(() => setVisitToastVisible(false), 30000);
-    return () => window.clearTimeout(dismissTimer);
   }, [visitChanges, visitToastVisible]);
   useEffect(() => {
     Promise.all([
