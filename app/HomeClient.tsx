@@ -98,6 +98,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   const [query, setQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [focusedHeroId, setFocusedHeroId] = useState<string | null>(null);
   const [pendingVote, setPendingVote] = useState<PendingVote | null>(null);
   const [voteRank, setVoteRank] = useState<PlayerRank | "">("");
   const [votePlatform, setVotePlatform] = useState<Platform | "">("");
@@ -280,7 +281,9 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
     setQuery(localizedHeroName(hero));
     setSearchOpen(false);
     setMobileSearchOpen(false);
-    document.getElementById(`hero-${hero.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setFocusedHeroId(hero.id);
+    setCollapsedRoles((current) => ({ ...current, [hero.role]: false }));
+    window.setTimeout(() => document.getElementById(`hero-${hero.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
   }
 
   function focusHero(hero: Hero) {
@@ -584,11 +587,11 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
             value={query}
             placeholder={tx("Search for a hero…")}
             autoComplete="off"
-            onChange={(event) => { setQuery(event.target.value); setMobileSearchOpen(true); }}
+            onChange={(event) => { setQuery(event.target.value); setFocusedHeroId(null); setMobileSearchOpen(true); }}
             onFocus={() => setMobileSearchOpen(true)}
             onBlur={() => setTimeout(() => setMobileSearchOpen(false), 150)}
           />
-          {query && <button type="button" onClick={() => setQuery("")} aria-label="Clear hero search">×</button>}
+          {query && <button type="button" onClick={() => { setQuery(""); setFocusedHeroId(null); }} aria-label="Clear hero search">×</button>}
         </div>
         {mobileSearchOpen && (
           <div className="mobile-search-suggestions">
@@ -660,11 +663,11 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
               value={query}
               placeholder={tx("Search for a hero…")}
               autoComplete="off"
-              onChange={(event) => { setQuery(event.target.value); setSearchOpen(true); }}
+              onChange={(event) => { setQuery(event.target.value); setFocusedHeroId(null); setSearchOpen(true); }}
               onFocus={() => setSearchOpen(true)}
               onBlur={() => setTimeout(() => setSearchOpen(false), 150)}
             />
-            {query && <button type="button" onClick={() => setQuery("")} aria-label="Clear hero search">×</button>}
+            {query && <button type="button" onClick={() => { setQuery(""); setFocusedHeroId(null); }} aria-label="Clear hero search">×</button>}
           </div>
           {searchOpen && (
             <div className="search-suggestions">
@@ -711,7 +714,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
                   const counts = hero.teamUpAbilities.map((ability) => abilityCount(hero, ability));
                   const heroTotal = counts[0] + counts[1];
                   return (
-                    <article className={`hero-panel ${enhanced ? "hero-enhanced" : ""}`} id={`hero-${hero.id}`} key={hero.id}>
+                    <article className={`hero-panel ${enhanced ? "hero-enhanced" : ""} ${focusedHeroId === hero.id ? "is-focused" : ""}`} id={`hero-${hero.id}`} key={hero.id}>
                       <div className="hero-panel-header">
                         <a className="hero-avatar-link" href={path(`/heroes/${hero.id}`)} aria-label={`View ${hero.name} details`}><span className={`hero-avatar ${enhanced ? "is-lord" : ""}`} aria-hidden="true"><img src={enhanced ? lordImage(hero.id) : heroImage(hero.id)} alt="" /></span></a>
                         <div className="hero-identity">
