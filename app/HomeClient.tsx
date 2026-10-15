@@ -115,6 +115,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   const [quickVoteMessage, setQuickVoteMessage] = useState("");
   const [comparisons, setComparisons] = useState<VoteComparisons | null>(null);
   const [visitChanges, setVisitChanges] = useState<VisitChanges | null>(null);
+  const [visitToastVisible, setVisitToastVisible] = useState(true);
   const [headerRankMenuOpen, setHeaderRankMenuOpen] = useState(false);
   const visitCaptured = useRef(false);
   const headerRankMenuRef = useRef<HTMLDivElement>(null);
@@ -625,6 +626,28 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
         </div>}
       </section>
 
+      {!roleFilter && visitChanges && visitToastVisible && <aside className="visit-toast" aria-live="polite">
+        <details>
+          <summary>
+            <span className="visit-toast-icon" aria-hidden="true">↻</span>
+            <span className="visit-toast-copy">
+              <small>{locale === "es" ? "DESDE TU ÚLTIMA VISITA" : "SINCE YOUR LAST VISIT"}</small>
+              <strong>{visitChanges.firstVisit ? (locale === "es" ? "SEGUIMIENTO ACTIVADO" : "CHANGE TRACKING IS ON") : visitChanges.voteIncrease ? `+${visitChanges.voteIncrease.toLocaleString()} ${locale === "es" ? "VOTOS NUEVOS" : "NEW VOTES"}` : (locale === "es" ? "ESTÁS AL DÍA" : "YOU’RE CAUGHT UP")}</strong>
+            </span>
+            <b aria-hidden="true">+</b>
+          </summary>
+          <div className="visit-toast-details">
+            {visitChanges.firstVisit ? <p>{locale === "es" ? "Guardamos una referencia en este dispositivo. La próxima vez verás los votos e insights nuevos." : "A baseline is saved on this device. Next time you’ll see new votes and insights."}</p> : <>
+              <div><span>{locale === "es" ? "VOTOS NUEVOS" : "NEW VOTES"}</span><strong>+{visitChanges.voteIncrease.toLocaleString()}</strong></div>
+              <div><span>{locale === "es" ? "CAMBIOS DE LÍDER" : "LEADER CHANGES"}</span><strong>{visitChanges.leaderChanges.length}</strong></div>
+              <div><span>{locale === "es" ? "INSIGHTS NUEVOS" : "NEW INSIGHTS"}</span><strong>{visitChanges.newInsights}</strong></div>
+              {visitChanges.topHeroId && visitChanges.topHeroVotes > 0 && <button type="button" onClick={() => { const hero = heroData.heroes.find((item) => item.id === visitChanges.topHeroId); if (hero) focusHero(hero); }}>{locale === "es" ? "VER EL HÉROE MÁS ACTIVO" : "VIEW MOST ACTIVE HERO"} <b>→</b></button>}
+            </>}
+          </div>
+        </details>
+        <button className="visit-toast-dismiss" type="button" onClick={() => setVisitToastVisible(false)} aria-label={locale === "es" ? "Cerrar resumen de visita" : "Dismiss visit summary"}>×</button>
+      </aside>}
+
       <section className="control-deck" id="directory-controls" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label="Directory controls">
         <div className="directory-toolbar" aria-label={locale === "es" ? "Controles de resultados" : "Result controls"}>
           <div className="directory-context">
@@ -652,6 +675,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
             />
             {query && <button type="button" onClick={() => { setQuery(""); setFocusedHeroId(null); }} aria-label="Clear hero search">×</button>}
           </div>
+          {!roleFilter && <a className="mobile-feature-request" href="mailto:neckbearddev@gmail.com?subject=Rivals%20Team-Ups%20Feature%20Request"><span aria-hidden="true">＋</span><strong>{locale === "es" ? "FUNCIÓN" : "FEATURE"}</strong></a>}
           {searchOpen && (
             <div className="search-suggestions">
               {suggestions.length ? suggestions.map((hero) => (
@@ -753,20 +777,10 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
       {!roleFilter && <details className="community-updates">
         <summary>
           <span><small>{locale === "es" ? "ACTIVIDAD Y DESTACADOS" : "ACTIVITY & SPOTLIGHTS"}</small><strong>{locale === "es" ? "ACTUALIZACIONES DE LA COMUNIDAD" : "COMMUNITY UPDATES"}</strong></span>
-          <p>{visitChanges?.voteIncrease ? `+${visitChanges.voteIncrease.toLocaleString()} ${locale === "es" ? "votos desde tu última visita" : "votes since your last visit"}` : (locale === "es" ? "Tu resumen y el héroe más reciente" : "Your visit summary and the newest hero")}</p>
+          <p>{locale === "es" ? "El enfrentamiento del héroe más reciente" : "The newest hero’s featured matchup"}</p>
           <b><i>{locale === "es" ? "ABRIR" : "OPEN"}</i><em>{locale === "es" ? "CERRAR" : "CLOSE"}</em><span aria-hidden="true">+</span></b>
         </summary>
         <div className="community-updates-content">
-          {visitChanges && <section className="return-brief return-brief-compact" aria-labelledby="return-brief-title">
-            <div><p className="eyebrow">{locale === "es" ? "DESDE TU ÚLTIMA VISITA" : "SINCE YOUR LAST VISIT"}</p><h2 id="return-brief-title">{visitChanges.firstVisit ? (locale === "es" ? "SEGUIMIENTO ACTIVADO" : "CHANGE TRACKING IS ON") : visitChanges.voteIncrease ? `+${visitChanges.voteIncrease.toLocaleString()} ${locale === "es" ? "VOTOS NUEVOS" : "NEW VOTES"}` : (locale === "es" ? "ESTÁS AL DÍA" : "YOU'RE CAUGHT UP")}</h2></div>
-            <div className="return-brief-events">
-              {visitChanges.firstVisit ? <p>{locale === "es" ? "Guardamos una referencia en este dispositivo. La próxima vez verás exactamente cómo cambió el meta." : "A baseline is now saved on this device. Next time, you’ll see exactly how the meta moved."}</p> : <>
-                {visitChanges.topHeroId && visitChanges.topHeroVotes > 0 && <button type="button" onClick={() => { const hero = heroData.heroes.find((item) => item.id === visitChanges.topHeroId); if (hero) focusHero(hero); }}><strong>+{visitChanges.topHeroVotes}</strong><span>{localizedHeroName(heroData.heroes.find((hero) => hero.id === visitChanges.topHeroId)!) } {locale === "es" ? "votos" : "votes"}</span></button>}
-                <span><strong>{visitChanges.leaderChanges.length}</strong>{locale === "es" ? " cambios de líder" : " leader changes"}</span><span><strong>{visitChanges.newInsights}</strong>{locale === "es" ? " opiniones nuevas" : " new insights"}</span>
-              </>}
-            </div>
-          </section>}
-
           <section className="daily-debate" aria-labelledby="daily-debate-title">
             <div className="daily-debate-hero"><img src={heroImage(featuredHero.id)} alt=""/><span><small>{locale === "es" ? "HÉROE MÁS RECIENTE" : "NEWEST HERO RELEASE"}</small><strong>{localizedHeroName(featuredHero)}</strong></span></div>
             <div className="daily-debate-copy"><p className="eyebrow">{locale === "es" ? "DESTACADO DEL META" : "META SPOTLIGHT"}</p><h2 id="daily-debate-title">{featuredDisplayA.name} <i>{locale === "es" ? "O" : "OR"}</i> {featuredDisplayB.name}?</h2><p>{locale === "es" ? `Ayuda a definir el meta del héroe más reciente. Resultados de ${selectedRank === "All Ranks" ? "todos los rangos" : selectedRank} en ${platform}.` : <>Help define the newest hero&apos;s meta. Results reflect {selectedRank === "All Ranks" ? "all competitive ranks" : selectedRank} on {platform}.</>}</p></div>
