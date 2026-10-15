@@ -151,6 +151,11 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
 
   useEffect(() => { void loadVotes(); }, [loadVotes]);
   useEffect(() => {
+    if (!visitChanges || !visitToastVisible) return;
+    const dismissTimer = window.setTimeout(() => setVisitToastVisible(false), 7000);
+    return () => window.clearTimeout(dismissTimer);
+  }, [visitChanges, visitToastVisible]);
+  useEffect(() => {
     Promise.all([
       fetchVoteMatrix("PC", "all"),
       fetchVoteMatrix("Console", "all"),
