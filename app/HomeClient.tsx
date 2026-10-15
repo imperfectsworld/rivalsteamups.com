@@ -563,6 +563,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
         </nav>
         <div className="mobile-nav-actions">
           <a className="mobile-nav-donate" href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a>
+          <a className="mobile-nav-request" href="mailto:neckbearddev@gmail.com?subject=Rivals%20Team-Ups%20Feature%20Request">{locale === "es" ? "FUNCIÓN" : "REQUEST"}</a>
           <a className="language-switch" href={locale === "es" ? "/" : "/es"} hrefLang={locale === "es" ? "en" : "es"}>{locale === "es" ? "EN" : "ES"}</a>
         </div>
         <div className="header-rank-menu" ref={headerRankMenuRef}>
@@ -699,7 +700,6 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
             />
             {query && <button type="button" onClick={() => { setQuery(""); setFocusedHeroId(null); }} aria-label="Clear hero search">×</button>}
           </div>
-          {!roleFilter && <a className="mobile-feature-request" href="mailto:neckbearddev@gmail.com?subject=Rivals%20Team-Ups%20Feature%20Request"><span aria-hidden="true">＋</span><strong>{locale === "es" ? "FUNCIÓN" : "FEATURE"}</strong></a>}
           {searchOpen && (
             <div className="search-suggestions">
               {suggestions.length ? suggestions.map((hero) => (
