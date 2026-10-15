@@ -605,14 +605,14 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
         )}
       </div>
 
-      <section className="hero-intro hero-intro-simple">
+      <section className={`hero-intro hero-intro-simple ${!roleFilter ? "hero-intro-directory-first" : ""}`}>
         <div>
           <p className="eyebrow">{tx("A MARVEL RIVALS COMMUNITY TOOL")}</p>
-          <h1>{roleFilter ? <>{tx(roleFilter).toUpperCase()}<br /><span>{tx("META")}</span></> : <>{locale === "es" ? "¿QUÉ TEAM-UP" : "WHICH TEAM-UP"}<br /><span>{locale === "es" ? "GANA?" : "WINS?"}</span></>}</h1>
+          <h1>{roleFilter ? <>{tx(roleFilter).toUpperCase()}<br /><span>{tx("META")}</span></> : <>{locale === "es" ? "¿QUÉ TEAM-UP " : "WHICH TEAM-UP "}<span>{locale === "es" ? "GANA?" : "WINS?"}</span></>}</h1>
           <p className="intro-copy">{locale === "es" ? (roleFilter ? `Compara todos los Team-Ups de ${tx(roleFilter).toLowerCase()}, filtra los resultados por rango y plataforma, consulta los efectos mejorados y vota por tus habilidades favoritas.` : "Compara todos los Team-Ups de Marvel Rivals, filtra los votos de la comunidad por rango y plataforma, y descubre qué combinaciones de héroe ancla prefieren los jugadores.") : (roleFilter ? `Compare every ${roleFilter} Team-Up, filter results by competitive rank and platform, preview Enhanced effects, and vote for the abilities you trust.` : "Compare every Marvel Rivals teamup, filter community votes by rank and platform, and discover which anchor combinations players prefer.")}</p>
           {!roleFilter && <div className="intro-actions"><button type="button" onClick={() => { document.getElementById("directory-controls")?.scrollIntoView({ behavior: "smooth" }); window.setTimeout(() => document.getElementById("hero-search")?.focus(), 450); }}>{locale === "es" ? "BUSCAR MI HÉROE" : "FIND MY HERO"} <b>⌕</b></button><a href="mailto:neckbearddev@gmail.com?subject=Rivals%20Team-Ups%20Feature%20Request">{locale === "es" ? "SOLICITAR UNA FUNCIÓN" : "REQUEST A FEATURE"}</a></div>}
         </div>
-        <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
+        {roleFilter && <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
           <div className="rank-insight-topline">
             <div className="rank-insight-kicker"><span>{tx("LIVE RANK INSIGHT")}</span><b>S10.5 · {locale === "es" ? "ACUMULADO" : "CUMULATIVE"}</b></div>
             <div className="rank-insight-platforms" role="group" aria-label="Gaming platform"><button className={platform === "PC" ? "is-active" : ""} type="button" onClick={() => choosePlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} type="button" onClick={() => choosePlatform("Console")}>{locale === "es" ? "CONSOLA" : "CONSOLE"}</button></div>
@@ -622,36 +622,19 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
             <div className="rank-insight-title"><strong>{tx(selectedRank)}</strong><p>{locale === "es" ? `${resultWindow === "recent" ? "Últimos 30 días" : "Todos los resultados"} · ${platform} · ${selectedRank === "All Ranks" ? "Comunidad competitiva" : `Rango ${tx(selectedRank)}`}` : `${resultWindow === "recent" ? "Last 30 days" : "All-time results"} · ${platform} · ${selectedRank === "All Ranks" ? "Full ranked community" : `${selectedRank} players`}`}</p></div>
           </div>
           <div className="rank-insight-footer"><span>{locale === "es" ? "VENTANA DE RESULTADOS" : "RESULT WINDOW"}</span><div role="group" aria-label={locale === "es" ? "Ventana de resultados" : "Result window"}><button className={resultWindow === "all" ? "is-active" : ""} type="button" onClick={() => setResultWindow("all")}>{tx("ALL-TIME")}</button><button className={resultWindow === "recent" ? "is-active" : ""} type="button" onClick={() => setResultWindow("recent")}>{tx("LAST 30 DAYS")}</button></div></div>
-        </div>
+        </div>}
       </section>
 
-      {!roleFilter && visitChanges && <section className="return-brief return-brief-compact" aria-labelledby="return-brief-title">
-        <div><p className="eyebrow">{locale === "es" ? "DESDE TU ÚLTIMA VISITA" : "SINCE YOUR LAST VISIT"}</p><h2 id="return-brief-title">{visitChanges.firstVisit ? (locale === "es" ? "SEGUIMIENTO ACTIVADO" : "CHANGE TRACKING IS ON") : visitChanges.voteIncrease ? `+${visitChanges.voteIncrease.toLocaleString()} ${locale === "es" ? "VOTOS NUEVOS" : "NEW VOTES"}` : (locale === "es" ? "ESTÁS AL DÍA" : "YOU'RE CAUGHT UP")}</h2></div>
-        <div className="return-brief-events">
-          {visitChanges.firstVisit ? <p>{locale === "es" ? "Guardamos una referencia en este dispositivo. La próxima vez verás exactamente cómo cambió el meta." : "A baseline is now saved on this device. Next time, you’ll see exactly how the meta moved."}</p> : <>
-            {visitChanges.topHeroId && visitChanges.topHeroVotes > 0 && <button type="button" onClick={() => { const hero = heroData.heroes.find((item) => item.id === visitChanges.topHeroId); if (hero) focusHero(hero); }}><strong>+{visitChanges.topHeroVotes}</strong><span>{localizedHeroName(heroData.heroes.find((hero) => hero.id === visitChanges.topHeroId)!) } {locale === "es" ? "votos" : "votes"}</span></button>}
-            <span><strong>{visitChanges.leaderChanges.length}</strong>{locale === "es" ? " cambios de líder" : " leader changes"}</span><span><strong>{visitChanges.newInsights}</strong>{locale === "es" ? " opiniones nuevas" : " new insights"}</span>
-          </>}
-        </div>
-      </section>}
-
-      {!roleFilter && <aside className="support-banner" aria-label={locale === "es" ? "Apoya el sitio" : "Support the site"}>
-        <div><span aria-hidden="true">❤️</span><p><strong>{locale === "es" ? "AYUDA A MANTENER EL SITIO SIN ANUNCIOS" : "HELP KEEP RIVALS TEAM-UPS AD-FREE"}</strong><small>{locale === "es" ? "Tu apoyo mantiene las votaciones y guías disponibles para todos." : "Your support keeps community voting and hero guides available to everyone."}</small></p></div>
-        <nav><a className="support-donate" href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a><a href="mailto:neckbearddev@gmail.com?subject=Rivals%20Team-Ups%20Feature%20Request">{locale === "es" ? "SOLICITAR UNA FUNCIÓN" : "REQUEST A FEATURE"}</a></nav>
-      </aside>}
-
-      {!roleFilter && <section className="daily-debate" aria-labelledby="daily-debate-title">
-        <div className="daily-debate-hero"><img src={heroImage(featuredHero.id)} alt=""/><span><small>{locale === "es" ? "HÉROE MÁS RECIENTE" : "NEWEST HERO RELEASE"}</small><strong>{localizedHeroName(featuredHero)}</strong></span></div>
-        <div className="daily-debate-copy"><p className="eyebrow">{locale === "es" ? "DESTACADO DEL META" : "META SPOTLIGHT"}</p><h2 id="daily-debate-title">{featuredDisplayA.name} <i>{locale === "es" ? "O" : "OR"}</i> {featuredDisplayB.name}?</h2><p>{locale === "es" ? `Ayuda a definir el meta del héroe más reciente. Resultados de ${selectedRank === "All Ranks" ? "todos los rangos" : selectedRank} en ${platform}.` : <>Help define the newest hero&apos;s meta. Results reflect {selectedRank === "All Ranks" ? "all competitive ranks" : selectedRank} on {platform}.</>}</p></div>
-        <div className="daily-debate-score" aria-label={`Current result: ${featuredAbilityA.name} ${featuredPercentA} percent, ${featuredAbilityB.name} ${featuredPercentB} percent`}><div className={featuredPercentA > featuredPercentB ? "is-leading" : ""}><span><i className="debate-key debate-key-a"/>{featuredAbilityA.name}</span><strong>{featuredPercentA}%</strong></div><div className="daily-debate-track"><i className="debate-segment-a" style={{ width: `${featuredPercentA}%` }}/><i className="debate-segment-b" style={{ width: `${featuredPercentB}%` }}/></div><div className={featuredPercentB > featuredPercentA ? "is-leading" : ""}><span><i className="debate-key debate-key-b"/>{featuredAbilityB.name}</span><strong>{featuredPercentB}%</strong></div></div>
-        <button className="is-featured-pulse" type="button" onClick={focusFeaturedHero}>{locale === "es" ? "VOTAR POR EL HÉROE MÁS RECIENTE" : "VOTE FOR THE NEWEST HERO"} <b>→</b></button>
-      </section>}
-
       <section className="control-deck" id="directory-controls" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties} aria-label="Directory controls">
-        <div className="directory-progress" aria-label={locale === "es" ? "Tu progreso de votación" : "Your voting progress"}>
-          <div><span>{locale === "es" ? "PROGRESO" : "VOTING PROGRESS"}</span><strong>{completedHeroes} / {directoryHeroes.length} {locale === "es" ? "VOTADOS" : "VOTED"}</strong>{milestone && <small className="progress-milestone">✓ {milestone}</small>}</div>
-          <div className="progress-track" aria-hidden="true"><i style={{ width: `${progressPercent}%` }} /></div>
-          {nextUnfinishedHero && <button type="button" onClick={() => focusHero(nextUnfinishedHero)}>{locale === "es" ? "VOTAR SIGUIENTE" : "VOTE NEXT HERO"} <b>→</b></button>}
+        <div className="directory-toolbar" aria-label={locale === "es" ? "Controles de resultados" : "Result controls"}>
+          <div className="directory-context">
+            <img src={selectedRank === "All Ranks" ? "/rivals-icon.ico" : rankImages[selectedRank]} alt="" />
+            <span><small>{locale === "es" ? "VIENDO" : "VIEWING"}</small><strong>{tx(selectedRank)}</strong></span>
+          </div>
+          <div className="directory-toolbar-group"><span>{locale === "es" ? "PLATAFORMA" : "PLATFORM"}</span><div className="rank-insight-platforms" role="group" aria-label="Gaming platform"><button className={platform === "PC" ? "is-active" : ""} type="button" onClick={() => choosePlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} type="button" onClick={() => choosePlatform("Console")}>{locale === "es" ? "CONSOLA" : "CONSOLE"}</button></div></div>
+          <div className="directory-toolbar-group"><span>{locale === "es" ? "RESULTADOS" : "RESULTS"}</span><div className="rank-insight-footer" role="group" aria-label={locale === "es" ? "Ventana de resultados" : "Result window"}><button className={resultWindow === "all" ? "is-active" : ""} type="button" onClick={() => setResultWindow("all")}>{tx("ALL-TIME")}</button><button className={resultWindow === "recent" ? "is-active" : ""} type="button" onClick={() => setResultWindow("recent")}>{tx("LAST 30 DAYS")}</button></div></div>
+          <div className="directory-progress-inline" aria-label={locale === "es" ? "Tu progreso de votación" : "Your voting progress"}><span>{locale === "es" ? "PROGRESO" : "PROGRESS"}</span><strong>{completedHeroes} / {directoryHeroes.length}</strong><div className="progress-track" aria-hidden="true"><i style={{ width: `${progressPercent}%` }} /></div>{milestone && <small className="progress-milestone">✓ {milestone}</small>}</div>
+          {nextUnfinishedHero && <button className="directory-next-vote" type="button" onClick={() => focusHero(nextUnfinishedHero)}>{locale === "es" ? "VOTAR SIGUIENTE" : "VOTE NEXT"} <b>→</b></button>}
         </div>
         <div className="hero-search">
           <div className="search-input-wrap">
@@ -766,6 +749,32 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
           );
         })}
       </section>
+
+      {!roleFilter && <details className="community-updates">
+        <summary>
+          <span><small>{locale === "es" ? "ACTIVIDAD Y DESTACADOS" : "ACTIVITY & SPOTLIGHTS"}</small><strong>{locale === "es" ? "ACTUALIZACIONES DE LA COMUNIDAD" : "COMMUNITY UPDATES"}</strong></span>
+          <p>{visitChanges?.voteIncrease ? `+${visitChanges.voteIncrease.toLocaleString()} ${locale === "es" ? "votos desde tu última visita" : "votes since your last visit"}` : (locale === "es" ? "Tu resumen y el héroe más reciente" : "Your visit summary and the newest hero")}</p>
+          <b><i>{locale === "es" ? "ABRIR" : "OPEN"}</i><em>{locale === "es" ? "CERRAR" : "CLOSE"}</em><span aria-hidden="true">+</span></b>
+        </summary>
+        <div className="community-updates-content">
+          {visitChanges && <section className="return-brief return-brief-compact" aria-labelledby="return-brief-title">
+            <div><p className="eyebrow">{locale === "es" ? "DESDE TU ÚLTIMA VISITA" : "SINCE YOUR LAST VISIT"}</p><h2 id="return-brief-title">{visitChanges.firstVisit ? (locale === "es" ? "SEGUIMIENTO ACTIVADO" : "CHANGE TRACKING IS ON") : visitChanges.voteIncrease ? `+${visitChanges.voteIncrease.toLocaleString()} ${locale === "es" ? "VOTOS NUEVOS" : "NEW VOTES"}` : (locale === "es" ? "ESTÁS AL DÍA" : "YOU'RE CAUGHT UP")}</h2></div>
+            <div className="return-brief-events">
+              {visitChanges.firstVisit ? <p>{locale === "es" ? "Guardamos una referencia en este dispositivo. La próxima vez verás exactamente cómo cambió el meta." : "A baseline is now saved on this device. Next time, you’ll see exactly how the meta moved."}</p> : <>
+                {visitChanges.topHeroId && visitChanges.topHeroVotes > 0 && <button type="button" onClick={() => { const hero = heroData.heroes.find((item) => item.id === visitChanges.topHeroId); if (hero) focusHero(hero); }}><strong>+{visitChanges.topHeroVotes}</strong><span>{localizedHeroName(heroData.heroes.find((hero) => hero.id === visitChanges.topHeroId)!) } {locale === "es" ? "votos" : "votes"}</span></button>}
+                <span><strong>{visitChanges.leaderChanges.length}</strong>{locale === "es" ? " cambios de líder" : " leader changes"}</span><span><strong>{visitChanges.newInsights}</strong>{locale === "es" ? " opiniones nuevas" : " new insights"}</span>
+              </>}
+            </div>
+          </section>}
+
+          <section className="daily-debate" aria-labelledby="daily-debate-title">
+            <div className="daily-debate-hero"><img src={heroImage(featuredHero.id)} alt=""/><span><small>{locale === "es" ? "HÉROE MÁS RECIENTE" : "NEWEST HERO RELEASE"}</small><strong>{localizedHeroName(featuredHero)}</strong></span></div>
+            <div className="daily-debate-copy"><p className="eyebrow">{locale === "es" ? "DESTACADO DEL META" : "META SPOTLIGHT"}</p><h2 id="daily-debate-title">{featuredDisplayA.name} <i>{locale === "es" ? "O" : "OR"}</i> {featuredDisplayB.name}?</h2><p>{locale === "es" ? `Ayuda a definir el meta del héroe más reciente. Resultados de ${selectedRank === "All Ranks" ? "todos los rangos" : selectedRank} en ${platform}.` : <>Help define the newest hero&apos;s meta. Results reflect {selectedRank === "All Ranks" ? "all competitive ranks" : selectedRank} on {platform}.</>}</p></div>
+            <div className="daily-debate-score" aria-label={`Current result: ${featuredDisplayA.name} ${featuredPercentA} percent, ${featuredDisplayB.name} ${featuredPercentB} percent`}><div className={featuredPercentA > featuredPercentB ? "is-leading" : ""}><span><i className="debate-key debate-key-a"/>{featuredDisplayA.name}</span><strong>{featuredPercentA}%</strong></div><div className="daily-debate-track"><i className="debate-segment-a" style={{ width: `${featuredPercentA}%` }}/><i className="debate-segment-b" style={{ width: `${featuredPercentB}%` }}/></div><div className={featuredPercentB > featuredPercentA ? "is-leading" : ""}><span><i className="debate-key debate-key-b"/>{featuredDisplayB.name}</span><strong>{featuredPercentB}%</strong></div></div>
+            <button className="is-featured-pulse" type="button" onClick={focusFeaturedHero}>{locale === "es" ? "VOTAR POR EL HÉROE MÁS RECIENTE" : "VOTE FOR THE NEWEST HERO"} <b>→</b></button>
+          </section>
+        </div>
+      </details>}
 
       {roleFilter && <section className={`role-editorial role-editorial-${roleFilter.toLowerCase()}`} aria-labelledby="role-editorial-title">
         <p className="eyebrow">{locale === "es" ? "GUÍA EDITORIAL DEL ROL" : "ROLE EDITORIAL GUIDE"}</p>
