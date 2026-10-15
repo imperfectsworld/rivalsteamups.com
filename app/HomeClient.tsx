@@ -22,6 +22,8 @@ const enhancedPreferenceKey = "rivals-enhanced-heroes";
 const votedHeroesStorageKey = "rivals-voted-heroes-s10-launch";
 const quickVoteStorageKey = "rivals-quick-vote";
 const visitSnapshotStorageKey = "rivals-s10-visit-snapshot";
+const visitToastLastShownStorageKey = "rivals-visit-toast-last-shown";
+const visitToastCooldownMs = 72 * 60 * 60 * 1000;
 type VoteComparisons = { pc: LiveVotes; console: LiveVotes; recentPc: LiveVotes; recentConsole: LiveVotes };
 type VisitChanges = { voteIncrease: number; topHeroId?: string; topHeroVotes: number; leaderChanges: string[]; newInsights: number; firstVisit: boolean };
 const season105UpdatedHeroIds = new Set(["jubilee"]);
@@ -115,9 +117,10 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
   const [quickVoteMessage, setQuickVoteMessage] = useState("");
   const [comparisons, setComparisons] = useState<VoteComparisons | null>(null);
   const [visitChanges, setVisitChanges] = useState<VisitChanges | null>(null);
-  const [visitToastVisible, setVisitToastVisible] = useState(true);
+  const [visitToastVisible, setVisitToastVisible] = useState(false);
   const [headerRankMenuOpen, setHeaderRankMenuOpen] = useState(false);
   const visitCaptured = useRef(false);
+  const visitToastShown = useRef(false);
   const headerRankMenuRef = useRef<HTMLDivElement>(null);
 
   const groupRows = useCallback((rows: Array<{ abilityId: string; rank: string; total: number }>) => {
@@ -151,7 +154,23 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
 
   useEffect(() => { void loadVotes(); }, [loadVotes]);
   useEffect(() => {
+    try {
+      const lastShown = Number(localStorage.getItem(visitToastLastShownStorageKey));
+      if (!Number.isFinite(lastShown) || Date.now() - lastShown >= visitToastCooldownMs) setVisitToastVisible(true);
+    } catch {
+      setVisitToastVisible(true);
+    }
+  }, []);
+  useEffect(() => {
     if (!visitChanges || !visitToastVisible) return;
+    if (!visitToastShown.current) {
+      visitToastShown.current = true;
+      try {
+        localStorage.setItem(visitToastLastShownStorageKey, String(Date.now()));
+      } catch {
+        // The cooldown is best-effort when browser storage is unavailable.
+      }
+    }
     const dismissTimer = window.setTimeout(() => setVisitToastVisible(false), 7000);
     return () => window.clearTimeout(dismissTimer);
   }, [visitChanges, visitToastVisible]);
