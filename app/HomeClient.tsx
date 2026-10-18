@@ -549,7 +549,6 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
     <main className="app-shell" id="top">
       <aside className="season-announcement" aria-label={locale === "es" ? "Anuncio de la Temporada 10.5" : "Season 10.5 announcement"}>
         <strong>{locale === "es" ? "TEMPORADA 10.5 · VOTACIÓN COMUNITARIA ACTUALIZADA" : "SEASON 10.5 · COMMUNITY VOTING UPDATED"}</strong>
-        <a href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "MANTÉN EL SITIO SIN ANUNCIOS ❤️" : "KEEP THE SITE AD-FREE ❤️"}</a>
       </aside>
       <header className="topbar" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
         <a className="brand" href={roleFilter ? path("/") : "#top"} aria-label="Rivals Team-Ups home">
