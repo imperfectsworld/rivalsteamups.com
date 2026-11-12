@@ -27,8 +27,8 @@ export async function generateMetadata({ params }: { params: Promise<{ heroId: s
   const [first, second] = hero.teamUpAbilities;
   const guide = heroGuides.guides.find((candidate) => candidate.heroId === hero.id);
   const videoTitle = guide?.videoTitle ? cleanTitle(guide.videoTitle) : `${hero.name} Team-Up Guide`;
-  const title = `${videoTitle} | Season 10.5 Watch & Vote`;
-  const description = `Watch the ${hero.name} Team-Up guide, compare ${first.name} and ${second.name}, then vote alongside the live Season 10.5 community results.`;
+  const title = `${videoTitle} | Season 11 Watch & Vote`;
+  const description = `Watch the ${hero.name} Team-Up guide, compare ${first.name} and ${second.name}, then vote alongside the live Season 11 community results.`;
   const canonical = `/heroes/${hero.id}`;
   return {
     title,
@@ -54,7 +54,7 @@ export default async function HeroDetailPage({ params }: { params: Promise<{ her
     url: `https://rivalsteamups.com/heroes/${hero.id}`,
     creator: { "@type": "Organization", name: "Rivals Team-Up Meta", url: "https://rivalsteamups.com" },
     isAccessibleForFree: true,
-    dateModified: "2026-10-08",
+    dateModified: "2026-11-11",
     measurementTechnique: "One community preference vote per hero and device in each 24-hour period.",
     variableMeasured: hero.teamUpAbilities.map((ability) => ({ "@type": "PropertyValue", name: ability.name, value: voteTotal(ability.id), unitText: "community votes" })),
     keywords: ["Marvel Rivals", hero.name, hero.role, "Team-Up abilities", "community voting"],

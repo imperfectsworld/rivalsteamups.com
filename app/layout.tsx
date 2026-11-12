@@ -7,8 +7,8 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://rivalsteamups.com"),
-  title: "Marvel Rivals Teamups — Live Community Voting | Season 10.5",
-  description: "Compare every Marvel Rivals Team-Up, see live community vote totals by rank and platform, watch hero guides, and cast your Season 10.5 vote.",
+  title: "Marvel Rivals Teamups — Live Community Voting | Season 11",
+  description: "Compare every Marvel Rivals Season 11 Team-Up, see live community vote totals by rank and platform, explore Nightcrawler, and cast your vote.",
   alternates: { canonical: "/", languages: { en: "/", es: "/es", "x-default": "/" } },
   robots: { index: true, follow: true },
   icons: {
@@ -20,15 +20,15 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" }],
   },
   openGraph: {
-    title: "Marvel Rivals Teamups — Live Community Voting | Season 10.5",
-    description: "Compare Season 10.5 Team-Ups, watch hero guides, and explore live community votes by rank and platform.",
+    title: "Marvel Rivals Teamups — Live Community Voting | Season 11",
+    description: "Compare Season 11 Team-Ups, explore Nightcrawler, watch hero guides, and see live community votes by rank and platform.",
     type: "website",
     images: [{ url: "/og-rivalsteamups-v3.png", width: 1672, height: 943, alt: "Rivals Team-Up community meta" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Marvel Rivals Teamups — Live Community Voting | Season 10.5",
-    description: "Watch hero guides, compare Marvel Rivals Team-Ups, and vote with the Season 10.5 community.",
+    title: "Marvel Rivals Teamups — Live Community Voting | Season 11",
+    description: "Watch hero guides, compare Marvel Rivals Team-Ups, and vote with the Season 11 community.",
     images: ["/og-rivalsteamups-v3.png"],
   },
 };
@@ -37,11 +37,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const websiteData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Marvel Rivals Team-Ups — Season 10.5",
+    name: "Marvel Rivals Team-Ups — Season 11",
     alternateName: "RivalsTeamups.com",
     url: "https://rivalsteamups.com",
-    description: "Season 10.5 Marvel Rivals Team-Up community voting with live results, hero watch pages, rank breakdowns, and player insights.",
-    dateModified: "2026-10-08",
+    description: "Season 11 Marvel Rivals Team-Up community voting with Nightcrawler, live results, hero watch pages, rank breakdowns, and player insights.",
+    dateModified: "2026-11-11",
   };
   return (
     <html lang="en">

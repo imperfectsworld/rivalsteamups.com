@@ -56,7 +56,7 @@
           "slot": "A",
           "name": "Allied Agents",
           "anchorPartner": "Hawkeye",
-          "baseDescription": "Landing hits with Red Room Rifle builds Focus. At three stacks, enter a Focused state where the next bullet gains the Hunter’s Sight effect, granting Damage Boost and pierce effects.",
+          "baseDescription": "Landing hits with Red Room Rifle builds Focus. At three stacks, enter a Focused state where the next bullet gains the Hunter’s Sight effect, granting Damage Boost and pierce effects. Damage dealt during the Focused state also grants Black Widow Bonus Health.",
           "enhancedDescription": "When teaming up with Hawkeye, landing a critical hit prevents the Focused state from expiring, allowing continuous enhanced fire until missing a crit."
         },
         {
@@ -125,7 +125,7 @@
           "slot": "A",
           "name": "Oblivion Shroud",
           "anchorPartner": "The Hood",
-          "baseDescription": "Veil of Lightforce and Terror Cape are warped by hellfire energy, changing into Veil of Light and Veil of Darkness while retaining their original effects. After traveling a set distance, the veils halt in place. Enemy damage passing through the Veil of Light is weakened, while enemy healing passing through the Veil of Darkness suffers Healing Reduction.",
+          "baseDescription": "Veil of Lightforce and Terror Cape are warped by hellfire energy, changing into Veil of Light and Veil of Darkness while retaining their original effects. After traveling a set distance, the veils halt in place and Launch back enemies struck along their path. Enemy damage passing through the Veil of Light is weakened, while enemy healing passing through the Veil of Darkness suffers Healing Reduction.",
           "enhancedDescription": "When teaming up with The Hood, the width of both the Veil of Light and Veil of Darkness expands. Additionally, allies passing through the veils are empowered by hellfire energy, gaining Damage Boost for a duration."
         },
         {
@@ -171,7 +171,7 @@
           "slot": "A",
           "name": "Wild Wall",
           "anchorPartner": "Mantis",
-          "baseDescription": "Summon a Wild Wall that provides Continuous Healing and Bonus Health to allies within its range.",
+          "baseDescription": "Summon a Wild Wall that provides Continuous Healing and Bonus Health to allies within its range. Wild Wall is also affected by the Flora Colossus passive, just like Thornlash Wall.",
           "enhancedDescription": "When teaming up with Mantis, the Wild Wall evolves after providing a certain amount of healing, increasing its healing."
         },
         {
@@ -309,7 +309,7 @@
           "slot": "A",
           "name": "Vibrant Vitality",
           "anchorPartner": "Mantis",
-          "baseDescription": "Regeneration Domain provides a Damage Boost effect to allies within range; the Runestone triggers a psychic catalysis, expanding the domain’s radius.",
+          "baseDescription": "The Runestone triggers a psychic catalysis that expands Regeneration Domain’s radius.",
           "enhancedDescription": "When teaming up with Mantis, deploying Regenerative Domain emits a shockwave of nature energy that damages enemies within the radius and slightly Launch them up."
         },
         {
@@ -317,7 +317,7 @@
           "slot": "B",
           "name": "Villain’s Illusion",
           "anchorPartner": "Hela",
-          "baseDescription": "Gain a new ability to target fallen heroes (friend or foe), letting Loki assume their form for a set time (cannot cast their Ultimate Ability).",
+          "baseDescription": "Gain a new ability to target fallen heroes (friend or foe), letting Loki assume their form for a set time (cannot cast their Ultimate Ability). Whenever one of Loki’s illusions is destroyed, the cooldowns of Doppelganger and Devious Exchange advance.",
           "enhancedDescription": "When teaming up with Hela, Loki’s transformation lasts slightly longer. Furthermore, taking lethal damage while transformed or in his Ultimate Ability state will merely revert him back to Loki with a sliver of Health, preventing a KO."
         }
       ]
@@ -332,7 +332,7 @@
           "slot": "A",
           "name": "Atlas Bond",
           "anchorPartner": "White Fox",
-          "baseDescription": "Unleash a spirit fox forward that Charms enemies while healing any allies in its path.",
+          "baseDescription": "Unleash a spirit fox forward that damages enemies while healing allies in its path.",
           "enhancedDescription": "When teaming up with White Fox, the spirit fox automatically returns after reaching its maximum distance."
         },
         {
@@ -1115,7 +1115,7 @@
           "name": "Prehistoric Trap",
           "anchorPartner": "Devil Dinosaur",
           "baseDescription": "After deploying the Smoky Snare trap, Diablo will monitor the area. If enemies approach, Diablo Immobilizes and Damages them. He also releases a lethal gas, causing continuous area damage.",
-          "enhancedDescription": "When teaming up with Devil Dinosaur, Elsa can store and deploy two Smoky Snares."
+          "enhancedDescription": "When teaming up with Devil Dinosaur, deploying Smoky Snare reduces its cooldown."
         },
         {
           "id": "elsa-bloodstone-loudmouth-mercs",
@@ -1285,6 +1285,29 @@
           "anchorPartner": "Venom",
           "baseDescription": "Gain a new ability to fire a Symbiote Claw forward, dealing piercing damage to enemies in its path. Upon reaching maximum distance, it retracts, Launching caught enemies toward Gorr.",
           "enhancedDescription": "When teaming up with Venom, Black Berserkers receive a slight Damage Boost and apply a Slow effect to enemies they strike."
+        }
+      ]
+    },
+    {
+      "id": "nightcrawler",
+      "name": "Nightcrawler",
+      "role": "Strategist",
+      "teamUpAbilities": [
+        {
+          "id": "nightcrawler-protective-siblings",
+          "slot": "A",
+          "name": "Protective Siblings",
+          "anchorPartner": "Rogue",
+          "baseDescription": "Rogue infuses Nightcrawler with Chronovium Power. Upon activation, he briefly vanishes as energy radiates from his vanishing point, damaging enemies and healing allies. After a short delay, he reappears above his original location and slams down with three swords, dealing secondary damage and applying Slow to enemies in range.",
+          "enhancedDescription": "When teaming up with Rogue, the Chronovium Power is recalled after the downward thrust. The recall heals allies, damages enemies, and Launches enemies toward Nightcrawler."
+        },
+        {
+          "id": "nightcrawler-demon-disciple",
+          "slot": "B",
+          "name": "Demon Disciple",
+          "anchorPartner": "Magik",
+          "baseDescription": "Magik empowers Nightcrawler with Limbo's demonic magic. Each spatial warp—all three stages of Smoke Shift, both stages of Tandem Teleport, or Swift Intervention—generates a spell field that damages enemies and heals allies.",
+          "enhancedDescription": "When teaming up with Magik, every warp also coalesces demonic armor, granting Bonus Health."
         }
       ]
     }

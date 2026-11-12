@@ -97,8 +97,8 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
   const guideHeroName = localizedHeroName(hero);
   const guideTitle = locale === "es" ? `¿CUÁL ES EL MEJOR TEAM-UP DE ${guideHeroName}?` : `WHICH ${guideHeroName} TEAM-UP IS BEST?`;
   const guideDescription = locale === "es"
-    ? `${guideHeroName} tiene dos opciones de Team-Up en la Temporada 10.5 de Marvel Rivals: ${guideAbilities[0].name} con ${guideAbilities[0].anchorPartner} y ${guideAbilities[1].name} con ${guideAbilities[1].anchorPartner}. Mira el video, compara los resultados de la comunidad y vota por la opción que prefieres.`
-    : `${guideHeroName} has two Team-Up options in Marvel Rivals Season 10.5: ${guideAbilities[0].name} with ${guideAbilities[0].anchorPartner} and ${guideAbilities[1].name} with ${guideAbilities[1].anchorPartner}. Watch the featured guide, compare the live community results, and vote for the option you prefer.`;
+    ? `${guideHeroName} tiene dos opciones de Team-Up en la Temporada 11 de Marvel Rivals: ${guideAbilities[0].name} con ${guideAbilities[0].anchorPartner} y ${guideAbilities[1].name} con ${guideAbilities[1].anchorPartner}. Mira el video, compara los resultados de la comunidad y vota por la opción que prefieres.`
+    : `${guideHeroName} has two Team-Up options in Marvel Rivals Season 11: ${guideAbilities[0].name} with ${guideAbilities[0].anchorPartner} and ${guideAbilities[1].name} with ${guideAbilities[1].anchorPartner}. Watch the featured guide, compare the live community results, and vote for the option you prefer.`;
   const guideVideoId = featuredGuide ? youtubeVideoId(featuredGuide.videoUrl) : "";
   const guideVideoTitle = featuredGuide?.videoTitle ? decodeHtmlEntities(featuredGuide.videoTitle) : guideTitle;
   const guideStructuredData = featuredGuide && featuredCreator && guideVideoId ? {
@@ -320,7 +320,7 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
           <p className="eyebrow">{locale === "es" ? "VIDEO DESTACADO" : "FEATURED WATCH"}</p>
           <h1 id="featured-guide-title">{guideVideoTitle}</h1>
           <p>{guideDescription}</p>
-          <div className="guide-tags"><span>SEASON 10.5</span><span>{hero.role.toUpperCase()}</span><span>{totalVotes.toLocaleString()} {locale === "es" ? "VOTOS" : "VOTES"}</span></div>
+          <div className="guide-tags"><span>SEASON 11</span><span>{hero.role.toUpperCase()}</span><span>{totalVotes.toLocaleString()} {locale === "es" ? "VOTOS" : "VOTES"}</span></div>
           <div className="guide-creator">
             <img src={featuredCreator.logo} alt={`${featuredCreator.name} logo`} />
             <span><small>{featuredGuide.creatorLabel.toUpperCase()}</small><strong>{featuredCreator.name}</strong></span>
@@ -331,10 +331,10 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
 
       <section className="detail-hero">
         <div className="detail-copy">
-          <p className="eyebrow">{locale === "es" ? "TEMPORADA 10.5 · PÁGINA DE VIDEO" : "SEASON 10.5 · HERO WATCH PAGE"}</p>
+          <p className="eyebrow">{locale === "es" ? "TEMPORADA 11 · PÁGINA DE VIDEO" : "SEASON 11 · HERO WATCH PAGE"}</p>
           <div className="detail-role"><img src={`/roles/${hero.role.toLowerCase()}.webp`} alt="" />{hero.role}</div>
           <h1><img className="mobile-detail-hero-icon" src={`/heroes/${hero.id}.webp`} alt="" />{localizedHeroName(hero)}</h1>
-          <p>{locale === "es" ? `Mira la guía de ${localizedHeroName(hero)}, compara ${localizedAbility(hero.teamUpAbilities[0]).name} con ${localizedAbility(hero.teamUpAbilities[1]).name} y vota con la comunidad de la Temporada 10.5.` : <>Watch the {hero.name} guide, compare {hero.teamUpAbilities[0].name} with {hero.teamUpAbilities[1].name}, and vote with the Season 10.5 community.</>}</p>
+          <p>{locale === "es" ? `Mira la guía de ${localizedHeroName(hero)}, compara ${localizedAbility(hero.teamUpAbilities[0]).name} con ${localizedAbility(hero.teamUpAbilities[1]).name} y vota con la comunidad de la Temporada 11.` : <>Watch the {hero.name} guide, compare {hero.teamUpAbilities[0].name} with {hero.teamUpAbilities[1].name}, and vote with the Season 11 community.</>}</p>
           <div className="detail-summary-grid">
             <div><span>{tx("TOTAL VOTES")}</span><strong>{totalVotes.toLocaleString()}</strong></div>
             <div><span>{tx("COMMUNITY LEADER")}</span><strong>{!totalVotes ? (locale === "es" ? "Sin líder aún" : "No leader yet") : isTied ? (locale === "es" ? "Empate" : "Tied") : leader.name}</strong><small>{!totalVotes ? (locale === "es" ? "Esperando votos" : "Awaiting votes") : isTied ? (locale === "es" ? "Preferencia dividida por igual" : "Preference split evenly") : `${leaderPercent}% ${locale === "es" ? "de preferencia" : "preference"}`}</small></div>
@@ -433,7 +433,7 @@ export default function HeroDetailClient({ hero, locale = "en", initialVotes = {
         </div>
 
       </section>
-      <footer className="detail-legal-footer"><span>RIVALS TEAM-UPS // SEASON 10.5 // {platform.toUpperCase()}</span><nav className="legal-links"><a href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a><a href="mailto:neckbearddev@gmail.com?subject=Rivals%20Team-Ups%20Feature%20Request">{locale === "es" ? "SOLICITAR FUNCIÓN" : "REQUEST FEATURE"}</a><a href={path("/about")}>{locale === "es" ? "ACERCA DE" : "ABOUT"}</a><a href="/contact">CONTACT</a><a href="/privacy-policy">PRIVACY</a></nav><a href="/">DIRECTORY</a></footer>
+      <footer className="detail-legal-footer"><span>RIVALS TEAM-UPS // SEASON 11 // {platform.toUpperCase()}</span><nav className="legal-links"><a href="/season-11-team-up-changes">S11 CHANGES</a><a href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a><a href="mailto:neckbearddev@gmail.com?subject=Rivals%20Team-Ups%20Feature%20Request">{locale === "es" ? "SOLICITAR FUNCIÓN" : "REQUEST FEATURE"}</a><a href={path("/about")}>{locale === "es" ? "ACERCA DE" : "ABOUT"}</a><a href="/contact">CONTACT</a><a href="/privacy-policy">PRIVACY</a></nav><a href="/">DIRECTORY</a></footer>
       {pendingAbility && <div className="vote-modal-backdrop" role="presentation" onMouseDown={() => setPendingAbility(null)}>
         <section className="vote-modal" role="dialog" aria-modal="true" aria-labelledby="detail-vote-title" onMouseDown={(event) => event.stopPropagation()}>
           <button className="modal-close" type="button" onClick={() => setPendingAbility(null)} aria-label="Close vote dialog">×</button>

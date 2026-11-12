@@ -14,10 +14,10 @@ export default async function Page() {
   const resultsData = {
     "@context": "https://schema.org",
     "@type": "Dataset",
-    name: "Marvel Rivals Season 10.5 Team-Up community vote results",
+    name: "Marvel Rivals Season 11 Team-Up community vote results",
     description: "Live cumulative community vote totals for every Marvel Rivals Team-Up, collected by Rivals Team-Ups and separated by hero and ability.",
     url: "https://rivalsteamups.com/",
-    dateModified: "2026-10-08",
+    dateModified: "2026-11-11",
     creator: { "@type": "Person", name: "DeAngelo Robinson" },
     measurementTechnique: "One community preference vote per hero and device in each 24-hour period.",
     variableMeasured: heroes.flatMap((hero) => hero.teamUpAbilities.map((ability) => ({

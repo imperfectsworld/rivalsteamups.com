@@ -74,11 +74,11 @@
           "slot": "A",
           "name": "Allied Agents",
           "anchorPartner": "Hawkeye",
-          "baseDescription": "Landing hits with Red Room Rifle builds Focus. At three stacks, enter a Focused state where the next bullet gains the Hunter’s Sight effect, granting Damage Boost and pierce effects.",
+          "baseDescription": "Landing hits with Red Room Rifle builds Focus. At three stacks, enter a Focused state where the next bullet gains the Hunter’s Sight effect, granting Damage Boost and pierce effects. Damage dealt during the Focused state also grants Black Widow Bonus Health.",
           "enhancedDescription": "When teaming up with Hawkeye, landing a critical hit prevents the Focused state from expiring, allowing continuous enhanced fire until missing a crit.",
           "nameEs": "Agentes aliados",
           "anchorPartnerEs": "Ojo de Halcón",
-          "baseDescriptionEs": "Acertar golpes con Red Room Rifle genera concentración. Con tres acumulaciones, ingresa a un estado enfocado donde la siguiente bala obtiene el efecto de vista del cazador, lo que otorga aumento de daño y efectos de perforación.",
+          "baseDescriptionEs": "Acertar golpes con Red Room Rifle genera concentración. Con tres acumulaciones, entra en estado Enfocado y la siguiente bala obtiene Vista del Cazador, Aumento de Daño y perforación. El daño infligido durante el estado Enfocado también otorga Vida Adicional a Black Widow.",
           "enhancedDescriptionEs": "Al formar equipo con Hawkeye, realizar un golpe crítico evita que el estado Enfocado expire, lo que permite un fuego mejorado continuo hasta que falla un crítico."
         },
         {
@@ -170,11 +170,11 @@
           "slot": "A",
           "name": "Oblivion Shroud",
           "anchorPartner": "The Hood",
-          "baseDescription": "Veil of Lightforce and Terror Cape are warped by hellfire energy, changing into Veil of Light and Veil of Darkness while retaining their original effects. After traveling a set distance, the veils halt in place. Enemy damage passing through the Veil of Light is weakened, while enemy healing passing through the Veil of Darkness suffers Healing Reduction.",
+          "baseDescription": "Veil of Lightforce and Terror Cape are warped by hellfire energy, changing into Veil of Light and Veil of Darkness while retaining their original effects. After traveling a set distance, the veils halt in place and Launch back enemies struck along their path. Enemy damage passing through the Veil of Light is weakened, while enemy healing passing through the Veil of Darkness suffers Healing Reduction.",
           "enhancedDescription": "When teaming up with The Hood, the width of both the Veil of Light and Veil of Darkness expands. Additionally, allies passing through the veils are empowered by hellfire energy, gaining Damage Boost for a duration.",
           "nameEs": "Sudario del olvido",
           "anchorPartnerEs": "La capucha",
-          "baseDescriptionEs": "El Velo de la Fuerza de la Luz y la Capa del Terror son deformados por la energía del fuego del infierno, transformándose en Velo de la Luz y Velo de la Oscuridad conservando sus efectos originales. Después de recorrer una distancia determinada, los velos se detienen en su lugar. El daño enemigo que atraviesa el Velo de Luz se debilita, mientras que la curación del enemigo que atraviesa el Velo de Oscuridad sufre una Reducción de Curación.",
+          "baseDescriptionEs": "Veil of Lightforce y Terror Cape se transforman en Velo de Luz y Velo de Oscuridad conservando sus efectos originales. Tras recorrer una distancia, los velos se detienen y lanzan hacia atrás a los enemigos alcanzados en su trayectoria. El daño enemigo que atraviesa el Velo de Luz se debilita, mientras que la curación que atraviesa el Velo de Oscuridad sufre Reducción de Curación.",
           "enhancedDescriptionEs": "Al formar equipo con The Hood, el ancho del Velo de Luz y del Velo de Oscuridad se expande. Además, los aliados que atraviesan los velos reciben el poder de la energía del fuego del infierno, lo que les otorga aumento de daño durante un tiempo."
         },
         {
@@ -234,11 +234,11 @@
           "slot": "A",
           "name": "Wild Wall",
           "anchorPartner": "Mantis",
-          "baseDescription": "Summon a Wild Wall that provides Continuous Healing and Bonus Health to allies within its range.",
+          "baseDescription": "Summon a Wild Wall that provides Continuous Healing and Bonus Health to allies within its range. Wild Wall is also affected by the Flora Colossus passive, just like Thornlash Wall.",
           "enhancedDescription": "When teaming up with Mantis, the Wild Wall evolves after providing a certain amount of healing, increasing its healing.",
           "nameEs": "Muro salvaje",
           "anchorPartnerEs": "Mantis",
-          "baseDescriptionEs": "Invoca un muro salvaje que proporciona curación continua y salud adicional a los aliados dentro de su alcance.",
+          "baseDescriptionEs": "Invoca un Muro Salvaje que proporciona Curación Continua y Vida Adicional a los aliados dentro de su alcance. Muro Salvaje también recibe el efecto de la pasiva Flora Colossus, igual que Thornlash Wall.",
           "enhancedDescriptionEs": "Al formar equipo con Mantis, Wild Wall evoluciona después de proporcionar una cierta cantidad de curación, aumentando su curación."
         },
         {
@@ -426,11 +426,11 @@
           "slot": "A",
           "name": "Vibrant Vitality",
           "anchorPartner": "Mantis",
-          "baseDescription": "Regeneration Domain provides a Damage Boost effect to allies within range; the Runestone triggers a psychic catalysis, expanding the domain’s radius.",
+          "baseDescription": "The Runestone triggers a psychic catalysis that expands Regeneration Domain’s radius.",
           "enhancedDescription": "When teaming up with Mantis, deploying Regenerative Domain emits a shockwave of nature energy that damages enemies within the radius and slightly Launch them up.",
           "nameEs": "Vitalidad vibrante",
           "anchorPartnerEs": "Mantis",
-          "baseDescriptionEs": "El dominio de regeneración proporciona un efecto de aumento de daño a los aliados dentro del alcance; la Piedra Rúnica desencadena una catálisis psíquica, expandiendo el radio del dominio.",
+          "baseDescriptionEs": "La Piedra Rúnica desencadena una catálisis psíquica que amplía el radio de Regeneration Domain.",
           "enhancedDescriptionEs": "Al formar equipo con Mantis, el despliegue del Dominio regenerativo emite una onda de choque de energía natural que daña a los enemigos dentro del radio y los lanza ligeramente hacia arriba."
         },
         {
@@ -438,11 +438,11 @@
           "slot": "B",
           "name": "Villain’s Illusion",
           "anchorPartner": "Hela",
-          "baseDescription": "Gain a new ability to target fallen heroes (friend or foe), letting Loki assume their form for a set time (cannot cast their Ultimate Ability).",
+          "baseDescription": "Gain a new ability to target fallen heroes (friend or foe), letting Loki assume their form for a set time (cannot cast their Ultimate Ability). Whenever one of Loki’s illusions is destroyed, the cooldowns of Doppelganger and Devious Exchange advance.",
           "enhancedDescription": "When teaming up with Hela, Loki’s transformation lasts slightly longer. Furthermore, taking lethal damage while transformed or in his Ultimate Ability state will merely revert him back to Loki with a sliver of Health, preventing a KO.",
           "nameEs": "La ilusión del villano",
           "anchorPartnerEs": "Hela",
-          "baseDescriptionEs": "Obtén una nueva habilidad para apuntar a héroes caídos (amigos o enemigos), permitiendo que Loki asuma su forma durante un tiempo determinado (no puede lanzar su habilidad definitiva).",
+          "baseDescriptionEs": "Obtén una habilidad para seleccionar héroes caídos, aliados o enemigos, y adoptar su forma durante un tiempo sin poder usar su Definitiva. Cuando una ilusión de Loki es destruida, avanzan los tiempos de reutilización de Doppelganger y Devious Exchange.",
           "enhancedDescriptionEs": "Al formar equipo con Hela, la transformación de Loki dura un poco más. Además, recibir daño letal mientras está transformado o en su estado de habilidad máxima simplemente lo revertirá a Loki con una pizca de salud, evitando un KO."
         }
       ],
@@ -458,11 +458,11 @@
           "slot": "A",
           "name": "Atlas Bond",
           "anchorPartner": "White Fox",
-          "baseDescription": "Unleash a spirit fox forward that Charms enemies while healing any allies in its path.",
+          "baseDescription": "Unleash a spirit fox forward that damages enemies while healing allies in its path.",
           "enhancedDescription": "When teaming up with White Fox, the spirit fox automatically returns after reaching its maximum distance.",
           "nameEs": "Enlace Atlas",
           "anchorPartnerEs": "White Fox",
-          "baseDescriptionEs": "Libera un espíritu zorro que encanta a los enemigos mientras cura a los aliados en su camino.",
+          "baseDescriptionEs": "Libera un zorro espiritual que daña a los enemigos y cura a los aliados en su trayectoria.",
           "enhancedDescriptionEs": "Al formar equipo con White Fox, el espíritu zorro regresa automáticamente después de alcanzar su distancia máxima."
         },
         {
@@ -1547,11 +1547,11 @@
           "name": "Prehistoric Trap",
           "anchorPartner": "Devil Dinosaur",
           "baseDescription": "After deploying the Smoky Snare trap, Diablo will monitor the area. If enemies approach, Diablo Immobilizes and Damages them. He also releases a lethal gas, causing continuous area damage.",
-          "enhancedDescription": "When teaming up with Devil Dinosaur, Elsa can store and deploy two Smoky Snares.",
+          "enhancedDescription": "When teaming up with Devil Dinosaur, deploying Smoky Snare reduces its cooldown.",
           "nameEs": "Trampa prehistórica",
           "anchorPartnerEs": "Dinosaurio Diabólico",
           "baseDescriptionEs": "Después de desplegar la trampa Smoky Snare, Diablo monitoreará el área. Si los enemigos se acercan, Diablo los inmoviliza y los daña. También libera un gas letal, causando daños continuos en el área.",
-          "enhancedDescriptionEs": "Al formar equipo con Devil Dinosaur, Elsa puede almacenar y desplegar dos Smoky Snares."
+          "enhancedDescriptionEs": "Al formar equipo con Devil Dinosaur, desplegar Smoky Snare reduce su tiempo de reutilización."
         },
         {
           "id": "elsa-bloodstone-loudmouth-mercs",
@@ -1791,6 +1791,38 @@
         }
       ],
       "nameEs": "Gorr, el Carnicero de Dioses"
+    },
+    {
+      "id": "nightcrawler",
+      "name": "Nightcrawler",
+      "role": "Strategist",
+      "teamUpAbilities": [
+        {
+          "id": "nightcrawler-protective-siblings",
+          "slot": "A",
+          "name": "Protective Siblings",
+          "anchorPartner": "Rogue",
+          "baseDescription": "Rogue infuses Nightcrawler with Chronovium Power. Upon activation, he briefly vanishes as energy radiates from his vanishing point, damaging enemies and healing allies. After a short delay, he reappears above his original location and slams down with three swords, dealing secondary damage and applying Slow to enemies in range.",
+          "enhancedDescription": "When teaming up with Rogue, the Chronovium Power is recalled after the downward thrust. The recall heals allies, damages enemies, and Launches enemies toward Nightcrawler.",
+          "nameEs": "Hermanos Protectores",
+          "anchorPartnerEs": "Rogue",
+          "baseDescriptionEs": "Rogue infunde a Nightcrawler con Poder de Chronovium. Al activarlo, desaparece brevemente y la energía se expande desde el punto de desaparición, dañando a los enemigos y curando a los aliados. Tras una breve demora, reaparece sobre su posición original y cae con tres espadas, infligiendo daño adicional y aplicando Ralentización a los enemigos dentro del área.",
+          "enhancedDescriptionEs": "Al formar equipo con Rogue, el Poder de Chronovium regresa después del ataque descendente. El retorno cura a los aliados, daña a los enemigos y los Lanza hacia Nightcrawler."
+        },
+        {
+          "id": "nightcrawler-demon-disciple",
+          "slot": "B",
+          "name": "Demon Disciple",
+          "anchorPartner": "Magik",
+          "baseDescription": "Magik empowers Nightcrawler with Limbo's demonic magic. Each spatial warp—all three stages of Smoke Shift, both stages of Tandem Teleport, or Swift Intervention—generates a spell field that damages enemies and heals allies.",
+          "enhancedDescription": "When teaming up with Magik, every warp also coalesces demonic armor, granting Bonus Health.",
+          "nameEs": "Discípulo Demoníaco",
+          "anchorPartnerEs": "Magik",
+          "baseDescriptionEs": "Magik potencia a Nightcrawler con la magia demoníaca del Limbo. Cada desplazamiento espacial —las tres etapas de Smoke Shift, las dos de Tandem Teleport o Swift Intervention— genera un campo mágico que daña a los enemigos y cura a los aliados.",
+          "enhancedDescriptionEs": "Al formar equipo con Magik, cada desplazamiento también condensa una armadura demoníaca que otorga Vida Adicional."
+        }
+      ],
+      "nameEs": "Nightcrawler"
     }
   ]
 }

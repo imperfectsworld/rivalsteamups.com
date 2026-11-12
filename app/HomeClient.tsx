@@ -26,10 +26,26 @@ const visitToastLastShownStorageKey = "rivals-visit-toast-last-shown";
 const visitToastCooldownMs = 72 * 60 * 60 * 1000;
 type VoteComparisons = { pc: LiveVotes; console: LiveVotes; recentPc: LiveVotes; recentConsole: LiveVotes };
 type VisitChanges = { voteIncrease: number; topHeroId?: string; topHeroVotes: number; leaderChanges: string[]; newInsights: number; firstVisit: boolean };
-const season105UpdatedHeroIds = new Set(["jubilee"]);
+const season11UpdatedHeroIds = new Set([
+  "adam-warlock",
+  "black-cat",
+  "black-widow",
+  "cloak-and-dagger",
+  "devil-dinosaur",
+  "doctor-strange",
+  "elsa-bloodstone",
+  "emma-frost",
+  "groot",
+  "jubilee",
+  "loki",
+  "luna-snow",
+  "rogue",
+  "star-lord",
+  "ultron",
+]);
 // Update this ID whenever a new hero releases. The newest hero remains featured
 // until the next release replaces it.
-const newestHeroId = "gorr";
+const newestHeroId = "nightcrawler";
 
 const rankImages: Record<PlayerRank, string> = {
   Bronze: "/ranks/bronze.webp",
@@ -547,8 +563,9 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
 
   return (
     <main className="app-shell" id="top">
-      <aside className="season-announcement" aria-label={locale === "es" ? "Anuncio de la Temporada 10.5" : "Season 10.5 announcement"}>
-        <strong>{locale === "es" ? "TEMPORADA 10.5 · VOTACIÓN COMUNITARIA ACTUALIZADA" : "SEASON 10.5 · COMMUNITY VOTING UPDATED"}</strong>
+      <aside className="season-announcement" aria-label={locale === "es" ? "Anuncio de la Temporada 11" : "Season 11 announcement"}>
+        <strong>{locale === "es" ? "TEMPORADA 11 · NIGHTCRAWLER LLEGA EL 13 DE NOVIEMBRE" : "SEASON 11 · NIGHTCRAWLER ARRIVES NOVEMBER 13"}</strong>
+        <a href="/season-11-team-up-changes">{locale === "es" ? "VER CAMBIOS S11 →" : "VIEW S11 CHANGES →"}</a>
       </aside>
       <header className="topbar" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
         <a className="brand" href={roleFilter ? path("/") : "#top"} aria-label="Rivals Team-Ups home">
@@ -637,7 +654,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
         </div>
         {roleFilter && <div className="how-to-vote rank-insight" style={{ "--rank-accent": rankColors[selectedRank] } as CSSProperties}>
           <div className="rank-insight-topline">
-            <div className="rank-insight-kicker"><span>{tx("LIVE RANK INSIGHT")}</span><b>S10.5 · {locale === "es" ? "ACUMULADO" : "CUMULATIVE"}</b></div>
+            <div className="rank-insight-kicker"><span>{tx("LIVE RANK INSIGHT")}</span><b>S11 · {locale === "es" ? "ACUMULADO" : "CUMULATIVE"}</b></div>
             <div className="rank-insight-platforms" role="group" aria-label="Gaming platform"><button className={platform === "PC" ? "is-active" : ""} type="button" onClick={() => choosePlatform("PC")}>PC</button><button className={platform === "Console" ? "is-active" : ""} type="button" onClick={() => choosePlatform("Console")}>{locale === "es" ? "CONSOLA" : "CONSOLE"}</button></div>
           </div>
           <div className="rank-insight-main">
@@ -665,6 +682,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
               <div><span>{locale === "es" ? "INSIGHTS NUEVOS" : "NEW INSIGHTS"}</span><strong>{visitChanges.newInsights}</strong></div>
               {visitChanges.topHeroId && visitChanges.topHeroVotes > 0 && <button type="button" onClick={() => { const hero = heroData.heroes.find((item) => item.id === visitChanges.topHeroId); if (hero) focusHero(hero); }}>{locale === "es" ? "VER EL HÉROE MÁS ACTIVO" : "VIEW MOST ACTIVE HERO"} <b>→</b></button>}
             </>}
+            <a href="/season-11-team-up-changes">{locale === "es" ? "VER QUÉ CAMBIÓ EN LA TEMPORADA 11" : "SEE WHAT CHANGED IN SEASON 11"} <b>→</b></a>
           </div>
         </details>
         <button className="visit-toast-dismiss" type="button" onClick={() => setVisitToastVisible(false)} aria-label={locale === "es" ? "Cerrar resumen de visita" : "Dismiss visit summary"}>×</button>
@@ -746,7 +764,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
                       <div className="hero-panel-header">
                         <a className="hero-avatar-link" href={path(`/heroes/${hero.id}`)} aria-label={`View ${hero.name} details`}><span className={`hero-avatar ${enhanced ? "is-lord" : ""}`} aria-hidden="true"><img src={enhanced ? lordImage(hero.id) : heroImage(hero.id)} alt="" /></span></a>
                         <div className="hero-identity">
-                          <a className="hero-name-link" href={path(`/heroes/${hero.id}`)}><strong>{localizedHeroName(hero)}</strong></a>{season105UpdatedHeroIds.has(hero.id) && <span className="season-update-badge">S10.5 UPDATED</span>}
+                          <a className="hero-name-link" href={path(`/heroes/${hero.id}`)}><strong>{localizedHeroName(hero)}</strong></a>{season11UpdatedHeroIds.has(hero.id) && <span className="season-update-badge" title={locale === "es" ? "Team-Up actualizado en la Temporada 11" : "Team-Up updated for Season 11"}>✦ S11 UPDATED</span>}
                         </div>
                         <button className={`hero-toggle ${enhanced ? "is-on" : ""} ${showEnhancedDiscovery && (roleDiscoveryHeroIds.has(hero.id) || hero.id === featuredHero.id) ? "is-discoverable" : ""}`} type="button" role="switch" aria-checked={enhanced} aria-label={`Enhanced descriptions for ${localizedHeroName(hero)}`} onClick={() => toggleEnhanced(hero.id)}>
                           <span className="hero-toggle-track"><span /></span><b>{enhanced ? `⚡ ${tx("ENHANCED ON")}` : tx("ENHANCED OFF")}</b>
@@ -821,7 +839,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
       <aside className="clarity-disclosure">
         <p>{locale === "es" ? "Usamos Microsoft Clarity para comprender cómo utilizas el sitio mediante métricas de comportamiento, mapas de calor y repeticiones de sesión, con el fin de mejorar la experiencia, el rendimiento y la promoción del sitio. Al utilizar este sitio, aceptas que nosotros y Microsoft podamos recopilar y utilizar estos datos." : "We use Microsoft Clarity to understand how you use the site through behavioral metrics, heatmaps, and session replay so we can improve the experience, performance, and promotion of the site. By using this site, you agree that we and Microsoft may collect and use this data."} <a href="/privacy-policy">{locale === "es" ? "Consulta nuestra Política de Privacidad." : "See our Privacy Policy for details."}</a></p>
       </aside>
-      <footer><span>RIVALS TEAM-UPS // SEASON 10.5 // {platform.toUpperCase()}</span><nav className="legal-links"><a href={path("/roles/vanguards")}>{tx("Vanguards").toUpperCase()}</a><a href={path("/roles/duelists")}>{tx("Duelists").toUpperCase()}</a><a href={path("/roles/strategists")}>{tx("Strategists").toUpperCase()}</a><a href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a><a href="mailto:neckbearddev@gmail.com?subject=Rivals%20Team-Ups%20Feature%20Request">{locale === "es" ? "SOLICITAR FUNCIÓN" : "REQUEST FEATURE"}</a><a href={path("/about")}>{locale === "es" ? "ACERCA DE" : "ABOUT"}</a><a href="/contact">{tx("CONTACT")}</a><a href="/privacy-policy">{tx("PRIVACY")}</a></nav><a href="#top">{tx("BACK TO TOP")}</a></footer>
+      <footer><span>RIVALS TEAM-UPS // SEASON 11 // {platform.toUpperCase()}</span><nav className="legal-links"><a href={path("/roles/vanguards")}>{tx("Vanguards").toUpperCase()}</a><a href={path("/roles/duelists")}>{tx("Duelists").toUpperCase()}</a><a href={path("/roles/strategists")}>{tx("Strategists").toUpperCase()}</a><a href="/season-11-team-up-changes">S11 CHANGES</a><a href="https://buymeacoffee.com/neckbearddt" target="_blank" rel="noreferrer">{locale === "es" ? "DONAR" : "DONATE"}</a><a href="mailto:neckbearddev@gmail.com?subject=Rivals%20Team-Ups%20Feature%20Request">{locale === "es" ? "SOLICITAR FUNCIÓN" : "REQUEST FEATURE"}</a><a href={path("/about")}>{locale === "es" ? "ACERCA DE" : "ABOUT"}</a><a href="/contact">{tx("CONTACT")}</a><a href="/privacy-policy">{tx("PRIVACY")}</a></nav><a href="#top">{tx("BACK TO TOP")}</a></footer>
 
       {pendingVote && (
         <div className="vote-modal-backdrop" role="presentation" onMouseDown={() => setPendingVote(null)}>
