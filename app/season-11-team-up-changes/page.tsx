@@ -16,21 +16,21 @@ export const metadata: Metadata = {
 };
 
 const changedHeroes = [
-  { id: "devil-dinosaur", name: "Devil Dinosaur", role: "Vanguard", summary: "The Punisher Team-Up was slowed down: Primal Punishment’s cooldown increased from 12 to 18 seconds." },
-  { id: "doctor-strange", name: "Doctor Strange", role: "Vanguard", summary: "The Invisible Woman pairing now grants a smaller Shield of the Seraphim bonus, while Psionic Vortex no longer grants Bonus Health to allies and converts more damage into Bonus Health for Doctor Strange. The Hulk enhanced effect retains less Gamma Maelstrom energy." },
-  { id: "emma-frost", name: "Emma Frost", role: "Vanguard", summary: "The Luna Snow Team-Up’s Iced Out Diamond shield value decreased from 350 to 300." },
-  { id: "groot", name: "Groot", role: "Vanguard", summary: "Wild Wall now receives the Flora Colossus passive when the Mantis Team-Up is selected, matching Thornlash Wall." },
-  { id: "rogue", name: "Rogue", role: "Vanguard", summary: "The Gambit Team-Up’s Mr. & Mrs. X cooldown was reduced from 30 to 15 seconds, while its kinetic explosion and ally healing were reduced." },
-  { id: "black-cat", name: "Black Cat", role: "Duelist", summary: "The Black Panther Team-Up now grants more Bonus Health and substantially more Fortune from Feline Alliance hits." },
-  { id: "black-widow", name: "Black Widow", role: "Duelist", summary: "Allied Agents now grants Black Widow Bonus Health equal to half the damage dealt during Focused state, capped at 75." },
-  { id: "elsa-bloodstone", name: "Elsa Bloodstone", role: "Duelist", summary: "Prehistoric Trap’s enhanced effect loses its extra Smoky Snare charge. In exchange, the Devil Dinosaur pairing now reduces Smoky Snare’s cooldown from 15 to 12 seconds." },
-  { id: "star-lord", name: "Star-Lord", role: "Duelist", summary: "Cosmic Soul’s cooldown was reduced from 30 to 25 seconds and its resurrection cooldown from 120 to 105 seconds. The official explanation names Adam Warlock, while the balance bullet names Human Torch; the site keeps the established Adam Warlock pairing until the publisher clarifies it." },
-  { id: "adam-warlock", name: "Adam Warlock", role: "Strategist", summary: "The Storm Team-Up’s Soaring Surge speed boost increased from 67% to 100%. Its enhanced Soul Bond Damage Boost decreased from 12% to 8%." },
-  { id: "cloak-and-dagger", name: "Cloak & Dagger", role: "Strategist", summary: "The Hood Team-Up now causes Twilight Veil and Void Veil to Launch back enemies struck along their path." },
-  { id: "jubilee", name: "Jubilee", role: "Strategist", summary: "Vampiric Kin’s Lifesteal for Jubilee and nearby allies increased from 30% to 40% with the Blade Team-Up selected." },
-  { id: "loki", name: "Loki", role: "Strategist", summary: "Destroyed illusions now advance the cooldowns of Doppelganger and Devious Exchange with Hela selected. The Mantis Team-Up no longer grants allies a Damage Boost inside Regeneration Domain." },
-  { id: "luna-snow", name: "Luna Snow", role: "Strategist", summary: "Spirit Fox no longer Charms enemies; it now deals more damage to enemies and heals allies more. The Adam Warlock Team-Up also converts more linked-ally healing into self-healing." },
-  { id: "ultron", name: "Ultron", role: "Strategist", summary: "The Peni Parker combination was recalibrated by reducing Imperative: Firewall’s ally Bonus Health and Movement Speed boost." },
+  { id: "devil-dinosaur", name: "Devil Dinosaur", role: "Vanguard", status: "nerf", summary: "The Punisher Team-Up was slowed down: Primal Punishment’s cooldown increased from 12 to 18 seconds." },
+  { id: "doctor-strange", name: "Doctor Strange", role: "Vanguard", status: "neutral", summary: "The Invisible Woman pairing now grants a smaller Shield of the Seraphim bonus, while Psionic Vortex no longer grants Bonus Health to allies and converts more damage into Bonus Health for Doctor Strange. The Hulk enhanced effect retains less Gamma Maelstrom energy." },
+  { id: "emma-frost", name: "Emma Frost", role: "Vanguard", status: "nerf", summary: "The Luna Snow Team-Up’s Iced Out Diamond shield value decreased from 350 to 300." },
+  { id: "groot", name: "Groot", role: "Vanguard", status: "buff", summary: "Wild Wall now receives the Flora Colossus passive when the Mantis Team-Up is selected, matching Thornlash Wall." },
+  { id: "rogue", name: "Rogue", role: "Vanguard", status: "neutral", summary: "The Gambit Team-Up’s Mr. & Mrs. X cooldown was reduced from 30 to 15 seconds, while its kinetic explosion and ally healing were reduced." },
+  { id: "black-cat", name: "Black Cat", role: "Duelist", status: "buff", summary: "The Black Panther Team-Up now grants more Bonus Health and substantially more Fortune from Feline Alliance hits." },
+  { id: "black-widow", name: "Black Widow", role: "Duelist", status: "buff", summary: "Allied Agents now grants Black Widow Bonus Health equal to half the damage dealt during Focused state, capped at 75." },
+  { id: "elsa-bloodstone", name: "Elsa Bloodstone", role: "Duelist", status: "neutral", summary: "Prehistoric Trap’s enhanced effect loses its extra Smoky Snare charge. In exchange, the Devil Dinosaur pairing now reduces Smoky Snare’s cooldown from 15 to 12 seconds." },
+  { id: "star-lord", name: "Star-Lord", role: "Duelist", status: "buff", summary: "Cosmic Soul’s cooldown was reduced from 30 to 25 seconds and its resurrection cooldown from 120 to 105 seconds. The official explanation names Adam Warlock, while the balance bullet names Human Torch; the site keeps the established Adam Warlock pairing until the publisher clarifies it." },
+  { id: "adam-warlock", name: "Adam Warlock", role: "Strategist", status: "neutral", summary: "The Storm Team-Up’s Soaring Surge speed boost increased from 67% to 100%. Its enhanced Soul Bond Damage Boost decreased from 12% to 8%." },
+  { id: "cloak-and-dagger", name: "Cloak & Dagger", role: "Strategist", status: "buff", summary: "The Hood Team-Up now causes Twilight Veil and Void Veil to Launch back enemies struck along their path." },
+  { id: "jubilee", name: "Jubilee", role: "Strategist", status: "buff", summary: "Vampiric Kin’s Lifesteal for Jubilee and nearby allies increased from 30% to 40% with the Blade Team-Up selected." },
+  { id: "loki", name: "Loki", role: "Strategist", status: "neutral", summary: "Destroyed illusions now advance the cooldowns of Doppelganger and Devious Exchange with Hela selected. The Mantis Team-Up no longer grants allies a Damage Boost inside Regeneration Domain." },
+  { id: "luna-snow", name: "Luna Snow", role: "Strategist", status: "neutral", summary: "Spirit Fox no longer Charms enemies; it now deals more damage to enemies and heals allies more. The Adam Warlock Team-Up also converts more linked-ally healing into self-healing." },
+  { id: "ultron", name: "Ultron", role: "Strategist", status: "nerf", summary: "The Peni Parker combination was recalibrated by reducing Imperative: Firewall’s ally Bonus Health and Movement Speed boost." },
 ] as const;
 
 export default function Season11TeamUpChangesPage() {
@@ -54,6 +54,7 @@ export default function Season11TeamUpChangesPage() {
 
     <article className="season-changes-document">
       <section className="season-changes-hero">
+        <Link className="newest-hero-jump" href="#nightcrawler-title"><img src="/heroes/nightcrawler.webp" alt="" /><span><small>NEWEST SEASON 11 HERO</small><strong>Nightcrawler</strong></span><b>EXPLORE TEAM-UPS ↓</b></Link>
         <p className="eyebrow">REVIEWED NOVEMBER 11, 2026 · SEASON 11</p>
         <h1>Season 11<br/><span>Team-Up changes</span></h1>
         <p>Season 11 begins November 13 at 09:00 UTC. Nightcrawler joins the Strategist roster with two new Team-Ups, and 15 existing heroes receive Team-Up balance adjustments. This page records what changed and which directory descriptions were revised.</p>
@@ -77,7 +78,8 @@ export default function Season11TeamUpChangesPage() {
       <section className="season-change-list" aria-labelledby="changed-heroes-title">
         <div className="season-change-heading"><div><p className="eyebrow">DIRECTORY AUDIT</p><h2 id="changed-heroes-title">15 updated heroes</h2></div><p>Heroes below carry a <strong>✦ S11 UPDATED</strong> marker in the directory. Copy was rewritten where the mechanic changed; number-only adjustments are marked without adding cooldown or damage clutter to the cards.</p></div>
         <div className="season-change-grid">
-          {changedHeroes.map((hero) => <article key={hero.id}>
+          {changedHeroes.map((hero) => <article className={`season-change-card is-${hero.status}`} key={hero.id}>
+            <span className="change-impact"><b>{hero.status === "buff" ? "+" : "−"}</b>{hero.status === "buff" ? "POSITIVE" : hero.status === "nerf" ? "NERF" : "NEUTRAL"}</span>
             <Link href={`/heroes/${hero.id}`}><img src={`/heroes/${hero.id}.webp`} alt="" /><span><small>{hero.role} · ✦ S11 UPDATED</small><h3>{hero.name}</h3></span></Link>
             <p>{hero.summary}</p>
             <Link className="change-details-link" href={`/heroes/${hero.id}`}>VIEW HERO DETAILS →</Link>

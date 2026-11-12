@@ -591,7 +591,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
             onClick={() => setHeaderRankMenuOpen((open) => !open)}
           >
             <img src={selectedRank === "All Ranks" ? "/rivals-icon.ico" : rankImages[selectedRank]} alt="" />
-            <div><span>{tx(selectedRank).toUpperCase()}</span></div>
+            <div><small>{locale === "es" ? "CAMBIAR RANGO" : "CHANGE RANK"}</small><span>{tx(selectedRank).toUpperCase()}</span></div>
             <b aria-hidden="true">⌄</b>
           </button>
           {headerRankMenuOpen && <div className="header-rank-picker" id="header-rank-picker" role="menu" aria-label={locale === "es" ? "Seleccionar rango" : "Select rank"}>
