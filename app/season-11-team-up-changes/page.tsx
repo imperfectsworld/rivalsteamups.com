@@ -5,11 +5,11 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Marvel Rivals Season 11 Team-Up Changes",
-  description: "A complete, crawlable guide to Nightcrawler's Team-Ups and every Team-Up balance adjustment in Marvel Rivals Season 11.",
+  description: "A complete, crawlable guide to every Team-Up balance adjustment in Marvel Rivals Season 11.",
   alternates: { canonical: "/season-11-team-up-changes" },
   openGraph: {
     title: "Marvel Rivals Season 11 Team-Up Changes",
-    description: "Nightcrawler's two new Team-Ups plus all 15 heroes with Team-Up balance changes for Season 11.",
+    description: "All 15 heroes with Team-Up balance changes for Marvel Rivals Season 11.",
     url: "/season-11-team-up-changes",
     type: "article",
   },
@@ -38,7 +38,7 @@ export default function Season11TeamUpChangesPage() {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: "Marvel Rivals Season 11 Team-Up Changes",
-    description: "Nightcrawler's Team-Ups and every Season 11 Team-Up balance adjustment.",
+    description: "Every Marvel Rivals Season 11 Team-Up balance adjustment.",
     datePublished: "2026-11-11",
     dateModified: "2026-11-11",
     author: { "@type": "Person", name: "DeAngelo Robinson" },
@@ -54,25 +54,10 @@ export default function Season11TeamUpChangesPage() {
 
     <article className="season-changes-document">
       <section className="season-changes-hero">
-        <Link className="newest-hero-jump" href="#nightcrawler-title"><img src="/heroes/nightcrawler.webp" alt="" /><span><small>NEWEST SEASON 11 HERO</small><strong>Nightcrawler</strong></span><b>EXPLORE TEAM-UPS ↓</b></Link>
         <p className="eyebrow">REVIEWED NOVEMBER 11, 2026 · SEASON 11</p>
         <h1>Season 11<br/><span>Team-Up changes</span></h1>
-        <p>Season 11 begins November 13 at 09:00 UTC. Nightcrawler joins the Strategist roster with two new Team-Ups, and 15 existing heroes receive Team-Up balance adjustments. This page records what changed and which directory descriptions were revised.</p>
-        <div><Link href="/#strategists">FIND NIGHTCRAWLER →</Link><Link href="/patches">VIEW LIVE VOTE REPORT →</Link></div>
-      </section>
-
-      <section className="nightcrawler-launch" aria-labelledby="nightcrawler-title">
-        <div className="nightcrawler-copy">
-          <p className="eyebrow">NEW STRATEGIST · VOTING STARTS AT ZERO</p>
-          <h2 id="nightcrawler-title">Nightcrawler</h2>
-          <p>Nightcrawler’s results begin with a clean sample because both choices are new. Existing heroes keep the cumulative vote history collected across prior seasons.</p>
-          <div className="nightcrawler-teamups">
-            <article><small>ANCHOR · ROGUE</small><h3>Protective Siblings</h3><p>Vanish in a burst of Chronovium Power that damages enemies and heals allies, then return with a three-sword slam that applies Slow. With Rogue present, the recalled energy heals, damages, and Launches enemies toward Nightcrawler.</p></article>
-            <article><small>ANCHOR · MAGIK</small><h3>Demon Disciple</h3><p>Every spatial warp creates a spell field that damages enemies and heals allies. With Magik present, each warp also forms demonic armor and grants Bonus Health.</p></article>
-          </div>
-          <Link className="nightcrawler-vote-link" href="/#hero-nightcrawler">COMPARE &amp; VOTE FOR NIGHTCRAWLER →</Link>
-        </div>
-        <img src="/portraits/nightcrawler.webp" alt="Nightcrawler in his Marvel Rivals Season 11 design" />
+        <p>Season 11 begins November 13 at 09:00 UTC. Fifteen existing heroes receive Team-Up balance adjustments. This page records what changed and which directory descriptions were revised.</p>
+        <div><Link href="/">VIEW TEAM-UP DIRECTORY →</Link><Link href="/patches">VIEW LIVE VOTE REPORT →</Link></div>
       </section>
 
       <section className="season-change-list" aria-labelledby="changed-heroes-title">
