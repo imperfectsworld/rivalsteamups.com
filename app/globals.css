@@ -4117,7 +4117,7 @@ body{background:var(--s105-bg);color:var(--s105-text)}
   .header-rank-menu .header-stats>div{min-width:0;display:flex;align-items:flex-start;flex:1;flex-direction:column;gap:3px;text-align:left}
   .header-rank-menu .header-stats>div small{color:#8ea0b4;font:750 7px var(--font-geist-mono);letter-spacing:.13em}
   .header-rank-menu .header-stats>div span{color:var(--rank-accent);font:850 9px var(--font-geist-mono);letter-spacing:.06em}
-  .header-rank-menu .header-stats>b{width:26px;height:26px;margin-left:3px;display:grid;place-items:center;border-radius:50%;color:#071018;background:var(--rank-accent);box-shadow:0 0 14px color-mix(in srgb,var(--rank-accent) 28%,transparent);font-size:0;line-height:0}
+  .header-rank-menu .header-stats>b{width:26px;height:26px;margin-left:3px;padding-top:9px;display:grid;place-items:center;border-radius:50%;color:#071018;background:var(--rank-accent);box-shadow:0 0 14px color-mix(in srgb,var(--rank-accent) 28%,transparent);font-size:0;line-height:0}
   .header-rank-menu .header-stats>b::before{width:6px;height:6px;margin-top:-3px;content:"";border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg)}
 }
 .season-changes-document{padding-top:28px}.season-changes-hero{max-width:none}.season-changes-hero h1{font-size:clamp(48px,7vw,86px)}
