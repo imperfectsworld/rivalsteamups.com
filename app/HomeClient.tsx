@@ -558,6 +558,8 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
     : completedHeroes >= 10 ? (locale === "es" ? "10 HÉROES VALORADOS" : "10 HEROES RATED") : "";
 
   function focusFeaturedHero() {
+    setFocusedHeroId(featuredHero.id);
+    window.history.replaceState(null, "", `#hero-${featuredHero.id}`);
     focusHero(featuredHero);
   }
 
@@ -664,6 +666,13 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
           <div className="rank-insight-footer"><span>{locale === "es" ? "VENTANA DE RESULTADOS" : "RESULT WINDOW"}</span><div role="group" aria-label={locale === "es" ? "Ventana de resultados" : "Result window"}><button className={resultWindow === "all" ? "is-active" : ""} type="button" onClick={() => setResultWindow("all")}>{tx("ALL-TIME")}</button><button className={resultWindow === "recent" ? "is-active" : ""} type="button" onClick={() => setResultWindow("recent")}>{tx("LAST 30 DAYS")}</button></div></div>
         </div>}
       </section>
+
+      {!roleFilter && <a className="newest-hero-feature" href={`#hero-${featuredHero.id}`} onClick={(event) => { event.preventDefault(); focusFeaturedHero(); }}>
+        <img src={heroImage(featuredHero.id)} alt="" />
+        <span className="newest-hero-feature-name"><small>{locale === "es" ? "HÉROE MÁS RECIENTE · ESTRATEGA" : "NEWEST HERO · STRATEGIST"}</small><strong>{localizedHeroName(featuredHero)}</strong></span>
+        <span className="newest-hero-feature-matchup"><small>{locale === "es" ? "NUEVO EN TEMPORADA 11" : "NEW IN SEASON 11"}</small><strong>{featuredDisplayA.name} <i>{locale === "es" ? "O" : "OR"}</i> {featuredDisplayB.name}?</strong></span>
+        <b>{locale === "es" ? "VER Y VOTAR" : "VIEW & VOTE"} ↓</b>
+      </a>}
 
       {!roleFilter && visitChanges && visitToastVisible && <aside className="visit-toast" aria-live="polite">
         <details>
