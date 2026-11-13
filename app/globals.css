@@ -4123,3 +4123,38 @@ body{background:var(--s105-bg);color:var(--s105-text)}
 .season-changes-document{padding-top:28px}.season-changes-hero{max-width:none}.season-changes-hero h1{font-size:clamp(48px,7vw,86px)}
 .season-change-heading{display:block}.season-change-heading>p{max-width:760px;margin:14px 0 0}.season-change-grid{margin-top:22px}.season-change-card{--impact:#f6c85f;border-color:color-mix(in srgb,var(--impact) 64%,var(--s105-line))!important;background:linear-gradient(145deg,color-mix(in srgb,var(--impact) 12%,transparent),transparent 50%),var(--s105-surface)!important;box-shadow:inset 4px 0 0 var(--impact),0 16px 38px rgba(0,0,0,.12)}.season-change-card.is-nerf{--impact:#ff6675}.season-change-card.is-neutral{--impact:#f6c85f}.season-change-card.is-buff{--impact:#59dfa0}.change-impact{align-self:flex-start;margin:0 0 13px;padding:6px 9px;display:inline-flex;align-items:center;gap:6px;border:1px solid color-mix(in srgb,var(--impact) 62%,transparent);border-radius:999px;color:var(--impact);background:color-mix(in srgb,var(--impact) 12%,#09111a);font:850 7px var(--font-geist-mono);letter-spacing:.1em}.change-impact b{width:15px;height:15px;padding:0;display:grid;place-items:center;border-radius:50%;color:#071018;background:var(--impact);line-height:0}.change-impact b svg{width:9px;height:9px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}.season-change-card .change-details-link{color:var(--impact)!important}
 @media(max-width:640px){.season-changes-document{padding-top:18px}.season-changes-hero h1{font-size:clamp(42px,14vw,60px)}.season-change-heading>p{margin-top:10px}.change-impact{margin-bottom:11px}}
+
+/* Site-wide typography legibility pass for active controls and metadata */
+.hero-details-link{min-height:36px!important;font-size:10px;letter-spacing:.055em}
+.hero-action-icon{font-size:12px}
+.season-update-badge{padding:4px 7px;font-size:8px;line-height:1.1;letter-spacing:.07em}
+.hero-toggle b,.enhanced-tap-cue{font-size:8px;letter-spacing:.055em}
+.ability-divider{font-size:9px;letter-spacing:.1em}
+.community-choice{font-size:9px;letter-spacing:.065em}
+.anchor-chip{font-size:8px;letter-spacing:.05em}
+.card-vote-label span{font-size:9px;letter-spacing:.05em}
+.compact-description{font-size:13px}
+.daily-debate-score span,.daily-debate>button{font-size:9px}
+.daily-debate-score small{font-size:8px}
+.newest-hero-feature-name small,.newest-hero-feature-matchup small{font-size:9px}
+.newest-hero-feature>b{font-size:10px}
+.directory-context span small,.directory-toolbar-group>span,.directory-progress-inline>span{font-size:9px;letter-spacing:.09em}
+.directory-toolbar .rank-insight-platforms button,.directory-toolbar .rank-insight-footer button,.directory-next-vote{font-size:9px}
+.directory-progress-inline .progress-milestone{font-size:8px}
+.community-updates>summary small,.community-updates>summary>b{font-size:9px}
+.visit-toast-copy small{font-size:8px}
+.visit-toast-details span{font-size:8px}
+.visit-toast-details>button,.visit-toast-details>a{font-size:9px}
+.watch-page-hero .guide-tags span,.guide-creator small{font-size:9px}
+.season-changes-page .eyebrow{font-size:10px}
+.season-change-grid small{font-size:9px;line-height:1.35;letter-spacing:.055em}
+.season-change-grid p{font-size:13px}
+.change-impact{font-size:9px;letter-spacing:.07em}
+.change-details-link{font-size:10px;letter-spacing:.045em}
+.season-changes-hero>div a,.season-change-sources a{font-size:10px}
+@media(max-width:760px){
+  .mobile-nav-donate,.mobile-nav-request{font-size:9px}
+  .newest-hero-feature-name small{font-size:8px}
+  .newest-hero-feature>b{font-size:8px}
+  .directory-toolbar .rank-insight-platforms button,.directory-toolbar .rank-insight-footer button{font-size:9px}
+}
