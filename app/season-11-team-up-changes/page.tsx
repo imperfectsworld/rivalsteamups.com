@@ -64,7 +64,16 @@ export default function Season11TeamUpChangesPage() {
         <div className="season-change-heading"><div><p className="eyebrow">DIRECTORY AUDIT</p><h2 id="changed-heroes-title">15 updated heroes</h2></div><p>Heroes below carry a <strong>✦ S11 UPDATED</strong> marker in the directory. Copy was rewritten where the mechanic changed; number-only adjustments are marked without adding cooldown or damage clutter to the cards.</p></div>
         <div className="season-change-grid">
           {changedHeroes.map((hero) => <article className={`season-change-card is-${hero.status}`} key={hero.id}>
-            <span className="change-impact"><b>{hero.status === "buff" ? "+" : "−"}</b>{hero.status === "buff" ? "POSITIVE" : hero.status === "nerf" ? "NERF" : "NEUTRAL"}</span>
+            <span className="change-impact">
+              <b aria-hidden="true">
+                <svg viewBox="0 0 16 16">
+                  <path d="M4 8h8" />
+                  {hero.status === "buff" && <path d="M8 4v8" />}
+                  {hero.status === "neutral" && <><path d="M5.5 4.5l5 7" /><path d="M10.5 4.5l-5 7" /></>}
+                </svg>
+              </b>
+              {hero.status === "buff" ? "POSITIVE" : hero.status === "nerf" ? "NERF" : "NEUTRAL"}
+            </span>
             <Link href={`/heroes/${hero.id}`}><img src={`/heroes/${hero.id}.webp`} alt="" /><span><small>{hero.role} · ✦ S11 UPDATED</small><h3>{hero.name}</h3></span></Link>
             <p>{hero.summary}</p>
             <Link className="change-details-link" href={`/heroes/${hero.id}`}>VIEW HERO DETAILS →</Link>
