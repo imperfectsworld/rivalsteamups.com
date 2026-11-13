@@ -757,7 +757,7 @@ export default function Home({ roleFilter, locale = "en", initialVotes = {} }: {
             <section className={`role-section role-${role.toLowerCase()}`} id={meta.anchor} key={role}>
               <button className="role-banner role-collapse-button" type="button" aria-expanded={!collapsedRoles[role]} aria-label={`${collapsedRoles[role] ? tx("EXPAND") : tx("COLLAPSE")} ${tx(role)} ${tx("HEROES").toLowerCase()}`} onClick={() => setCollapsedRoles((current) => ({ ...current, [role]: !current[role] }))}>
                 <span className="role-symbol"><img src={roleImage(role)} alt="" /></span>
-                <div><h2>{tx(role)} {tx("HEROES").toLowerCase()}</h2><p>{meta.label} · {heroes.length} {locale === "es" ? "operativos" : "operatives"}</p></div>
+                <div><h2>{tx(role)}<span className={!roleFilter ? "mobile-home-role-suffix" : ""}> {tx("HEROES").toLowerCase()}</span></h2><p>{meta.label} · {heroes.length} {locale === "es" ? "operativos" : "operatives"}</p></div>
                 <span className="role-toggle-indicator" aria-hidden="true">
                   <span className="role-toggle-copy"><small>{locale === "es" ? "TOCA PARA" : "TAP TO"}</small><strong>{collapsedRoles[role] ? tx("EXPAND") : tx("COLLAPSE")}</strong></span>
                   <b>{collapsedRoles[role] ? "+" : "−"}</b>
