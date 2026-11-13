@@ -4158,3 +4158,11 @@ body{background:var(--s105-bg);color:var(--s105-text)}
   .newest-hero-feature>b{font-size:8px}
   .directory-toolbar .rank-insight-platforms button,.directory-toolbar .rank-insight-footer button{font-size:9px}
 }
+
+/* Consistent mobile page gutter while navigation, sticky search, and ads stay full bleed */
+@media(max-width:760px){
+  .directory{width:calc(100% - 28px);margin-inline:auto}
+  .header-rank-menu .header-stats{position:relative;overflow:visible}
+  .header-rank-menu .header-stats>b{position:absolute;right:-1px;bottom:7px;width:17px;height:17px;margin:0;padding:0;display:grid;place-items:center;border:2px solid #0a111a;border-radius:50%;color:#071018;background:var(--rank-accent);box-shadow:0 0 12px color-mix(in srgb,var(--rank-accent) 42%,transparent);font-size:0;line-height:0}
+  .header-rank-menu .header-stats>b::before{width:5px;height:5px;margin-top:-2px;content:"";border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg)}
+}
